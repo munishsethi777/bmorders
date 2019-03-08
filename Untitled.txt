@@ -1,0 +1,121 @@
+ALTER TABLE `menutimeslots` ADD INDEX(`menuseq`);
+ALTER TABLE `menus` ADD CONSTRAINT `menu` FOREIGN KEY (`seq`) REFERENCES `menutimeslots`(`menuseq`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+ALTER TABLE `menutimeslots` ADD CONSTRAINT `menu` FOREIGN KEY (`menuseq`) REFERENCES `menus`(`seq`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+rzp_live_zZ6x7CvsASE4M3
+UPThb1jCZh0eKqyxTJSsAEjy
+
+om prakash
+9100014112
+
+razorpay_order_id: "order_B9qxKrbOWMCLFS"
+
+razorpay_payment_id: "pay_B9qyOG4kT6pZ9i"
+
+razorpay_signature: "e208d32b820d4bbaff368b12499f21dfde082daf251a230993b87e35c8caebf0"
+
+
+
+Bad - 10129330
+
+
+10134859
+10129016
+
+1) Dynamic prices as per weekday. While creation of a menu, the prices can be set for each day (monday, tuesday etc)
+2) TimeSlots will have "BookingOpenTillTime" configuration. This will let user book the slot only till this time of the day.
+3) "Viewer seeing this" feature based on random number of viewers.
+4) Surge pricing based on algorithms to be provided by you.
+5) TImeSlots (starts and ends
+6) Menus to have new fields as Discount/SGST/CGST etc
+
+
+7) Add DOB, GST state, mobile code
+8) If state selected is karnataka, it will be SGST, if other then ISGST
+
+
+20/10/ Pushed till : 45638059
+24/10/ 1AM Pushed till : 45803160
+25/10/ Pushed till : 45857980
+
+rtsp://admin:admin1@117.252.6.41:554/cam/realmonitor?channel=1&subtype=1
+
+http://117.252.6.41/245/250/cgi-bin/configManager.cgi?action=getConfig&name=Ptz
+http://117.252.6.41/245/250/cgi-bin/configManager.cgi?action=setConfig&Ptz%5B0%5D.Address=192.168.0
+
+http://117.252.6.41/cgi-bin/ptz.cgi?action=start&channel=0&code=Up&arg1=0&arg2=1&arg3=0
+
+http://117.252.6.41/cgi-bin/ptz.cgi?action=start&channel=0&code=ResetPosition&arg1=0&arg2=1&arg3=0
+
+http://117.252.6.41/cgi-bin/ptz.cgi?action=start&channel=0&code=Down&arg1=0&arg2=1&arg3=0
+http://117.252.6.41/cgi-bin/ptz.cgi?action=stop&channel=0&code=Down&arg1=0&arg2=1&arg3=0
+
+007D
+
+00 if its then purge is off
+if non zero its purge is On
+last 2 are for calibration (if 00, then calibration is off otherwise
+
+32768 - 8000
+2049 = 801
+35840 = 8C00
+
+3072 = C00
+8192 = 2000
+
+Span status is 32768 = 8000
+Purge status is 8192 = 2000
+Zero values = 2049,3072
+                
+About:
+some errors showing on top of the page
+
+
+SLOT: Add new fields starton, endon in the database and form also. This will show/hide the slots on front end as per the dates provided.
+HideOnDates-We may need to create another table like slotdetails table to keep dates on which the slot needs to be disabled. Fields can be seq, slotseq, date.
+MENU: Currently we have flat prices of the menu. Now we need to add another feature to provide specific pricing for selected dates. We will create new table as menupricing with fields as seq, menuseq, date, price, description. While creating the menu in admin area. We can let admin select multiple dates and set price and description on it. Try using chosen like control with calendar control.
+BOOKING AVAILABLE TILL: We need to keep another field on slots table with bookingavailabletill. This field will just have a time value to show/hide the slot till that time of the day. Like if we entered value as 3PM. It means that the slot will show only till 3PM of that day. After that time it will not display it as available.
+ZOHO: Zoho forms integration. API to be provided by client. We need to send fields list of booking to the client.
+
+ROLES & PERMISSIONS: with combination of locations.
+LOCATIONS: This will let admin add multiple locations of the dining. Currently we have Bangalore, this will let them add any number of locations and the admin area will work within the selected location's prospect.
+TIME NOT SHOWING (BUG): Chrome does not shows timing in the admin booking grid.
+EMAIL FIELD: Admin bookings to display email id also.
+BOOK My SHOW : UI to be copied from there.
+ADDONS: We need to create another feature to let admin add "addons" like cake, photographs, flowers etc. It may have seq, addon, price, description etc.
+EXPORT TO EXCEL: Export bookings data as per selected from, to dates (booking date)
+RESCHEDULING: Booking to be rescheduled without user login. Maybe with OTP or something.
+
+
+
+HIRA STEELS LTD Dust HSL_CG_DUST August 2017
+Ashirwad Ispat Udyog AIUU_CG_DUST October 2017
+Lingraj Steel & Power Pvt. Ltd. LSAPPL_CG_STACK October 2017
+SKS Ispat & Power Limited SKSI_CG_DUST1 October 2017
+SKS Ispat & Power Limited SKSI_CG_DUST2 October 2017
+Shri Sai Rolled Products Pvt. Ltd
+
+Shri Mahavir Iron & Steel Ltd Dust SMISL_CG_DUST August 2017
+Shri Giriraj Structures pvt. Ltd Dust SGSPL_CG_DUST August 2017
+Balajee Loha Limited Dust BLL_CG_DUST August 2017
+BALAJEE STRUCTURALS INDIA LTD Dust BSIL_CG_DUST August 2017
+Shree Hanuman Loha Ltd Dust SHLL_CG_DUST August 2017
+Ganpati Industrial Pvt Ltd GIPLU_CG_DUST October 2017
+Jeekay International Track Pvt Ltd JITPL_CG_DUST October 2017
+R. B. Strips Private Limited RBSPL_CG_DUST October 2017
+R.K. Ispat Udyog RKIU_CG_STACK October 2017
+
+
+1. HEERA STEEL LTD.
+2. ASHIRWAD ISPAT UDYOG 
+3. LINGRAJ STEEL & POWER PVT. LTD.  
+4. SKS ISPAT & POWER LIMITED 
+5. SKS ISPAT & POWER LIMITED 
+6. SHRI SAI ROLLED PRODUCTS PVT. LTD.
+
+
+
+
+
