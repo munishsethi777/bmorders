@@ -40,6 +40,11 @@ class ProductMgr{
 		foreach ($products as $product){
 			$arr = $product;
 			$arr["measuringunit"] = MeasuringUnitType::getValue($product["measuringunit"]);
+			$arr["p.title"] = $product["title"];
+			$arr["pb.title"] = $product["brand"];
+			$arr["pc.title"] = $product["category"];
+			$arr["pf.title"] = $product["flavour"];
+			$arr["p.lastmodifiedon"] = $product["lastmodifiedon"];
 			array_push($mainArr, $arr);
  		}
  		$jsonArr["Rows"] =  $mainArr;

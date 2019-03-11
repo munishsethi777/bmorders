@@ -1,15 +1,22 @@
 <?include("SessionCheck.php");
 require_once('IConstants.inc');
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/CustomerMgr.php");
-
+require_once ($ConstantsArray ['dbServerUrl'] . "Enums/UserType.php");
+$sessionUtil = SessionUtil::getInstance();
+$roleType = $sessionUtil->getUserLoggedInUserType();
+$isDisabled = "";
+$isEnableChecked = "";
+if($roleType == UserType::getName(UserType::representative)){
+	$isDisabled = "disabled";
+}
 $customer = new Customer();
-$isEnableChecked = "checked";
+
 if(isset($_POST["seq"])){
  	$seq = $_POST["seq"];
  	$customerMgr = CustomerMgr::getInstance();
  	$customer = $customerMgr->findBySeq($seq);
- 	if(empty($customer->getIsEnabled())){
- 		$isEnableChecked = "";
+ 	if(!empty($customer->getIsEnabled())){
+ 		$isEnableChecked = "checked";
  	}
 }
 
@@ -122,7 +129,7 @@ if(isset($_POST["seq"])){
                                 <div class="form-group row">
                        				<label class="col-lg-1 col-form-label">Enabled</label>
                                     <div class="col-lg-4">
-	                                    <input class="i-checks" type="checkbox" <?php echo $isEnableChecked?>  id="isenabled" name="isenabled">
+	                                    <input class="i-checks" type="checkbox" <?php echo $isDisabled?> <?php echo $isEnableChecked?>  id="isenabled" name="isenabled">
 	                                 </div>
                                </div>
                                

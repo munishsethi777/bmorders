@@ -70,5 +70,12 @@ class ProductFlavourMgr{
 		}
 		return $return;
 	}
+	
+	public function getAllFlavoursTitles(){
+		$query = "select title from productflavours";
+		$objs = self::$dataStore->executeQuery($query,false,true);
+		$flavours = array_map(create_function('$o', 'return $o["title"];'), $objs);
+		return $flavours;
+	}
 
 }

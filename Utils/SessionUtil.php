@@ -1,4 +1,6 @@
 <?php
+require_once($ConstantsArray['dbServerUrl'] ."Utils/PermissionUtil.php");
+require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 class SessionUtil{
 
     private static $USER_SEQ = "userSeq";
@@ -78,6 +80,14 @@ class SessionUtil{
 			header("location:index.php");
 			die;
 		}
+		$userType = $this->getUserLoggedInUserType();
+		if($userType == UserType::getName(UserType::representative)){
+			$page = basename ( $_SERVER ['PHP_SELF'] );
+			if(!PermissionUtil::isAuthRep($page)){
+				header("location: logout.php");
+				die;
+			}
+		}
 		return $bool;
 	}
 	
@@ -90,8 +100,5 @@ class SessionUtil{
 			die;
 		}
 	}
-
-  
-
 }
 ?>

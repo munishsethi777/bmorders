@@ -1,20 +1,54 @@
 <?php
 require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/UserMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/ConfigurationMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
-require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Configuration.php");
+require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 $success = 1;
 $message = "";
 $call = "";
 $response = new ArrayObject();
+$userMgr = UserMgr::getInstance();
 if(isset($_GET["call"])){
 	$call = $_GET["call"];
 }else{
 	$call = $_POST["call"];
 	
 }
+if($call == "saveUser"){
+	$user = new User();
+	try{
+		$user->createFromRequest($_POST);
+		$isEnabled = 0;
+		if(isset($_REQUEST["isenabled"]) && !empty($_REQUEST["isenabled"])){
+			$isEnabled = 1;
+		}
+		$user->setIsEnabled($isEnabled);
+		$user->setCreatedOn(new DateTime());
+		$user->setLastModifiedOn(new DateTime());
+		$customers = $_REQUEST["customers"];
+		if(empty($customers)){
+			throw new Exception("Please Select at least one customer");
+		}
+		$userMgr->saveUser($user, $customers);
+		$message = "User saved successfully!";
+	}catch(Exception $e){
+		$success = 0;
+		$message  = $e->getMessage();
+	}
+}
+if($call == "getAllUsers"){
+	$users = $userMgr->getAllUsersForGrid();
+	echo json_encode($users);
+	return;
+}
+if($call == "getUserTypes"){
+	$userTypes = UserType::getAll();
+	$userTypes = array_values($userTypes);
+	echo json_encode($userTypes);
+	return;
+}
+
 if($call == "loginUser"){
 	$username = $_GET["username"];
 	$password = $_GET["password"];
@@ -30,6 +64,7 @@ if($call == "loginUser"){
 		$message = "Incorrect Username or Password";
 	}
 }
+
 if($call == "changePassword"){
 	$password = $_GET["newPassword"];
 	$earlierPassword = $_GET["earlierPassword"];
@@ -44,34 +79,6 @@ if($call == "changePassword"){
 			$success = 0;
 		}
 
-	}catch(Exception $e){
-		$success = 0;
-		$message  = $e->getMessage();
-	}
-}
-if($call == "saveCakeVendorSettings"){
-	$cakeVendorEmail = $_GET["cakeVendorEmail"];
-	$cakeVendorMobile = $_GET["cakeVendorMobile"];
-	$cakeVendorMessage = $_GET["cakeVendorMessage"];
-	try{
-		$configurationMgr = ConfigurationMgr::getInstance();
-		$configurationMgr->saveConfiguration(Configuration::$CAKE_VENDOR_EMAIL, $cakeVendorEmail);
-		$configurationMgr->saveConfiguration(Configuration::$CAKE_VENDOR_MOBILE, $cakeVendorMobile);
-		$configurationMgr->saveConfiguration(Configuration::$CAKE_VENDOR_MESSAGE, $cakeVendorMessage);
-		$message = "Settings Saved Successfully";
-	}catch(Exception $e){
-		$success = 0;
-		$message  = $e->getMessage();
-	}
-}
-if($call == "saveBookingClosurSettings"){
-	$bookingClosurEmail = $_GET["bookingClosurEmail"];
-	$bookingClosurMobile = $_GET["bookingClosurMobile"];
-	try{
-		$configurationMgr = ConfigurationMgr::getInstance();
-		$configurationMgr->saveConfiguration(Configuration::$BOOKING_CLOSUR_EMAIL, $bookingClosurEmail);
-		$configurationMgr->saveConfiguration(Configuration::$BOOKING_CLOSUR_MOBILE, $bookingClosurMobile);
-		$message = "Settings Saved Successfully";
 	}catch(Exception $e){
 		$success = 0;
 		$message  = $e->getMessage();

@@ -456,4 +456,9 @@ $(document).ready(function() {
         function showHideProgress(){
     		$('.ibox').children('.ibox-content').toggleClass('sk-loading');	
     	}
+
+        function resetChosen(className){
+        	$('.'+className).val([]).trigger('liszt:updated');
+           	$('.'+className).trigger("chosen:updated");
+        }
 </script>

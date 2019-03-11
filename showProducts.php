@@ -41,12 +41,13 @@
 	<script type="text/javascript">
 	 isSelectAll = false;
         $(document).ready(function(){
-           loadGrid()
+           $.getJSON("Actions/ProductAction.php?call=getFilterMenusForGrid",function( response ){
+            	loadGrid(response)
+           }) 
            $('.i-checks').iCheck({
 	        	checkboxClass: 'icheckbox_square-green',
 	        	radioClass: 'iradio_square-green',
 	    	});
-           
         });
         
         function deleteCustomers(gridId,deleteURL){
@@ -88,17 +89,21 @@
             }
         }
         
-        function loadGrid(){
+        function loadGrid(menus){
+            var brands = menus.brands;
+            var categories = menus.categories;
+            var flavours = menus.flavours;
+            var measureUnits = menus.measureUnits;
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
-				{ text: 'Title', datafield: 'title', width:"30%"}, 			
-				{ text: 'Brand', datafield: 'brand',width:"10%"},
-				{ text: 'Category', datafield: 'category',width:"12%"},
-				{ text: 'Flavour', datafield: 'flavour',width:"15%"},
+				{ text: 'Title', datafield: 'p.title', width:"22%"}, 			
+				{ text: 'Brand', datafield: 'pb.title',width:"11%",filtertype: 'checkedlist',filteritems:brands},
+				{ text: 'Category', datafield: 'pc.title',width:"13%",filtertype: 'checkedlist',filteritems:categories},
+				{ text: 'Flavour', datafield: 'pf.title',width:"14%",filtertype: 'checkedlist',filteritems:flavours},
 				{ text: 'Stock', datafield: 'stock',width:"5%"},
 				{ text: 'Qty', datafield: 'quantity',width:"4%"},
-				{ text: 'MsrType', datafield: 'measuringunit',width:"5%"},
-				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"15%"}
+				{ text: 'MsrType', datafield: 'measuringunit',width:"12%",filtertype: 'checkedlist',filteritems:measureUnits},
+				{ text: 'Last Modified', datafield: 'p.lastmodifiedon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =
@@ -109,14 +114,14 @@
                 sortcolumn: 'p.lastmodifiedon',
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
-                            { name: 'title', type: 'string' },
-                            { name: 'brand', type: 'string'},
-                            { name: 'category', type: 'string' },
-                            { name: 'flavour', type: 'string' },
+                            { name: 'p.title', type: 'string' },
+                            { name: 'pb.title', type: 'string'},
+                            { name: 'pc.title', type: 'string' },
+                            { name: 'pf.title', type: 'string' },
                             { name: 'stock', type: 'string' },
                             { name: 'quantity', type: 'string' },
                             { name: 'measuringunit', type: 'string' },
-                            { name: 'lastmodifiedon', type: 'string' },
+                            { name: 'p.lastmodifiedon', type: 'date' },
                             { name: 'isenabled', type: 'boolean' }
                             ],                          
                 url: 'Actions/ProductAction.php?call=getAllProducts',
@@ -146,6 +151,7 @@
     			height: '75%',
     			source: dataAdapter,
     			filterable: true,
+    			showfilterrow: true,
     			sortable: true,
     			autoshowfiltericon: true,
     			columns: columns,

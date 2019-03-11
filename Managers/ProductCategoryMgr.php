@@ -71,5 +71,13 @@ class ProductCategoryMgr{
 		}
 		return $return;
 	}
+	
+	
+	public function getAllCategoriesTitles(){
+		$query = "select title from productcategories";
+		$objs = self::$dataStore->executeQuery($query,false,true);
+		$categories = array_map(create_function('$o', 'return $o["title"];'), $objs);
+		return $categories;
+	}
 
 }

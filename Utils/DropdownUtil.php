@@ -1,5 +1,6 @@
 <?php
 require_once ($ConstantsArray ['dbServerUrl'] . "Enums/MeasuringUnitType.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Enums/UserType.php");
 class DropDownUtils {
 	
    public static function getDropDown($values, $selectName, $onChangeMethod, $selectedValue,$isAll = false) {
@@ -21,6 +22,11 @@ class DropDownUtils {
 	
 	public static function getMeasuringUnitTypeDD($selectName, $onChangeMethod, $selectedValue,$isAll = false) {
 		$types = MeasuringUnitType::getAll();
+		return self::getDropDown ($types, $selectName, $onChangeMethod, $selectedValue,true);
+	}
+	
+	public static function getUserTypeDD($selectName, $onChangeMethod, $selectedValue,$isAll = false) {
+		$types = UserType::getAll();
 		return self::getDropDown ($types, $selectName, $onChangeMethod, $selectedValue,true);
 	}
 

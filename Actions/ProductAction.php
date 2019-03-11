@@ -2,6 +2,9 @@
 require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Product.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductBrandMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductCategoryMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductFlavourMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/FileUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 
@@ -77,4 +80,27 @@ if($call == "deleteProducts"){
 	    $response["success"] =  $success;
 	    echo json_encode($response);
 }
+
+if($call == "getFilterMenusForGrid"){
+	$productBrandMgr = ProductBrandMgr::getInstance();
+	$brandsTitles = $productBrandMgr->getAllBrandTitles();
+	$response["brands"] = $brandsTitles;
+	
+	$categoryMgr = ProductCategoryMgr::getInstance();
+	$categories = $categoryMgr->getAllCategoriesTitles();
+	
+	$response["categories"] = $categories;
+	
+	$pfManager = ProductFlavourMgr::getInstance();
+	$flavours = $pfManager->getAllFlavoursTitles();
+	
+	$response["flavours"] = $flavours;
+	
+	$measureUnits = MeasuringUnitType::getAll();
+	$measureUnits = array_values($measureUnits);
+	$response["measureUnits"] = $measureUnits;
+	
+	echo json_encode($response);
+}
+
 

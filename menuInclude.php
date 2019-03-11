@@ -1,5 +1,5 @@
 <?php 
-
+require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 $isDashBoard="";
 $isCustomers="";
 $isProducts="";
@@ -9,6 +9,7 @@ $isProductCategories="";
 $isOrders="";
 $isChangePassword="";
 $isSettings = "";
+$isUser = "";
 $parts = Explode('/', $_SERVER["PHP_SELF"]);
 $file =  $parts[count($parts) - 1];
 
@@ -28,16 +29,15 @@ if($file == "dashboard.php"){
 	$isProductCategories = "active";
 }elseif($file == "showOrders.php" || $file == "createOrder.php"){
 	$isOrders = "active";
-	
-	
-	
-	
 }elseif($file == "adminChangePassword.php"){
 	$isChangePassword = "active";
 }elseif($file == "adminSettings.php"){
 	$isSettings = "active";
+}elseif($file == "createUser.php"){
+	$isUser = "active";
 }
-
+$sessionUtil = SessionUtil::getInstance();
+$userType = $sessionUtil->getUserLoggedInUserType();
 
 ?>
 
@@ -66,41 +66,46 @@ if($file == "dashboard.php"){
                     	<span class="nav-label">Customers</span>  
                     </a>
                 </li>
-                <li class="<?php echo $isProducts;?>">
-                    <a href="showProducts.php"><i class="fa fa-clock-o"></i> 
-                    	<span class="nav-label">Products</span>  
-                    </a>
-                </li>
-                <li class="<?php echo $isProductCategories;?>">
-                    <a href="showProductCategories.php"><i class="fa fa-gift"></i> 
-                    	<span class="nav-label">Product Categories</span>  
-                    </a>
-                </li>
-                <li class="<?php echo $isProductFlavours;?>">
-                    <a href="showProductFlavours.php"><i class="fa fa-key"></i> 
-                    	<span class="nav-label">Product Flavours</span>  
-                    </a>
-                </li>
-                <li class="<?php echo $isProductBrands;?>">
-                    <a href="showProductBrands.php"><i class="fa fa-angellist"></i> 
-                    	<span class="nav-label">Product Brands</span>  
-                    </a>
-                </li>
+                <?php if($userType != UserType::getName(UserType::representative)){?>
+	                <li class="<?php echo $isProducts;?>">
+	                    <a href="showProducts.php"><i class="fa fa-clock-o"></i> 
+	                    	<span class="nav-label">Products</span>  
+	                    </a>
+	                </li>
+	                <li class="<?php echo $isProductCategories;?>">
+	                    <a href="showProductCategories.php"><i class="fa fa-gift"></i> 
+	                    	<span class="nav-label">Product Categories</span>  
+	                    </a>
+	                </li>
+	                <li class="<?php echo $isProductFlavours;?>">
+	                    <a href="showProductFlavours.php"><i class="fa fa-key"></i> 
+	                    	<span class="nav-label">Product Flavours</span>  
+	                    </a>
+	                </li>
+	                <li class="<?php echo $isProductBrands;?>">
+	                    <a href="showProductBrands.php"><i class="fa fa-angellist"></i> 
+	                    	<span class="nav-label">Product Brands</span>  
+	                    </a>
+	                </li>
+                <?php }?>
                  <li class="<?php echo $isOrders;?>">
                     <a href="adminShowOccasions.php"><i class="fa fa-calendar"></i> 
                     	<span class="nav-label">Orders</span>  
                     </a>
                 </li>
-                <li class="<?php echo $isSettings;?>">
-                    <a href="adminSettings.php"><i class="fa fa-cog"></i> 
-                    	<span class="nav-label">Cash Book</span>  
-                    </a>
-                </li>
-                <li class="<?php echo $isSettings;?>">
-                    <a href="adminSettings.php"><i class="fa fa-cog"></i> 
-                    	<span class="nav-label">Users</span>  
-                    </a>
-                </li>
+                 <?php if($userType != UserType::getName(UserType::representative)){?>
+	                <li class="<?php echo $isSettings;?>">
+	                    <a href="adminSettings.php"><i class="fa fa-cog"></i> 
+	                    	<span class="nav-label">Cash Book</span>  
+	                    </a>
+	                </li>
+               
+	                <li class="<?php echo $isUser;?>">
+	                    <a href="showUsers.php"><i class="fa fa-cog"></i> 
+	                    	<span class="nav-label">Users</span>  
+	                    </a>
+	                </li>
+                <?php }?>
                 <li>
                     <a href="logout.php"><i class="fa fa-sign-out"></i> 
                     	<span class="nav-label">Logout</span>  

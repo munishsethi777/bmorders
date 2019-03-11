@@ -70,5 +70,12 @@ class ProductBrandMgr{
 		}
 		return $return;
 	}
+	
+	public function getAllBrandTitles(){
+		$query = "select title from productbrands";
+		$objs = self::$dataStore->executeQuery($query,false,true);
+		$brands = array_map(create_function('$o', 'return $o["title"];'), $objs);
+		return $brands;
+	}
 
 }

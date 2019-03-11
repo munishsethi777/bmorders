@@ -1,5 +1,6 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/UserCompanyMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 class UserMgr{
 	private static $userMgr;
@@ -15,6 +16,34 @@ class UserMgr{
 		return self::$userMgr;
 	}
 	
+	public function saveUser($user,$customers){
+		$id = self::$userDataStore->save($user);
+		if(!empty($id)){
+			$userCompanyMgr = UserCompanyMgr::getInstance();
+			$userCompanyMgr->saveFromUser($id, $customers);
+		}
+	}
+	
+	public function getAllUsersForGrid(){
+		$users = self::$userDataStore->findAllArr(true);
+		$mainArr = array();
+		foreach ($users as  $user){
+			$userType = UserType::getValue($user["usertype"]);
+			$user["usertype"] = $userType;
+			array_push($mainArr, $user);
+		}
+		$jsonArr["Rows"] =  $mainArr;
+		$jsonArr["TotalRows"] = $this->getAllCount();
+		return $jsonArr;
+	}
+	
+	public function getAllCount(){
+		$query = "select count(*) from users";
+		$count = self::$userDataStore->executeCountQueryWithSql($query,true);
+		return $count;
+	}
+	
+	
 	public function logInUser($username, $password){
 		$conditionVal["emailid"] = $username;
 		$admin = self::$userDataStore->executeConditionQuery($conditionVal);
@@ -29,23 +58,6 @@ class UserMgr{
 		return $admins;
 	}
 	
-	public function isPasswordExist($password){
-		//$sessionUtil = SessionUtil::getInstance();
-		//$adminSeq = $sessionUtil->getAdminLoggedInSeq();
-		$params["password"] = $password;
-		//$params["seq"] = $adminSeq;
-		$count = self::$userDataStore->executeCountQuery($params);
-		return $count > 0;
-	}
-	
-	public function ChangePassword($password){
-		//$sessionUtil = SessionUtil::getInstance();
-		//$adminSeq = $sessionUtil->getAdminLoggedInSeq();
-		//$attr["password"] = $password;
-		//$condition["seq"] = $adminSeq;
-		$sql = "update admins set password = '$password'";
-		self::$userDataStore->executeQuery($sql);
-	}
 	
 	public function toArray($user){
 		$adminArr = array();
@@ -53,5 +65,11 @@ class UserMgr{
 		$adminArr["username"] = $user->getEmailid();
 		$adminArr["name"] = $user->getFullName();
 		return $adminArr;
+	}
+	
+	
+	public function findBySeq($seq){
+		$user = self::$userDataStore->findBySeq($seq);
+		return $user;
 	}
 }

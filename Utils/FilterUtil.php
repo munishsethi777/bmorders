@@ -1,4 +1,5 @@
 <?php
+require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
   class FilterUtil{
       public static function getFilters(){
         $pagenum = intval($_GET['pagenum']);
@@ -173,29 +174,17 @@
                         $where .= " " . $filterdatafield . " < '" . $filtervalue ."'";
                         break;
                     case "GREATER_THAN_OR_EQUAL":
-                    	if($filterdatafield == "bookedon"){
-                    		//$filtervalue .= " 00:00:00";
-                    		//$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y H:i:s",$filtervalue);
-                    		$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
-                    		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
-                    	}
-                    	if($filterdatafield == "bookingdate"){
-                    		$filtervalue .= " 00:00:00";
-                    		$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y H:i:s",$filtervalue);
+                    	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
+                    	if($lastModifiedPos !== false || $filterdatafield == "createdon"){
+                    		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}
                         $where .= " " . $filterdatafield . " >= '" . $filtervalue ."'";
                         break;
                     case "LESS_THAN_OR_EQUAL":
-                    	if($filterdatafield == "bookedon"){
-                    		//$filtervalue .= " 00:00:00";
-                    		//$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y H:i:s",$filtervalue);
-                    		$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
-                    		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
-                    	}
-                    	if($filterdatafield == "bookingdate"){
-                    		$filtervalue .= " 00:00:00";
-                    		$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y H:i:s",$filtervalue);
+                    	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
+                    	if($lastModifiedPos !== false || $filterdatafield == "createdon"){
+                    		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}
                     	
