@@ -175,16 +175,24 @@ require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
                         break;
                     case "GREATER_THAN_OR_EQUAL":
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
-                    	if($lastModifiedPos !== false || $filterdatafield == "createdon"){
+                    	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
+                    	if($lastModifiedPos !== false || $createdOnPos !== false){
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
+                    		if(!$bookedOn){
+                    			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
+                    		}
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}
                         $where .= " " . $filterdatafield . " >= '" . $filtervalue ."'";
                         break;
                     case "LESS_THAN_OR_EQUAL":
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
-                    	if($lastModifiedPos !== false || $filterdatafield == "createdon"){
+                    	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
+                    	if($lastModifiedPos !== false ||  $createdOnPos !== false){
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
+                    		if(!$bookedOn){
+                    			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
+                    		}
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}
                     	

@@ -3,6 +3,7 @@ require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Product.php");
 require_once($ConstantsArray['dbServerUrl'] ."StringConstants.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
+require_once($ConstantsArray['dbServerUrl'] ."Utils/ExportUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
 
 
@@ -22,6 +23,11 @@ class ProductMgr{
 	public function findBySeq($seq){
 		$products = self::$dataStore->findBySeq($seq);
 		return $products;
+	}
+	
+	public function findArrBySeq($seq){
+		$product = self::$dataStore->findArrayBySeq($seq);
+		return $product;
 	}
 	
 	public function findAll($isApplyFilter = false){
@@ -77,6 +83,23 @@ class ProductMgr{
 			$return[$val[$key]][] = $val;
 		}
 		return $return;
+	}
+	
+	public function searchProducts($searchString){
+		$sql = "select products.* from products";
+		if($searchString != null){
+			$sql .= " where (products.title like '". $searchString ."%')";
+		}
+		$products =  self::$dataStore->executeQuery($sql);
+		return $products;
+	}
+	
+	public function exportProducts($queryString){
+		$output = array();
+		parse_str($queryString, $output);
+		$_GET = array_merge($_GET,$output);
+		$products = $this->findAllWithAttributeTitles(true);
+		ExportUtil::exportProducts($products);
 	}
 
 }

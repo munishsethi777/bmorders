@@ -57,3 +57,32 @@ if($call == "deleteCustomers"){
 	    $response["success"] =  $success;
 	    echo json_encode($response);
 }
+if($call == "searchCustomer"){
+	$searchString = $_GET["q"];
+	$customers  = $customerMgr->searchCustomers($searchString);
+	$response['results'] = array();
+	foreach($customers as $customer){
+		$text = $customer['title'];
+		$json = array();
+		$json['text'] = $text;
+		$json['id'] = $customer['seq'];
+		array_push($response['results'],$json);
+	}
+	echo json_encode($response);
+}
+
+if($call == "getCustomerTitlesForFilter"){
+	$customersTitles = $customerMgr->getAllCustomerTitles();
+	$response["customers"] = $customersTitles;
+	echo json_encode($response);
+}
+if($call == "exportCustomers"){
+	try{
+		$queryString = $_GET["queryString"];
+		$customerMgr->exportCustomers($queryString);
+		return;
+	}catch(Exception $e){
+		$success = 0;
+		$message = $e->getMessage();
+	}
+}

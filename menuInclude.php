@@ -89,13 +89,13 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                </li>
                 <?php }?>
                  <li class="<?php echo $isOrders;?>">
-                    <a href="adminShowOccasions.php"><i class="fa fa-calendar"></i> 
+                    <a href="showOrders.php"><i class="fa fa-calendar"></i> 
                     	<span class="nav-label">Orders</span>  
                     </a>
                 </li>
                  <?php if($userType != UserType::getName(UserType::representative)){?>
 	                <li class="<?php echo $isSettings;?>">
-	                    <a href="adminSettings.php"><i class="fa fa-cog"></i> 
+	                    <a href="showCashBook.php"><i class="fa fa-cog"></i> 
 	                    	<span class="nav-label">Cash Book</span>  
 	                    </a>
 	                </li>

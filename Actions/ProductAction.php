@@ -102,5 +102,33 @@ if($call == "getFilterMenusForGrid"){
 	
 	echo json_encode($response);
 }
+if($call == "searchProduct"){
+	$searchString = $_GET["q"];
+	$products  = $productMgr->searchProducts($searchString);
+	$response['results'] = array();
+	foreach($products as $product){
+		$text = $product['title'];
+		$json = array();
+		$json['text'] = $text;
+		$json['id'] = $product['seq'];
+		array_push($response['results'],$json);
+	}
+	echo json_encode($response);
+}
 
+if($call == "getProductBySeq"){
+	$seq = $_GET["seq"];
+	$product  = $productMgr->findArrBySeq($seq);
+	echo json_encode($product);
+}
+if($call == "exportProducts"){
+	try{
+		$queryString = $_GET["queryString"];
+		$productMgr->exportProducts($queryString);
+		return;
+	}catch(Exception $e){
+		$success = 0;
+		$message = $e->getMessage();
+	}
+}
 

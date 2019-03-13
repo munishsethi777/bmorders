@@ -461,4 +461,23 @@ $(document).ready(function() {
         	$('.'+className).val([]).trigger('liszt:updated');
            	$('.'+className).trigger("chosen:updated");
         }
+
+        function getFilterString(gridId){
+        	var f = 0
+        	var filterQstr = ""
+        	var filterinfo = $("#"+gridId).jqxGrid("getfilterinformation");
+        	$.each(filterinfo, function( i, val){
+            	$.each(filterinfo[i].filter.getfilters(), function(x){
+            		filterQstr += "&filterdatafield"+f+"="+filterinfo[i].filtercolumn
+                	filterQstr += "&"+filterinfo[i].filtercolumn+"operator="+filterinfo[i].filter.operator
+                	filterQstr += "&filtervalue"+f+"="+filterinfo[i].filter.getfilters()[x].value
+                	filterQstr += "&filtercondition"+f+"="+filterinfo[i].filter.getfilters()[x].condition
+                	filterQstr += "&filteroperator"+f+"="+filterinfo[i].filter.getfilters()[x].operator
+                	//add up filters:
+                	f += 1
+            	 });
+        	});
+        	filterQstr += "&filterscount="+f;
+        	return filterQstr;
+        }
 </script>
