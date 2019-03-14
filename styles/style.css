@@ -8563,3 +8563,7 @@ body.md-skin {
     margin: 0;
   }
 }
+.form-control{
+	padding:3px 6px !important;
+	font-size:13px !important;
+}

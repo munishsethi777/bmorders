@@ -9,7 +9,8 @@ $isProductCategories="";
 $isOrders="";
 $isChangePassword="";
 $isSettings = "";
-$isUser = "";
+$isCashBook = "";
+$isUsers = "";
 $parts = Explode('/', $_SERVER["PHP_SELF"]);
 $file =  $parts[count($parts) - 1];
 
@@ -29,12 +30,14 @@ if($file == "dashboard.php"){
 	$isProductCategories = "active";
 }elseif($file == "showOrders.php" || $file == "createOrder.php"){
 	$isOrders = "active";
+}elseif($file == "showCashBook.php" || $file == "createCashBook.php"){
+	$isCashBook = "active";
+}elseif($file == "showUsers.php" || $file == "createUser.php"){
+	$isUsers = "active";
 }elseif($file == "adminChangePassword.php"){
 	$isChangePassword = "active";
 }elseif($file == "adminSettings.php"){
 	$isSettings = "active";
-}elseif($file == "createUser.php"){
-	$isUser = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
 $userType = $sessionUtil->getUserLoggedInUserType();
@@ -94,13 +97,13 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                     </a>
                 </li>
                  <?php if($userType != UserType::getName(UserType::representative)){?>
-	                <li class="<?php echo $isSettings;?>">
+	                <li class="<?php echo $isCashBook;?>">
 	                    <a href="showCashBook.php"><i class="fa fa-cog"></i> 
 	                    	<span class="nav-label">Cash Book</span>  
 	                    </a>
 	                </li>
                
-	                <li class="<?php echo $isUser;?>">
+	                <li class="<?php echo $isUsers;?>">
 	                    <a href="showUsers.php"><i class="fa fa-cog"></i> 
 	                    	<span class="nav-label">Users</span>  
 	                    </a>
