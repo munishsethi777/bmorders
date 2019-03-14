@@ -212,7 +212,7 @@
                     // delete row.
                     deleteButton.click(function (event) {
                         gridId = "productGrid";
-                        deleteUrl = "Actions/productAction.php?call=deleteProductss";
+                        deleteUrl = "Actions/ProductAction.php?call=deleteProducts";
                         deleteCustomers(gridId,deleteUrl);
                     });
                     exportButton.click(function (event) {
