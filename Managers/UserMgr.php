@@ -72,4 +72,9 @@ class UserMgr{
 		$user = self::$userDataStore->findBySeq($seq);
 		return $user;
 	}
+	
+	public function deleteBySeqs($ids) {
+		$flag = self::$userDataStore->deleteInList ( $ids );
+		return $flag;
+	}
 }

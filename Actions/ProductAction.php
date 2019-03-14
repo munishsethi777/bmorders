@@ -68,7 +68,7 @@ if($call == "getAllProducts"){
 if($call == "deleteProducts"){
 	    $ids = $_GET["ids"];
 	    try{
-	    	$customerMgr->deleteBySeqs($ids);
+	    	$productMgr->deleteBySeqs($ids);
 	    	$message = "Product(s) Deleted successfully";
 	    }catch(Exception $e){
 	        $success = 0;

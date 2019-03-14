@@ -26,9 +26,9 @@ if($call == "saveUser"){
 		$user->setIsEnabled($isEnabled);
 		$user->setCreatedOn(new DateTime());
 		$user->setLastModifiedOn(new DateTime());
-		$customers = $_REQUEST["customers"];
-		if(empty($customers)){
-			throw new Exception("Please Select at least one customer");
+		$customers = array();
+		if(isset($_REQUEST["customers"]) && !empty($_REQUEST["customers"])){
+			$customers = $_REQUEST["customers"];
 		}
 		$userMgr->saveUser($user, $customers);
 		$message = "User saved successfully!";
@@ -62,6 +62,18 @@ if($call == "loginUser"){
 	}else{
 		$success = 0;
 		$message = "Incorrect Username or Password";
+	}
+}
+
+if($call == "deleteUsers"){
+	$ids = $_GET["ids"];
+	try{
+		$userMgr->deleteBySeqs($ids);
+		$message = "User(s) Deleted successfully";
+	}catch(Exception $e){
+		$success = 0;
+		$message = $e->getMessage();
+		//$message = ErrorUtil::checkReferenceError(LearningPlan::$className,$e);
 	}
 }
 

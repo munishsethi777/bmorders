@@ -92,7 +92,7 @@ if(isset($_POST["seq"])){
 		                 <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Customers</label>
 		                	<div class="col-lg-7">
-		                    	<select class="form-control chosen-select" multiple  required id="customers" name="customers[]">
+		                    	<select class="form-control chosen-select" multiple  id="customers" name="customers[]">
 									<?php foreach ($customers as $customer){
 										$seq = $customer->getSeq();
 										$selected = "";
