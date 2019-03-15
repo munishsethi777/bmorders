@@ -7,7 +7,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductCategoryMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductFlavourMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/FileUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
-
+require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
 $call = "";
 if(isset($_GET["call"])){
 	$call = $_GET["call"];
@@ -110,7 +110,10 @@ if($call == "searchProduct"){
 	foreach($products as $product){
 		$text = $product['title'];
 		$json = array();
-		$json['text'] = $text;
+		$measureUnits = MeasuringUnitType::getValue($product["measuringunit"]);
+		$quantity = $product["quantity"];
+		$weight = $quantity . " " . $measureUnits . " - " . $product["flavour"] . " (".$product["brand"].")";
+		$json['text'] = $text . " " . $weight ;
 		$json['id'] = $product['seq'];
 		array_push($response['results'],$json);
 	}

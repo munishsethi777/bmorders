@@ -86,9 +86,9 @@ class ProductMgr{
 	}
 	
 	public function searchProducts($searchString){
-		$sql = "select products.* from products";
+		$sql = "select products.*,productflavours.title as flavour , productbrands.title as brand from products inner join productflavours on products.flavourseq = productflavours.seq inner join productbrands on products.brandseq = productbrands.seq";
 		if($searchString != null){
-			$sql .= " where (products.title like '". $searchString ."%')";
+			$sql .= " where (products.title like '%$searchString%' or productflavours.title like '%$searchString%' or productbrands.title like '%$searchString%')";
 		}
 		$products =  self::$dataStore->executeQuery($sql);
 		return $products;
