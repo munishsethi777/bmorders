@@ -60,7 +60,7 @@ if($call == "deleteCustomers"){
 }
 if($call == "searchCustomer"){
 	$searchString = $_GET["q"];
-	$customers  = $customerMgr->searchCustomers($searchString);
+	$customers  = $customerMgr->searchCucstomers($searchString);
 	$response['results'] = array();
 	foreach($customers as $customer){
 		$text = $customer['title'];

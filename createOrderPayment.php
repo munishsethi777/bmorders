@@ -57,12 +57,14 @@ $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 		                    	<span><?php echo $order["customername"]?></span>
 		                    </div>
 		                </div>
-		                <div class="form-group row">
-		                	<label class="col-sm-2">Comments : </label>
-		                    <div class="col-sm-3">
-		                    	<span><?php echo $order["comments"]?></span>
-		                    </div>
-		                </div>
+		                <?php if(!empty($order["comments"])){?>
+			                <div class="form-group row">
+			                	<label class="col-sm-2">Comments : </label>
+			                    <div class="col-sm-3">
+			                    	<span><?php echo $order["comments"]?></span>
+			                    </div>
+			                </div>
+		                <?php }?>
 		               	<div class="form-group row">
 		               		   <div class="col-lg-2">
 			                    	<?php 

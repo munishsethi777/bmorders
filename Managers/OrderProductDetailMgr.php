@@ -1,7 +1,7 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderProductDetail.php");
-
+require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
 class OrderProductDetailMgr{
 	private static $OrderProductDetailMgr;
 	private static $dataStore;
@@ -50,8 +50,20 @@ class OrderProductDetailMgr{
 	
 	
 	public function findByOrderSeq($orderSeq){
-		$query = "SELECT orderproductdetails.*,products.title FROM orderproductdetails inner join products on orderproductdetails.productseq = products.seq  where orderseq = $orderSeq";
-		$orderProductDetail = self::$dataStore->executeQuery($query,false,true);
-		return $orderProductDetail;
+		$query = "SELECT orderproductdetails.*,products.title, products.measuringunit, products.quantity, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
+inner join products on orderproductdetails.productseq = products.seq  
+inner join productflavours on products.flavourseq = productflavours.seq 
+inner join productbrands on products.brandseq = productbrands.seq
+where orderseq = $orderSeq";
+		$orderProductDetails = self::$dataStore->executeQuery($query,false,true);
+		$mainArr = array();
+		foreach ($orderProductDetails as $orderProductDetail){
+			$measureUnits = MeasuringUnitType::getValue($orderProductDetail["measuringunit"]);
+			$quantity = $orderProductDetail["quantity"];
+			$weight = $quantity . " " . $measureUnits . " - " . $orderProductDetail["flavour"] . " (".$orderProductDetail["brand"].")";
+			$orderProductDetail['title'] = $orderProductDetail['title'] . " " . $weight ;
+			array_push($mainArr, $orderProductDetail);
+		}
+		return $mainArr;
 	}
 }
