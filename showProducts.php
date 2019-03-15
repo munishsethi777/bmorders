@@ -100,13 +100,13 @@
             var measureUnits = menus.measureUnits;
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
-				{ text: 'Title', datafield: 'p.title', width:"22%"}, 			
+				{ text: 'Title', datafield: 'p.title', width:"30%"}, 			
 				{ text: 'Brand', datafield: 'pb.title',width:"11%",filtertype: 'checkedlist',filteritems:brands},
 				{ text: 'Category', datafield: 'pc.title',width:"13%",filtertype: 'checkedlist',filteritems:categories},
 				{ text: 'Flavour', datafield: 'pf.title',width:"14%",filtertype: 'checkedlist',filteritems:flavours},
 				{ text: 'Stock', datafield: 'stock',width:"5%"},
 				{ text: 'Qty', datafield: 'quantity',width:"4%"},
-				{ text: 'MsrType', datafield: 'measuringunit',width:"12%",filtertype: 'checkedlist',filteritems:measureUnits},
+				{ text: 'MsrType', datafield: 'measuringunit',width:"5%",filtertype: 'checkedlist',filteritems:measureUnits},
 				{ text: 'Last Modified', datafield: 'p.lastmodifiedon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            

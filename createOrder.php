@@ -47,8 +47,8 @@ if(isset($_POST["seq"])){
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $order->getSeq()?>"/>
                         		<input type="hidden" id ="totalamount" name="totalamount"/>
                         		<div class="form-group row">
-				                	<label class="col-lg-2 col-form-label">Select Company</label>
-				                	<div class="col-lg-8">
+				                	<label class="col-lg-1 col-form-label">Customer</label>
+				                	<div class="col-lg-10">
 				                    	<select class="form-control select2"  required id="customers" name="customerseq">
 				                    		<?php foreach ($customers as $customer){
 												$cseq = $customer->getSeq();
@@ -63,25 +63,25 @@ if(isset($_POST["seq"])){
 				                    </div>
 			                	</div>
 			                	<div class="form-group row">
-		                			<label class="col-lg-2 col-form-label">Comments</label>
-				                	<div class="col-lg-8">
+		                			<label class="col-lg-1 col-form-label">Comments</label>
+				                	<div class="col-lg-10">
 				                		<textarea class="form-control" id="comments" name="comments"  rows="3" cols="80"><?php echo $order->getComments()?></textarea>
 				                    </div>
 				                 </div>
 			                	<div class="form-group row">
-		                			<label class="col-lg-2 col-form-label">Products</label>
-				                	<div class="col-lg-4" id="productDiv">
+		                			<label class="col-lg-1 col-form-label">Products</label>
+				                	<div class="col-lg-8" id="productDiv">
 				                    	<select class="form-control produtSelect2"  required name="products[]">
 				                    	</select> <label class="jqx-validator-error-label" id="lpError"></label>
 				                    </div>
-				                     <div class="col-lg-2">
-				                  	 	<input type="text" value="" onchange="calculateAmount()"  id="price" name="price[]" required placeholder="Price"  class="form-control">
+				                     <div class="col-lg-1">
+				                  	 	<input type="text" value="" onchange="calculateAmount()"  id="price" name="price[]" required placeholder="Rs."  class="form-control">
 					                </div>
-					                <div class="col-lg-2">
-				                  	 	<input type="number" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="Quantity"  class="form-control">
+					                <div class="col-lg-1">
+				                  	 	<input type="number" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="qty"  class="form-control">
 					                </div>
-					               <div class="col-lg-2"> 
-                                    	<a onClick="addRow(true)" title="Add More Product" href="#"><i class="fa fa-plus"> Add More</i></a> 
+					               <div class="col-lg-1"> 
+                                    	<a onClick="addRow(true)" title="Add More Product" href="#"><i class="fa fa-plus"> more</i></a> 
                               		 </div>
 			                	</div>
 			                	 <div id="productDiv1" >
@@ -90,13 +90,13 @@ if(isset($_POST["seq"])){
 			                	 
 				                 
 				                  <div class="form-group row">
-	                                    <label class="col-lg-2 col-form-label">Discount</label>
+	                                    <label class="col-lg-1 col-form-label">Discount</label>
 	                                    <div class="col-lg-4">
 	                                    	<input type="text" value="<?php echo $order->getDiscountPercent()?>" onchange="calculateAmount()"  id="discount" name="discountpercent"  placeholder="Discount Percent" class="form-control">
 	                                    </div>
 	                              </div>
 				                 <div class="form-group row">
-	                                    <label class="col-lg-2 col-form-label">Final Amount</label>
+	                                    <label class="col-lg-1 col-form-label">Amount</label>
 	                                    <div class="col-lg-4">
 	                                    	<span id="finalAmount">Rs. <?php echo $order->getTotalAmount()?></span>
 	                                    </div>
@@ -210,16 +210,16 @@ function addRow(isLoadProducts,value){
 		 quantity = value.quantity;
 	}
  	var html = '<div id="productRow" class="form-group row">';
- 		html += '<label class="col-lg-2 col-form-label"></label>';
-    	html += '<div class="col-lg-4" id="productDiv">';
+ 		html += '<label class="col-lg-1 col-form-label"></label>';
+    	html += '<div class="col-lg-8" id="productDiv">';
 		html += '<select class="form-control produtSelect2" name="products[]">';
 		html += selectedProduct;
 		html += '</select> <label class="jqx-validator-error-label" id="lpError"></label>';
 		html += '</div>';
- 		html += '<div class="col-lg-2">';
+ 		html += '<div class="col-lg-1">';
 	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Price"  class="form-control">';
 		html += '</div>'
-		html += '<div class="col-lg-2">';
+		html += '<div class="col-lg-1">';
 	 	html += '<input type="number" value="'+quantity+'" onchange="calculateAmount()"  id="quantity" name="quantity[]" placeholder="Quantity"  class="form-control">';
 		html += '</div>'; 
 		html += '<label class="col-lg-1 col-form-label">'; 
