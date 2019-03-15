@@ -87,7 +87,7 @@ class CustomerMgr{
 			if($userType == UserType::getName(UserType::representative)){
 				$sql .= " inner join usercompanies on customers.seq = usercompanies.customerseq where (customers.title like '". $searchString ."%') and usercompanies.userseq = $userSeq";
 			}else{
-				$sql .= " where (customers.title like '". $searchString ."%')";
+				$sql .= " where (customers.title like '%". $searchString ."%')";
 			}
 		}
 		
