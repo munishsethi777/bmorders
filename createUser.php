@@ -87,7 +87,6 @@ if(isset($_POST["seq"])){
 	                                echo $select;
                              	?>
 		                    </div>
-		                	
 		                </div>
 		                 <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Customers</label>
