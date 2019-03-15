@@ -50,6 +50,7 @@ if(isset($_POST["seq"])){
 				                	<label class="col-lg-1 col-form-label">Customer</label>
 				                	<div class="col-lg-10">
 				                    	<select class="form-control select2"  required id="customers" name="customerseq">
+				                    		<option value=''>Select Customer</option>
 				                    		<?php foreach ($customers as $customer){
 												$cseq = $customer->getSeq();
 												$selected = "";
