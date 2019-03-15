@@ -34,6 +34,7 @@
     </div>
     <form id="form1" name="form1" method="post" action="createProduct.php">
      	<input type="hidden" id="seq" name="seq"/>
+     	<input type="hidden" id="isCopy" name="isCopy"/>
    	</form>
    	<form id="exportForm" name="exportForm" method="GET" action="Actions/ProductAction.php">
      	<input type="hidden" id="call" name="call" value="exportProducts"/>
@@ -177,18 +178,24 @@
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
-            		
+                    var copyButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-copy'></i><span style='margin-left: 4px; position: relative;'>Copy</span></div>");
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                	
 
                     container.append(addButton);
                     container.append(editButton);
                     container.append(deleteButton);
+                    container.append(copyButton);
                     container.append(exportButton);
+                    container.append(reloadButton);
 
                     statusbar.append(container);
                     addButton.jqxButton({  width: 65, height: 18 });
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     exportButton.jqxButton({  width: 65, height: 18 });
+                    copyButton.jqxButton({  width: 65, height: 18 });
+                    reloadButton.jqxButton({  width: 65, height: 18 });
 
                     // create new row.
                     addButton.click(function (event) {
@@ -196,18 +203,10 @@
                     });
                     // update row.
                     editButton.click(function (event){
-                    	var selectedrowindex = $("#productGrid").jqxGrid('selectedrowindexes');
-                        var value = -1;
-                        indexes = selectedrowindex.filter(function(item) { 
-                            return item !== value
-                        })
-                        if(indexes.length != 1){
-                            bootbox.alert("Please Select single row for edit.", function() {});
-                            return;    
-                        }
-                        var row = $('#productGrid').jqxGrid('getrowdata', indexes);
-                        $("#seq").val(row.seq);                        
-                        $("#form1").submit();    
+                    	editAndCopy(0);  
+                    });
+                    copyButton.click(function (event) {
+                    	editAndCopy(1);  
                     });
                     // delete row.
                     deleteButton.click(function (event) {
@@ -220,12 +219,31 @@
 						exportProducts(filterQstr);
                			
                     });
+                    reloadButton.click(function (event) {
+                    	$("#productGrid").jqxGrid({ source: dataAdapter });
+                    });
                 }
             });
         }
         function exportProducts(filterString){
             $("#queryString").val(filterString);
         	$('#exportForm').submit();
+        }
+
+        function editAndCopy(isCopy){
+        	var selectedrowindex = $("#productGrid").jqxGrid('selectedrowindexes');
+            var value = -1;
+            indexes = selectedrowindex.filter(function(item) { 
+                return item !== value
+            })
+            if(indexes.length != 1){
+                bootbox.alert("Please Select single row for edit.", function() {});
+                return;    
+            }
+            var row = $('#productGrid').jqxGrid('getrowdata', indexes);
+            $("#seq").val(row.seq); 
+            $("#isCopy").val(isCopy);                       
+            $("#form1").submit();   
         }
 		
         

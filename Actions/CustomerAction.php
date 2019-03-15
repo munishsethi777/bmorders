@@ -28,6 +28,7 @@ if($call == "saveCustomer"){
 		$customer->setLastModifiedOn(new DateTime());
 		$customer->setIsEnabled($isEnabled);
 		$customerMgr->saveCustomer($customer);
+		$message = "Customer Saved Successfully!";
 	}catch (Exception $e){
 		$success = 0;
 		$message  = $e->getMessage();

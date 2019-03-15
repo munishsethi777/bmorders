@@ -1,5 +1,6 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
+require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
   class FilterUtil{
       public static function getFilters(){
         $pagenum = intval($_GET['pagenum']);
@@ -158,6 +159,9 @@ require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
                     		}else{
                     			$query .= " inner join bookingdetails on bookings.seq = bookingdetails.bookingseq inner join menus on bookingdetails.menuseq = menus.seq";
                     		}
+                    	}
+                    	if($filterdatafield == "measuringunit"){
+                    		$filtervalue = MeasuringUnitType::getName($filtervalue);
                     	}
                         $where .= " " . $filterdatafield . " = '" . $filtervalue ."'";
                         break;

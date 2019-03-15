@@ -96,10 +96,10 @@
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Title', datafield: 'title', width:"40%"}, 			
-				{ text: 'Contact', datafield: 'contactperson',width:"15%"},
-				{ text: 'Mobile', datafield: 'mobile',width:"12%"},
+				{ text: 'Contact', datafield: 'contactperson',width:"15%",filterable:false},
+				{ text: 'Mobile', datafield: 'mobile',width:"12%",filterable:false},
 				{ text: 'City', datafield: 'city',width:"15%"},
-				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"15%"}
+				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"15%",filterable:false}
             ]
            
             var source =
@@ -145,6 +145,7 @@
     			source: dataAdapter,
     			filterable: true,
     			sortable: true,
+    			showfilterrow: true,
     			autoshowfiltericon: true,
     			columns: columns,
     			pageable: true,
@@ -165,20 +166,23 @@
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
-        			
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    
 
 
                     container.append(addButton);
                     container.append(editButton);
                     container.append(deleteButton);
                     container.append(exportButton);
+                    container.append(reloadButton);
+                    
 
                     statusbar.append(container);
                     addButton.jqxButton({  width: 65, height: 18 });
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     exportButton.jqxButton({  width: 65, height: 18 });
-
+                    reloadButton.jqxButton({  width: 65, height: 18 });
                     // create new row.
                     addButton.click(function (event) {
                         location.href = ("createCustomer.php");
@@ -207,6 +211,9 @@
                     exportButton.click(function (event) {
 						filterQstr = getFilterString("customerGrid");
 						exportCustomers(filterQstr);
+                    });
+                    reloadButton.click(function (event) {
+                    	$("#customerGrid").jqxGrid({ source: dataAdapter });
                     });
                 }
             });

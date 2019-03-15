@@ -63,6 +63,20 @@ class OrderMgr{
 		return $order;
 	}
 	
+	public function findOrderArr($seq){
+		$query = "SELECT orders.*,customers.title as customername FROM orders inner join customers on orders.customerseq = customers.seq where orders.seq = $seq";
+		$orderArr = self::$dataStore->executeQuery($query);
+		if(!empty($orderArr)){
+			$order =  $orderArr[0];
+			$createdon = $order["createdon"];
+			$createdon = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $createdon);
+			$createdon = $createdon->format("d-m-Y H:i A");
+			$order["createdon"] = $createdon;
+			return $order;
+		}
+		return null;
+	}
+	
 	public function deleteBySeqs($ids) {
 		$flag = self::$dataStore->deleteInList ( $ids );
 		if($flag){

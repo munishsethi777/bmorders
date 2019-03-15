@@ -77,11 +77,13 @@ if(isset($_POST["seq"])){
 	                               				id="rzp-button">
 	                               			Save
 		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:submitproductCategoryForm('saveandnew')" 
-	                               				id="rzp-button">
-	                               			Save & New
-		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:cancel()" 
+		                               	<?php if(empty($productCategory)){?>
+			                               	<button class="btn btn-primary" type="button" onclick="javascript:submitproductCategoryForm('saveandnew')" 
+		                               				id="rzp-button">
+		                               			Save & New
+			                               	</button>
+		                               	<?php }?>
+		                               	<button class="btn btn-default" type="button" onclick="javascript:cancel()" 
 	                               				id="rzp-button">
 	                               			Cancel
 		                               	</button>

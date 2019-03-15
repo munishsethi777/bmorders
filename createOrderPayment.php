@@ -1,14 +1,18 @@
 <?php
 include("SessionCheck.php");
 require_once('IConstants.inc');
+require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderPaymentDetailMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropDownUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/PaymentMode.php");
 $orderPaymentDetail = new OrderPaymentDetail();
+$orderMgr = OrderMgr::getInstance();
 $orderPaymentDetailMgr = OrderPaymentDetailMgr::getInstance();
 $orderSeq = 0;
+$order = array();
 if(isset($_POST["orderSeq"])){
-	$orderSeq = $_POST["orderSeq"];	
+	$orderSeq = $_POST["orderSeq"];
+	$order = $orderMgr->findOrderArr($orderSeq);
 }
 $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 ?>
@@ -43,6 +47,22 @@ $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 		                <input type="hidden" id ="call" name="call"  value="savePaymentDetail"/>
 		                <input type="hidden" id ="seq" name="seq[]"  value="<?php echo $orderPaymentDetail->getSeq()?>"/>
 		                <input type="hidden" id ="orderSeq" name="orderSeq"  value="<?php echo $orderSeq?>"/>
+		               	 <div class="form-group row">
+		                	<label class="col-sm-2">Order Date : </label>
+		                    <div class="col-sm-3">
+		                    	<span><?php echo $order["createdon"]?></span>
+		                    </div>
+		                    <label class="col-sm-2">Customer : </label>
+		                    <div class="col-sm-2">
+		                    	<span><?php echo $order["customername"]?></span>
+		                    </div>
+		                </div>
+		                <div class="form-group row">
+		                	<label class="col-sm-2">Comments : </label>
+		                    <div class="col-sm-3">
+		                    	<span><?php echo $order["comments"]?></span>
+		                    </div>
+		                </div>
 		               	<div class="form-group row">
 		               		   <div class="col-lg-2">
 			                    	<?php 

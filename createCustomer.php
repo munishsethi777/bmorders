@@ -49,7 +49,7 @@ if(isset($_POST["seq"])){
 	                        
 	                    </div>
 	                </div>
-	                <div class="ibox-content">
+	                <div class="ibox-content mainDiv">
 	                	<form id="customerForm" method="post" enctype="multipart/form-data" action="Actions/CustomerAction.php" class="m-t-lg">
                         		<input type="hidden" id ="call" name="call"  value="saveCustomer"/>
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $customer->getSeq()?>"/>
@@ -123,7 +123,7 @@ if(isset($_POST["seq"])){
                                     
                                     <label class="col-lg-1 col-form-label">Discount</label>
                                     <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $customer->getDiscount()?>"  id="discount" name="discount" required placeholder="discount offered" class="form-control">
+                                    	<input type="text" value="<?php echo $customer->getDiscount()?>"  id="discount" name="discount" placeholder="discount offered" class="form-control">
                                     </div>
                                </div>
                                 <div class="form-group row">
@@ -141,11 +141,13 @@ if(isset($_POST["seq"])){
 	                               				id="rzp-button">
 	                               			Save
 		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:submitCustomerForm('saveandnew')" 
-	                               				id="rzp-button">
-	                               			Save & New
-		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:cancel()" 
+		                               	<?php if(empty($customer->getSeq())){?>
+			                               	<button class="btn btn-primary" type="button" onclick="javascript:submitCustomerForm('saveandnew')" 
+		                               				id="rzp-button">
+		                               			Save & New
+			                               	</button>
+		                               	<?php }?>
+		                               	<button class="btn btn-default" type="button" onclick="javascript:cancel()" 
 	                               				id="rzp-button">
 	                               			Cancel
 		                               	</button>
@@ -174,6 +176,7 @@ if(isset($_POST["seq"])){
 		    		 if(action == "save"){
 	        		 	location.href = "showCustomers.php";
 		    		 }else{
+		    			 showResponseToastr(data,null,"customerForm","mainDiv");
 		    			 clearForm($("#customerForm"));
 		    		 }
 	    		 }else{

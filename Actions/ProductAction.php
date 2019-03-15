@@ -51,6 +51,7 @@ if($call == "saveProduct"){
 				FileUtil::uploadImageFiles($file,$uploaddir,$name);
 			}
 		}
+		$message = "Product(s) saved successfully!";
 	}catch (Exception $e){
 		$success = 0;
 		$message  = $e->getMessage();

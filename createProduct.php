@@ -12,9 +12,13 @@ $isEnableChecked = "checked";
 $productMgr = ProductMgr::getInstance();
 if(isset($_POST["seq"])){
  	$seq = $_POST["seq"];
+ 	$isCopy = $_POST["isCopy"];
  	$product = $productMgr->findBySeq($seq);
  	if(empty($product->getIsEnabled())){
  		$isEnableChecked = "";
+ 	}
+ 	if(!empty($isCopy)){
+ 		$product->setSeq(0);
  	}
 }
 $productCategoryMgr = ProductCategoryMgr::getInstance();
@@ -57,7 +61,7 @@ if(!empty($product->getImageFormat())){
 	                        
 	                    </div>
 	                </div>
-	                <div class="ibox-content">
+	                <div class="ibox-content mainDiv">
 	                	<form id="productForm" method="post" enctype="multipart/form-data" action="Actions/ProductAction.php" class="m-t-lg">
                         		<input type="hidden" id ="call" name="call"  value="saveProduct"/>
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $product->getSeq()?>"/>
@@ -143,7 +147,7 @@ if(!empty($product->getImageFormat())){
                                     	<input type="number" value="<?php echo $product->getStock()?>"  id="stock" name="stock" required placeholder="stock" class="form-control">
                                     </div>
                                </div>
-                             	<div class="form-group row">
+                             	<div class="form-group row" style="display:none">
 									<label class="col-sm-1 control-label">Image</label>
 									<div class="col-sm-5">
 										<input type="file" id="productImage" name="productImage"
@@ -168,11 +172,13 @@ if(!empty($product->getImageFormat())){
 	                               				id="rzp-button">
 	                               			Save
 		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:submitproductForm('saveandnew')" 
-	                               				id="rzp-button">
-	                               			Save & New
-		                               	</button>
-		                               	<button class="btn btn-primary" type="button" onclick="javascript:cancel()" 
+		                               	<?php if(empty($product->getSeq())){?>
+			                               	<button class="btn btn-primary" type="button" onclick="javascript:submitproductForm('saveandnew')" 
+		                               				id="rzp-button">
+		                               			Save & New
+			                               	</button>
+		                               	<?php }?>
+		                               	<button class="btn btn-default" type="button" onclick="javascript:cancel()" 
 	                               				id="rzp-button">
 	                               			Cancel
 		                               	</button>
@@ -204,6 +210,7 @@ if(!empty($product->getImageFormat())){
 		    		 if(action == "save"){
 	        		 	location.href = "showProducts.php";
 		    		 }else{
+		    			 showResponseToastr(data,null,"productForm","mainDiv");
 		    			 clearForm($("#productForm"));
 		    		 }
 	    		 }else{
@@ -223,7 +230,7 @@ if(!empty($product->getImageFormat())){
     	    else if (type == 'checkbox' || type == 'radio')
     	      this.checked = false; 
     	    else if (tag == 'select')
-    	      this.selectedIndex = -1;
+    	      this.selectedIndex = 0;
     	  });
     	};
     function cancel(){
