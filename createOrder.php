@@ -246,18 +246,42 @@ function removeRow(btn){
 }
 function submitcreateOrderForm(action){
 	if($("#createOrderForm")[0].checkValidity()) {
-    	 $('#createOrderForm').ajaxSubmit(function( data ){
-    		 var obj = $.parseJSON(data);
-    		 showResponseToastr(data,null,"createOrderForm","mainDiv");
-    		 $(".produtSelect2").select2("val", "");
-    		 if(obj.success == 1 && action == "save"){
- 		    	location.href = "showOrders.php";
- 		     }  	 
-    	 });
+		var isValidate = isValidateQty();
+		if(isValidate == true){
+	    	 $('#createOrderForm').ajaxSubmit(function( data ){
+	    		 var obj = $.parseJSON(data);
+	    		 showResponseToastr(data,null,"createOrderForm","mainDiv");
+	    		 $(".produtSelect2").select2("val", "");
+	    		 if(obj.success == 1 && action == "save"){
+	 		    	location.href = "showOrders.php";
+	 		     }  	 
+	    	 });
+		}else{
+			alert("Quantity should be less then available stock!");
+		}
 	}else{
 		$("#createOrderForm")[0].reportValidity();
 	}
 } 
+function isValidateQty(){
+	var quantityArr = $("input[name='quantity[]']").map(function(){return $(this).val();}).get();
+	var stockArr = $("input[name='stock[]']").map(function(){return $(this).val();}).get();
+	check = true;
+	$.each( quantityArr, function(key , value ) {
+		var quantity = value;
+		var stock = stockArr[key];
+		if( quantity != null && quantity != ""){
+			quantity = parseInt(quantity);
+			stock = parseInt(stock);
+			if(quantity > stock){
+				check = false;
+				return false;
+			}	
+		}
+	});
+	return check;
+	
+}
 function cancel(){
 	location.href = "showOrders.php";
 }
@@ -275,13 +299,20 @@ function selectProduct(productDD){
 function calculateAmount(){
 	var priceArr = $("input[name='price[]']").map(function(){return $(this).val();}).get();
 	var quantityArr = $("input[name='quantity[]']").map(function(){return $(this).val();}).get();
+	var stockArr = $("input[name='stock[]']").map(function(){return $(this).val();}).get();
 	var totalAmount = 0;
 	$("select.produtSelect2").each(function(i, sel){
 		var price = priceArr[i];
 		var quantity = quantityArr[i];
+		var stock = stockArr[i];
 		if(price != null && price != "" && quantity != null && quantity != ""){
 			price = parseInt(price);
 			quantity = parseInt(quantity);
+			stock = parseInt(stock);
+			if(quantity > stock){
+				alert("Quantity should be less then available stock!");
+				return;
+			}
 			totalAmount += price * quantity;
 		}
 	});

@@ -39,8 +39,8 @@ class OrderProductDetailMgr{
 				$id = self::$dataStore->save($orderProductDetail);
 				if($id > 0){
 					if(isset($existingProductDetails[$product])){
-						$existingQty = $existingProductDetails[$product][0]["quantity"];
-						$stock =  $stock + $existingQty;
+// 						$existingQty = $existingProductDetails[$product][0]["quantity"];
+// 						$stock =  $stock + $existingQty;
 						unset($existingProductDetails[$product]);
 					}
 					$stock = $stock - $qty;
