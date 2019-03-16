@@ -98,13 +98,13 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                 </li>
                  <?php if($userType != UserType::getName(UserType::representative)){?>
 	                <li class="<?php echo $isCashBook;?>">
-	                    <a href="showCashBook.php"><i class="fa fa-cog"></i> 
+	                    <a href="showCashBook.php"><i class="fa fa-money"></i> 
 	                    	<span class="nav-label">Cash Book</span>  
 	                    </a>
 	                </li>
                
 	                <li class="<?php echo $isUsers;?>">
-	                    <a href="showUsers.php"><i class="fa fa-cog"></i> 
+	                    <a href="showUsers.php"><i class="fa fa-users"></i> 
 	                    	<span class="nav-label">Users</span>  
 	                    </a>
 	                </li>
