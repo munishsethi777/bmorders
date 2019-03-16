@@ -214,7 +214,7 @@ function addRow(isLoadProducts,value){
 		 selectedProduct = "<option selected value='"+productSeq+"'>"+productTitle+"</option>"
 		 price = value.price;
 		 quantity = value.quantity;
-		 stock = value.stock;
+		 stock = parseInt(value.stock) + parseInt(value.quantity);
 	}
  	var html = '<div id="productRow" class="form-group row">';
  		html += '<label class="col-lg-1 col-form-label"></label>';
@@ -307,8 +307,9 @@ function getOrderDetail(seq){
  	 			$(".produtSelect2").append(selectedProduct)
  	 	 	 	$("#price").val(value.price);
  	 	 		$("#quantity").val(value.quantity);
- 	 	 		$("#stockSpan").text(value.stock);
- 	 	 		$("#stock").val(value.stock);
+ 	 	 		var stock = parseInt(value.stock) + parseInt(value.quantity);
+ 	 	 		$("#stockSpan").text(stock);
+ 	 	 		$("#stock").val(stock);
  	 	 	 }else{
  			 	addRow(false,value);
  	 	 	 }
