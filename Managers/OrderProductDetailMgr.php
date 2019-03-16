@@ -50,7 +50,7 @@ class OrderProductDetailMgr{
 	
 	
 	public function findByOrderSeq($orderSeq){
-		$query = "SELECT orderproductdetails.*,products.title, products.measuringunit, products.quantity, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
+		$query = "SELECT orderproductdetails.*,products.seq as productseq ,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
 inner join products on orderproductdetails.productseq = products.seq  
 inner join productflavours on products.flavourseq = productflavours.seq 
 inner join productbrands on products.brandseq = productbrands.seq

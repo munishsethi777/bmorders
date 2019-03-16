@@ -79,7 +79,7 @@ if(isset($_POST["seq"])){
 				                  	 	<input type="text" value="" onchange="calculateAmount()"  id="price" name="price[]" required placeholder="Rs."  class="form-control">
 					                </div>
 					                <div class="col-lg-1">
-				                  	 	<input type="number" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="qty"  class="form-control">
+				                  	 	<input type="text" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="qty"  class="form-control">
 					                </div>
 					               <div class="col-lg-1"> 
                                     	<a onClick="addRow(true)" title="Add More Product" href="#"><i class="fa fa-plus"> more</i></a> 
@@ -221,7 +221,7 @@ function addRow(isLoadProducts,value){
 	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Price"  class="form-control">';
 		html += '</div>'
 		html += '<div class="col-lg-1">';
-	 	html += '<input type="number" value="'+quantity+'" onchange="calculateAmount()"  id="quantity" name="quantity[]" placeholder="Quantity"  class="form-control">';
+	 	html += '<input type="text" value="'+quantity+'" onchange="calculateAmount()"  id="quantity" name="quantity[]" placeholder="Quantity"  class="form-control">';
 		html += '</div>'; 
 		html += '<label class="col-lg-1 col-form-label">'; 
 		html += '<a onClick="removeRow(this)" href="#"><i class="fa fa-times"></i></a>';
@@ -289,7 +289,7 @@ function getOrderDetail(seq){
  	$.getJSON("Actions/OrderProductDetailAction.php?call=getDetailByProductSeq&orderSeq="+seq,function( response ){
  	 	$.each( response, function( key, value ) {
  	 	 	 if(key == 0){
- 	 	 		productSeq = value.seq	
+ 	 	 		productSeq = value.productseq	
  	 			productTitle = value.title
  	 			var selectedProduct = "<option selected value='"+productSeq+"'>"+productTitle+"</option>";
  	 			$(".produtSelect2").append(selectedProduct)
