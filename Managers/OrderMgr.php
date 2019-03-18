@@ -31,18 +31,27 @@ class OrderMgr{
 	public function getAllOrdersForGrid(){
 		$sessionUtil = SessionUtil::getInstance();
 		$isRepersentative = $sessionUtil->isRepresentative();
-		$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
+		$query = "SELECT sum(orderpaymentdetails.amount) paidamount,sum(orderproductdetails.quantity) totalproducts, orders.*,customers.title FROM orders 
+			inner join customers on orders.customerseq = customers.seq
+			left join orderpaymentdetails on orders.seq  = orderpaymentdetails.orderseq and orderpaymentdetails.ispaid = 1
+			left join orderproductdetails on orders.seq = orderproductdetails.orderseq ";
+		//$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
 		if($isRepersentative){
 			$userSeq = $sessionUtil->getUserLoggedInSeq();
 			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
 		}
+		$query .= " GROUP by orders.seq";
+		
 		$orders = self::$dataStore->executeQuery($query,true);
 		$mainArr = array();
 		foreach ($orders as $order){
 			$order["orders.createdon"] = $order["createdon"];
 			$totalAmount = $order["totalamount"];
 			$totalAmount = number_format($totalAmount,2,'.','');
-			$order["totalamount"] =  "Rs. " .$totalAmount;
+			$order["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
+			$pendingAmount = $totalAmount - $order["paidamount"];
+			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
+			$order["totalproducts"] = $order["totalproducts"];
 			array_push($mainArr, $order);
 		}
 		$jsonArr["Rows"] =  $mainArr;

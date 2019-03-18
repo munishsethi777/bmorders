@@ -9,10 +9,13 @@ $orderPaymentDetail = new OrderPaymentDetail();
 $orderMgr = OrderMgr::getInstance();
 $orderPaymentDetailMgr = OrderPaymentDetailMgr::getInstance();
 $orderSeq = 0;
+$orderPaymentPending = 0;
 $order = array();
 if(isset($_POST["orderSeq"])){
 	$orderSeq = $_POST["orderSeq"];
 	$order = $orderMgr->findOrderArr($orderSeq);
+	$paidAmount = $orderPaymentDetailMgr->getOrderPayments($orderSeq, 1);
+	$orderPaymentPending = $order["totalamount"] - $paidAmount;
 }
 $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 ?>
@@ -48,24 +51,20 @@ $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 		                <input type="hidden" id ="seq" name="seq[]"  value="<?php echo $orderPaymentDetail->getSeq()?>"/>
 		                <input type="hidden" id ="orderSeq" name="orderSeq"  value="<?php echo $orderSeq?>"/>
 		               	 <div class="form-group row">
-		                	<label class="col-sm-2">Order Date : </label>
-		                    <div class="col-sm-3">
-		                    	<span><?php echo $order["createdon"]?></span>
-		                    </div>
-		                    <label class="col-sm-2">Customer : </label>
-		                    <div class="col-sm-2">
-		                    	<span><?php echo $order["customername"]?></span>
+		                	<div class="col-sm-4"> 
+			                	<strong>Order #<?php echo $order["seq"]?></strong>
+		                		<div><strong>Dated</strong>: <?php echo $order["createdon"]?></div>
+		                		<div><strong>Total Amount</strong>: Rs. <?php echo number_format($order["totalamount"],2,'.','');?>/-</div>
+		                		<div class="text-danger"><strong>Pending Amount</strong>: Rs. <?php echo number_format($orderPaymentPending,2,'.','');?>/-</div>
+		                	</div>
+		                     <div class="col-sm-8">
+		                    	<strong>Customer</strong>: <span><?php echo $order["customername"]?></span>
+		                    	<?php if(!empty($order["comments"])){?>
+		                    		<div><?php echo $order["comments"]?></div>
+		                    	<?php }?>
 		                    </div>
 		                </div>
-		                <?php if(!empty($order["comments"])){?>
-			                <div class="form-group row">
-			                	<label class="col-sm-2">Comments : </label>
-			                    <div class="col-sm-3">
-			                    	<span><?php echo $order["comments"]?></span>
-			                    </div>
-			                </div>
-		                <?php }?>
-		               	<div class="form-group row">
+		                <div class="form-group row">
 		               		   <div class="col-lg-2">
 			                    	<?php 
 		                             	$select = DropDownUtils::getPaymentModeDD("paymentmode[]", null, "");

@@ -94,12 +94,14 @@
         function loadGrid(customers){
            var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
-				{ text: 'Company', datafield: 'title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
-				{ text: 'Comments', datafield: 'comments',width:"25%"},
-				{ text: 'Amount', datafield: 'totalamount',width:"10%"},
-				{ text: 'Discount', datafield: 'discountpercent',width:"10%"},
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
-				{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
+				{ text: 'Company', datafield: 'title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
+				//{ text: 'Comments', datafield: 'comments',width:"25%"},
+				{ text: 'Amount', datafield: 'totalamount',width:"10%"},
+				{ text: 'Pending', datafield: 'pendingamount',width:"10%"},
+				{ text: 'Qty', datafield: 'totalproducts',width:"10%"},
+				
+				//{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
 				
             ]
            
@@ -114,6 +116,8 @@
                             { name: 'title', type: 'string' },
                             { name: 'comments', type: 'string'},
                             { name: 'totalamount', type: 'string' },
+                            { name: 'pendingamount', type: 'string' },
+                            { name: 'totalproducts', type: 'integer' },
                             { name: 'discountpercent', type: 'string' },
                             { name: 'orders.createdon', type: 'date' },
                             { name: 'ispaymentcompletelypaid', type: 'boolean' }

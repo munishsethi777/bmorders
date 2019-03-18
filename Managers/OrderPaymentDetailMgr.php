@@ -115,6 +115,10 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		return $count;
 	}
 	
-	
+	public function getOrderPayments($orderSeq, $isPaid){
+		$query = "select sum(amount) from orderpaymentdetails where ispaid = $isPaid and orderseq = ". $orderSeq;
+		$response = self::$dataStore->executeCountQueryWithSql($query);
+		return $response;
+	}
 	
 }
