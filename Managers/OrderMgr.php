@@ -85,10 +85,9 @@ class OrderMgr{
 		$flag = self::$dataStore->deleteInList ( $ids );
 		if($flag){
 			$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
-			$orderProductDetailMgr->deleteInListByOrderSeq($ids);
+			$orderProductDetailMgr->deleteAndUpdateStock($ids);
 			self::$logger->info("Order deleted with id(s) ".$ids);
 		}
-		
 		return $flag;
 	}
 	

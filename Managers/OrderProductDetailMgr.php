@@ -56,12 +56,24 @@ class OrderProductDetailMgr{
 	
 	public function deleteByOrderSeq($orderSeq){
 		$colVal["orderseq"] = $orderSeq;
-		self::$dataStore->deleteByAttribute($colVal);
+		return self::$dataStore->deleteByAttribute($colVal);
 	}
 	
 	public function deleteInListByOrderSeq($orderSeqs){
 		$query = "delete from orderproductdetails where orderseq in ($orderSeqs)";
 		self::$dataStore->executeQuery($query);
+	}
+	
+	public function deleteAndUpdateStock($orderSeqs){
+		$orderSeqs = explode(",", $orderSeqs);
+		foreach ($orderSeqs as $orderSeq){
+			$detail = $this->getDetailByOrderSeq($orderSeq);
+			$flag = $this->deleteByOrderSeq($orderSeq);
+			if($flag){
+				$productMgr = ProductMgr::getInstance();
+				$productMgr->updateStockForOnDeleteOrder($detail);
+			}
+		}
 	}
 	
 	
