@@ -2,6 +2,7 @@
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
 Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
 class OrderMgr{
@@ -94,6 +95,8 @@ class OrderMgr{
 		if($flag){
 			$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 			$orderProductDetailMgr->deleteAndUpdateStock($ids);
+			$orderPaymentDtailMgr = OrderPaymentDetailMgr::getInstance();
+			$orderPaymentDtailMgr->deleteByOrderSeqs($ids);
 			self::$logger->info("Order deleted with id(s) ".$ids);
 		}
 		return $flag;

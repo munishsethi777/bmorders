@@ -56,8 +56,8 @@ class OrderPaymentDetailMgr{
 		self::$dataStore->deleteInList($seqs);
 	}
 	
-	public function deleteByOrderSeq($orderSeq){
-		$query = "delete from orderpaymentdetails where orderseq = $orderSeq";
+	public function deleteByOrderSeqs($orderSeqs){
+		$query = "delete from orderpaymentdetails where orderseq in ($orderSeqs)";
 		self::$dataStore->executeQuery($query);
 	}
 	
