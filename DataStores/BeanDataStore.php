@@ -330,6 +330,7 @@ class BeanDataStore {
 			$STH = $conn->prepare ( $query );
 			$STH->execute ();
 			$this->throwException ( $STH->errorInfo () );
+			return true;
 		} catch ( Exception $e ) {
 			$this->logger->error ( "Error occured :" . $e );
 			throw  $e ;
