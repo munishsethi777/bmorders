@@ -98,7 +98,10 @@
 				{ text: 'Company', datafield: 'title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
 				//{ text: 'Comments', datafield: 'comments',width:"25%"},
 				{ text: 'Amount', datafield: 'totalamount',width:"10%"},
-				{ text: 'Pending', datafield: 'pendingamount',width:"10%"},
+				{ text: 'Pending', datafield: 'pendingamount',width:"10%",filterable:false,sortable:false},
+				{ text: 'Qty', datafield: 'totalproducts',width:"10%",filterable:false},
+				
+
 				//{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
 				
             ]
