@@ -2,6 +2,7 @@
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderProductDetail.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ProductMgr.php");
 class OrderProductDetailMgr{
 	private static $OrderProductDetailMgr;
 	private static $dataStore;
@@ -16,13 +17,19 @@ class OrderProductDetailMgr{
 	}
 
 	public function saveOrderProductDetail($orderSeq,$orderDetail){
+		$existingProductDetails = $this->getDetailByOrderSeq($orderSeq);
 		$this->deleteByOrderSeq($orderSeq);
 		$products = $orderDetail["products"];
 		$priceArr = $orderDetail["price"];
 		$quantityArr = $orderDetail["quantity"];
+		$stocks = $orderDetail["stock"];
+		$productMgr = ProductMgr::getInstance();
+		$productQtyArr = array();
 		foreach ($products as $key=>$product){
 			$price = $priceArr[$key];
 			$qty = $quantityArr[$key];
+			$stock = $stocks[$key];
+			$existingQty = 0;
 			if(!empty($price) && !empty($qty)){
 				$orderProductDetail = new OrderProductDetail();
 				$orderProductDetail->setOrderSeq($orderSeq);
@@ -30,9 +37,20 @@ class OrderProductDetailMgr{
 				$orderProductDetail->setProductSeq($product);
 				$orderProductDetail->setQuantity($qty);
 				$id = self::$dataStore->save($orderProductDetail);
+				if($id > 0){
+					if(isset($existingProductDetails[$product])){
+// 						$existingQty = $existingProductDetails[$product][0]["quantity"];
+// 						$stock =  $stock + $existingQty;
+						unset($existingProductDetails[$product]);
+					}
+					$stock = $stock - $qty;
+					$productMgr->updateStock($stock, $product);
+				}
 			}
 		}
-		
+		if(!empty($existingProductDetails)){
+			$productMgr->updateStockForOnDeleteOrder($existingProductDetails);
+		}
 		return $id;
 	}
 	
@@ -47,10 +65,23 @@ class OrderProductDetailMgr{
 	}
 	
 	
+	public function getDetailByOrderSeq($orderSeq){
+		$query = "select * from orderproductdetails where orderseq =  $orderSeq";
+		$orderDetails = self::$dataStore->executeQuery($query,false,true);
+		$orderDetails = $this->_group_by($orderDetails,"productseq");
+		return $orderDetails;
+	}
 	
+	function _group_by($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val[$key]][] = $val;
+		}
+		return $return;
+	}
 	
 	public function findByOrderSeq($orderSeq){
-		$query = "SELECT orderproductdetails.*,products.title, products.measuringunit, products.quantity, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
+		$query = "SELECT orderproductdetails.*,products.stock,products.seq as productseq ,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
 inner join products on orderproductdetails.productseq = products.seq  
 inner join productflavours on products.flavourseq = productflavours.seq 
 inner join productbrands on products.brandseq = productbrands.seq

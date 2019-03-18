@@ -101,5 +101,19 @@ class ProductMgr{
 		$products = $this->findAllWithAttributeTitles(true);
 		ExportUtil::exportProducts($products);
 	}
+	
+	public function updateStock($stock,$seq){
+		$attr["stock"] = $stock;
+		$colVal["seq"] = $seq;
+		return self::$dataStore->updateByAttributesWithBindParams($attr,$colVal);
+	}
+	
+	public function updateStockForOnDeleteOrder($productQtyArr){
+		foreach ($productQtyArr as $product=>$qtyArr){
+			$qty = $qtyArr[0]["quantity"];
+			$query = "update products set stock = stock + $qty WHERE seq = $product";
+			self::$dataStore->executeQuery($query);
+		}
+	}
 
 }
