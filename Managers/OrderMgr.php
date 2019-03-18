@@ -31,10 +31,9 @@ class OrderMgr{
 	public function getAllOrdersForGrid(){
 		$sessionUtil = SessionUtil::getInstance();
 		$isRepersentative = $sessionUtil->isRepresentative();
-		$query = "SELECT sum(orderpaymentdetails.amount) paidamount,sum(orderproductdetails.quantity) totalproducts, orders.*,customers.title FROM orders 
+		$query = "SELECT sum(orderpaymentdetails.amount) paidamount, orders.*,customers.title FROM orders 
 			inner join customers on orders.customerseq = customers.seq
-			left join orderpaymentdetails on orders.seq  = orderpaymentdetails.orderseq and orderpaymentdetails.ispaid = 1
-			left join orderproductdetails on orders.seq = orderproductdetails.orderseq ";
+			left join orderpaymentdetails on orders.seq  = orderpaymentdetails.orderseq and orderpaymentdetails.ispaid = 1";
 		//$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
 		if($isRepersentative){
 			$userSeq = $sessionUtil->getUserLoggedInSeq();
@@ -45,15 +44,14 @@ class OrderMgr{
 		$orders = self::$dataStore->executeQuery($query,true);
 		$mainArr = array();
 		foreach ($orders as $order){
-			$orderArr["orders.createdon"] = $order["createdon"];
+			$order["orders.createdon"] = $order["createdon"];
 			$totalAmount = $order["totalamount"];
 			$totalAmount = number_format($totalAmount,2,'.','');
 			$pendingAmount = $totalAmount - $order["paidamount"];
 			
-			$orderArr["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
-			$orderArr["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
-			$orderArr["totalproducts"] = $order["totalproducts"];
-			array_push($mainArr, $orderArr);
+			$order["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
+			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
+			array_push($mainArr, $order);
 		}
 		$jsonArr["Rows"] =  $mainArr;
 		$jsonArr["TotalRows"] = $this->getCount();
