@@ -205,12 +205,14 @@ class ExportUtil{
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Date");
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Amount");
+		
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Title");
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Description");
 		$count = 2;
 		$i = 0;
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('B2:B'.count($expenseLogs))->getNumberFormat()->setFormatCode('#,##0.00');
 		foreach($expenseLogs as $expenseLog){
 			$colName = $alphas[$i++]. $count;
 			$createOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$expenseLog->getCreatedOn());
@@ -218,8 +220,9 @@ class ExportUtil{
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $createOnStr);
 				
 			$colName = $alphas[$i++]. $count;
-			$amount = number_format($expenseLog->getAmount(),2,'.','');
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $amount);
+			//$amount = number_format($expenseLog->getAmount(),2,'.','');
+			
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseLog->getAmount());
 	
 			$colName = $alphas[$i++]. $count;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseLog->getTitle());
