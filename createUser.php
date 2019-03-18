@@ -3,7 +3,7 @@ require_once('IConstants.inc');
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/UserMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/UserCompanyMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/CustomerMgr.php");
-require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropDownUtil.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropdownUtil.php");
 
 $user = new User();
 $userMgr = UserMgr::getInstance();

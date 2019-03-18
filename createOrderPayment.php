@@ -3,7 +3,7 @@ include("SessionCheck.php");
 require_once('IConstants.inc');
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderPaymentDetailMgr.php");
-require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropDownUtil.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropdownUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/PaymentMode.php");
 $orderPaymentDetail = new OrderPaymentDetail();
 $orderMgr = OrderMgr::getInstance();
