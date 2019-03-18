@@ -1,11 +1,12 @@
-<?include("SessionCheck.php");
+<?php 
+include("SessionCheck.php");
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users List</title>
+    <title>Order Payments</title>
     <?include "ScriptsInclude.php"?>
 </head>
 <body>
@@ -21,11 +22,11 @@
 	                    	 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 									href="#"><i class="fa fa-bars"></i> </a>
-									<h4 class="p-h-sm font-normal"> Users Informaiton</h4>
+									<h4 class="p-h-sm font-normal"> Order Payments</h4>
 							</nav>
 	                    </div>
 	                    <div class="ibox-content">
-	                        <div id="userGrid" style="margin-top:8px"></div>
+	                        <div id="orderPaymentDetailGrid" style="margin-top:8px"></div>
 	                    </div>
 	                </div>
 	            </div>
@@ -41,9 +42,9 @@
 	<script type="text/javascript">
 	 isSelectAll = false;
         $(document).ready(function(){
-           $.getJSON("Actions/UserAction.php?call=getUserTypes",function( response ){
-            	loadGrid(response)
-           }) 
+           //$.getJSON("Actions/UserAction.php?call=getUserTypes",function( response ){
+            	loadGrid()
+           //}) 
            $('.i-checks').iCheck({
 	        	checkboxClass: 'icheckbox_square-green',
 	        	radioClass: 'iradio_square-green',
@@ -89,15 +90,18 @@
             }
         }
         
-        function loadGrid(userTypes){
+        function loadGrid(){
          	var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
-				{ text: 'Email', datafield: 'emailid', width:"25%"}, 	
-				{ text: 'FullName', datafield: 'fullname',width:"15%"},
-				{ text: 'Mobile', datafield: 'mobile',width:"10%"},
-				{ text: 'Type', datafield: 'usertype',width:"12%",filtertype: 'checkedlist',filteritems:userTypes},
-				{ text: 'Created On', datafield: 'createdon',width:"17%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
-				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"17%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
+				{ text: 'Order No.', datafield: 'orders.seq', width:"8%"}, 	
+				{ text: 'Customer', datafield: 'customers.title',width:"17%"},
+				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+				{ text: 'Amount', datafield: 'amount',width:"8%"},
+				{ text: 'Payment Mode', datafield: 'paymentmode',width:"10%"},
+				{ text: 'Payment Date', datafield: 'orderpaymentdetails.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+				{ text: 'Paid', datafield: 'ispaid',width:"5%",columntype:'checkbox',filtertype: 'bool'},
+				{ text: 'Confirmed', datafield: 'isconfirmed',width:"7%",columntype:'checkbox',filtertype: 'bool'},
+				{ text: 'Expected Date', datafield: 'expectedon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =
@@ -105,19 +109,22 @@
                 datatype: "json",
                 id: 'id',
                 pagesize: 20,
-                sortcolumn: 'lastmodifiedon',
+                sortcolumn: 'orderpaymentdetails.createdon',
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
-                            { name: 'emailid', type: 'string' },
-                            { name: 'password', type: 'string'},
-                            { name: 'fullname', type: 'string' },
-                            { name: 'mobile', type: 'string' },
-                            { name: 'usertype', type: 'string' },
+                            { name: 'orders.seq', type: 'string' },
+                            { name: 'customers.title', type: 'string'},
+                            { name: 'orders.createdon', type: 'date' },
+                            { name: 'amount', type: 'string' },
+                            { name: 'paymentmode', type: 'string' },
+                            { name: 'ispaid', type: 'integer' },
+                            { name: 'isconfirmed', type: 'integer' },
                             { name: 'createdon', type: 'date' },
-                            { name: 'lastmodifiedon', type: 'date' },
+                            { name: 'expectedon', type: 'date' },
+                            { name: 'orderpaymentdetails.createdon', type: 'date' },
                             { name: 'Enabled', type: 'integer' },
                             ],                          
-                url: 'Actions/UserAction.php?call=getAllUsers',
+                url: 'Actions/OrderPaymentDetailAction.php?call=getOrderPaymentDetails',
                 root: 'Rows',
                 cache: false,
                 beforeprocessing: function(data)
@@ -127,18 +134,18 @@
                 filter: function()
                 {
                     // update the grid and send a request to the server.
-                    $("#userGrid").jqxGrid('updatebounddata', 'filter');
+                    $("#orderPaymentDetailGrid").jqxGrid('updatebounddata', 'filter');
                 },
                 sort: function()
                 {
                     // update the grid and send a request to the server.
-                    $("#userGrid").jqxGrid('updatebounddata', 'sort');
+                    $("#orderPaymentDetailGrid").jqxGrid('updatebounddata', 'sort');
                 }
             };
             
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
-            $("#userGrid").jqxGrid(
+            $("#orderPaymentDetailGrid").jqxGrid(
             {
             	width: '100%',
     			height: '75%',
@@ -162,44 +169,22 @@
                 renderstatusbar: function (statusbar) {
                     // appends buttons to the status bar.
                     var container = $("<div style='overflow: hidden; position: relative; margin: 5px;height:30px'></div>");
-                    var addButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-plus-square'></i><span style='margin-left: 4px; position: relative;'>    Add</span></div>");
-                    var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
-                    var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
-					
-
-                    container.append(addButton);
-                    container.append(editButton);
-                    container.append(deleteButton);
+                    var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    
+                    container.append(reloadButton);
+                    container.append(exportButton);
 
                     statusbar.append(container);
-                    addButton.jqxButton({  width: 65, height: 18 });
-                    deleteButton.jqxButton({  width: 70, height: 18 });
-                    editButton.jqxButton({  width: 65, height: 18 });
-
-                    // create new row.
-                    addButton.click(function (event) {
-                        location.href = ("createUser.php");
+                    reloadButton.jqxButton({  width: 65, height: 18 });
+                    exportButton.jqxButton({  width: 65, height: 18 });
+                   
+                    exportButton.click(function (event) {
+						filterQstr = getFilterString("orderPaymentDetailGrid");
+						exportCustomers(filterQstr);
                     });
-                    // update row.
-                    editButton.click(function (event){
-                    	var selectedrowindex = $("#userGrid").jqxGrid('selectedrowindexes');
-                        var value = -1;
-                        indexes = selectedrowindex.filter(function(item) { 
-                            return item !== value
-                        })
-                        if(indexes.length != 1){
-                            bootbox.alert("Please Select single row for edit.", function() {});
-                            return;    
-                        }
-                        var row = $('#userGrid').jqxGrid('getrowdata', indexes);
-                        $("#seq").val(row.seq);                        
-                        $("#form1").submit();    
-                    });
-                    // delete row.
-                    deleteButton.click(function (event) {
-                        gridId = "userGrid";
-                        deleteUrl = "Actions/UserAction.php?call=deleteUsers";
-                        deleteUsers(gridId,deleteUrl);
+                    reloadButton.click(function (event) {
+                    	$("#orderPaymentDetailGrid").jqxGrid({ source: dataAdapter });
                     });
                 }
             });

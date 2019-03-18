@@ -11,6 +11,7 @@ $isChangePassword="";
 $isSettings = "";
 $isCashBook = "";
 $isUsers = "";
+$isShowOrderPayment = "";
 $parts = Explode('/', $_SERVER["PHP_SELF"]);
 $file =  $parts[count($parts) - 1];
 
@@ -38,6 +39,8 @@ if($file == "dashboard.php"){
 	$isChangePassword = "active";
 }elseif($file == "adminSettings.php"){
 	$isSettings = "active";
+}elseif($file == "showOrderPayment.php"){
+	$isShowOrderPayment = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
 $userType = $sessionUtil->getUserLoggedInUserType();
@@ -97,6 +100,11 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                     </a>
                 </li>
                  <?php if($userType != UserType::getName(UserType::representative)){?>
+                 	<li class="<?php echo $isShowOrderPayment;?>">
+	                    <a href="showOrderPayments.php"><i class="fa fa-cog"></i> 
+	                    	<span class="nav-label">Order Payments</span>  
+	                    </a>
+	                </li>
 	                <li class="<?php echo $isCashBook;?>">
 	                    <a href="showCashBook.php"><i class="fa fa-money"></i> 
 	                    	<span class="nav-label">Cash Book</span>  

@@ -102,6 +102,11 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
             	
                 // get the filter's value.
                 $filtervalue = $_GET["filtervalue" . $i];
+                if($filtervalue == "true"){
+                	$filtervalue = 1;
+                }else{
+                	$filtervalue = 0;
+                }
                 // get the filter's condition.
                 $filtercondition = $_GET["filtercondition" . $i];
                 // get the filter's column.
@@ -180,7 +185,8 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                     case "GREATER_THAN_OR_EQUAL":
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
                     	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
-                    	if($lastModifiedPos !== false || $createdOnPos !== false){
+                    	$expectedOnPos = strpos(strtolower ($filterdatafield),'expectedon');
+                    	if($lastModifiedPos !== false || $createdOnPos !== false || $expectedOnPos !== false){
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		if(!$bookedOn){
                     			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
@@ -192,7 +198,8 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                     case "LESS_THAN_OR_EQUAL":
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
                     	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
-                    	if($lastModifiedPos !== false ||  $createdOnPos !== false){
+                    	$expectedOnPos = strpos(strtolower ($filterdatafield),'expectedon');
+                    	if($lastModifiedPos !== false ||  $createdOnPos !== false ||  $expectedOnPos !== false){
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		if(!$bookedOn){
                     			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
