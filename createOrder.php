@@ -228,7 +228,7 @@ function addRow(isLoadProducts,value){
 		html += '</select> <label class="jqx-validator-error-label" id="lpError"></label>';
 		html += '</div>';
 		html += '<div class="col-lg-1 col-form-label">';
-      	html += '<div id="stockSpan">'+stock+'</div>';
+      	html += '<div id="stockSpan">'+stockStr+'</div>';
         html += '</div>';
  		html += '<div class="col-lg-1">';
 	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Rs."  class="form-control">';
