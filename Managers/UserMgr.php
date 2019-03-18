@@ -2,9 +2,14 @@
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/UserCompanyMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
+Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
+
+
 class UserMgr{
 	private static $userMgr;
 	private static $userDataStore;
+	private static $logger;
 	
 	public static function getInstance()
 	{
@@ -12,6 +17,7 @@ class UserMgr{
 		{
 			self::$userMgr = new UserMgr();
 			self::$userDataStore = new BeanDataStore(User::$className,User::$tableName);
+			self::$logger = Logger::getLogger("logger");
 		}
 		return self::$userMgr;
 	}
@@ -21,6 +27,7 @@ class UserMgr{
 		if(!empty($id)){
 			$userCompanyMgr = UserCompanyMgr::getInstance();
 			$userCompanyMgr->saveFromUser($id, $customers);
+			self::$logger->info("User ".$user->getEmailId()." saved for customers ". $customers);
 		}
 	}
 	
@@ -48,6 +55,7 @@ class UserMgr{
 		$conditionVal["emailid"] = $username;
 		$admin = self::$userDataStore->executeConditionQuery($conditionVal);
 		if(!empty($admin)){
+			self::$logger->info("User ".$username." logged in successfully");
 			return $admin[0];
 		}
 		return null;

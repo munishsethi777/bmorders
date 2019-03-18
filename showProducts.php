@@ -21,7 +21,7 @@
 	                    	 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 									href="#"><i class="fa fa-bars"></i> </a>
-									<h4 class="p-h-sm font-normal"> Products Informaiton</h4>
+									<h4 class="p-h-sm font-normal"> Products Information</h4>
 							</nav>
 	                    </div>
 	                    <div class="ibox-content">

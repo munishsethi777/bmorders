@@ -7,20 +7,9 @@
 
   <appender name="myFileAppender" class="LoggerAppenderFile">
     <layout class="LoggerLayoutTTCC" />
-    <param name="file" value="/Applications/XAMPP/xamppfiles/htdocs/dinner/logs/log.log" />
+    <param name="file" value="/Applications/XAMPP/xamppfiles/htdocs/bmorders/logs/log.log" />
     <param name="maxFileSize" value="5MB" />
   </appender>
-  <!--<appender name="myDBAppender" class="LoggerAppenderPDO">
-    <layout class="LoggerLayoutTTCC" />
-    <param name="dsn"
-    value="mysql:host=localhost;dbname=ezae1" />
-    <param name="user" value="root" />
-    <param name="password" value="password" />
-    <param name="table" value="my_log" />
-  </appender>
-  <logger name="myDBLogger">
-    <appender_ref ref="myDBAppender" />
-  </logger>-->
   <logger name="logger">
     <appender_ref ref="myFileAppender" />
   </logger>

@@ -2,15 +2,18 @@
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
+Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
 class OrderMgr{
 	private static $orderMgr;
 	private static $dataStore;
 	private static $sessionUtil;
-
+	private static $logger;
 	public static function getInstance(){
 		if (!self::$orderMgr){
 			self::$orderMgr = new OrderMgr();
 			self::$dataStore = new BeanDataStore(Order::$className, Order::$tableName);
+			self::$logger = Logger::getLogger("logger");
 		}
 		return self::$orderMgr;
 	}
@@ -20,6 +23,7 @@ class OrderMgr{
 		if($id > 0){
 			$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 			$orderProductDetailMgr->saveOrderProductDetail($id, $productDetail);
+			self::$logger->info("Order saved with id ".$id);
 		}
 		return $id;
 	}
@@ -82,7 +86,9 @@ class OrderMgr{
 		if($flag){
 			$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 			$orderProductDetailMgr->deleteInListByOrderSeq($ids);
+			self::$logger->info("Order deleted with id(s) ".$ids);
 		}
+		
 		return $flag;
 	}
 	
