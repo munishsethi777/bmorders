@@ -51,7 +51,7 @@ class OrderMgr{
 			$order["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
 			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
 			$order["customers.title"] = $order["customer"];
-			array_push($mainArr, $orderArr);
+			array_push($mainArr, $order);
 		}
 		$jsonArr["Rows"] =  $mainArr;
 		$jsonArr["TotalRows"] = $this->getCount();

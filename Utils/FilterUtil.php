@@ -231,10 +231,14 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                 $tmpfilteroperator = $filteroperator;
                 $tmpdatafield = $filterdatafield;            
             }
-            // build the query.
-            //if($filterdatafield != "menus.title" || !$isMenuField){
-            	$query = $query . $where;
-            //}
+            $groupByPos = strpos(strtolower ($query),'group by');
+            $groupBy = "";
+            if ($groupByPos !== false) {
+            	$q = substr($query, 0,$groupByPos). " ";
+            	$groupBy = substr($query,$groupByPos) ;
+            	$query = $q;
+            }
+           	$query = $query . $where ." " . $groupBy;
         }
         
         

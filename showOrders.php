@@ -101,7 +101,6 @@
 				{ text: 'Pending', datafield: 'pendingamount',width:"10%",filterable:false,sortable:false},
 				{ text: 'Qty', datafield: 'totalproducts',width:"10%",filterable:false},
 				
-
 				//{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
 				
             ]
@@ -118,6 +117,7 @@
                             { name: 'comments', type: 'string'},
                             { name: 'totalamount', type: 'string' },
                             { name: 'pendingamount', type: 'string' },
+                            { name: 'totalproducts', type: 'integer' },
                             { name: 'discountpercent', type: 'string' },
                             { name: 'orders.createdon', type: 'date' },
                             { name: 'ispaymentcompletelypaid', type: 'boolean' }
