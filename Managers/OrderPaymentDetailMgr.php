@@ -89,6 +89,32 @@ class OrderPaymentDetailMgr{
 		return  json_encode($paymentModes);
 	}
 	
+	public function getAllPaymentsForGrid(){
+		$query = 'select orderpaymentdetails.*,orders.seq as ordernumber,orders.createdon as orderdate,customers.title as customer from orderpaymentdetails
+inner join orders on orders.seq = orderpaymentdetails.orderseq inner join customers on customers.seq = orders.customerseq';
+		$payments = self::$dataStore->executeQuery($query,true);
+		$mainArr = array();
+		foreach ($payments as  $payment){
+			$payment["orders.seq"] = $payment["ordernumber"];
+			$payment["orders.createdon"] = $payment["orderdate"];
+			$payment["customers.title"] = $payment["customer"];
+			$payment["orderpaymentdetails.createdon"] = $payment["createdon"];
+			$amount = number_format($payment["amount"],2,'.','');
+			//$payment["ispaid"] = !empty($payment["ispaid"]);
+			$payment["amount"] = $amount;
+			array_push($mainArr, $payment);
+		}
+		$jsonArr["Rows"] =  $mainArr;
+		$jsonArr["TotalRows"] = $this->getAllCount();
+		return $jsonArr;
+	}
+	
+	public function getAllCount(){
+		$query = 'select count(*) from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq inner join customers on customers.seq = orders.customerseq';
+		$count = self::$dataStore->executeCountQueryWithSql($query,true);
+		return $count;
+	}
+	
 	
 	
 }

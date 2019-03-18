@@ -30,6 +30,11 @@ if($call == "getDetailByOrderSeq"){
 	echo json_encode($paymentDetail);
 	return;
 }
+if($call == "getOrderPaymentDetails"){
+	$payments = $oderPaymentDetailMgr->getAllPaymentsForGrid();
+	echo json_encode($payments);
+	return;
+}
 $response["success"] = $success;
 $response["message"] = $message;
 echo json_encode($response);
