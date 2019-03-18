@@ -13,7 +13,6 @@ if(isset($_POST["seq"])){
 	$order = $orderMgr->findBySeq($seq);
 	$selectedCustomerSeq = $order->getCustomerSeq();
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,13 +76,13 @@ if(isset($_POST["seq"])){
 				                    	</select> <label class="jqx-validator-error-label" id="lpError"></label>
 				                    </div>
 				                    <div class="col-lg-1 col-form-label">
-				                  	 	<span id="stockSpan">0</span><small> Available</small>
+				                  	 	<div id="stockSpan"></div>
 					                </div>
 				                    <div class="col-lg-1">
 				                  	 	<input type="text" value="" onchange="calculateAmount()"  id="price" name="price[]" required placeholder="Rs."  class="form-control">
 					                </div>
 					                <div class="col-lg-1">
-				                  	 	<input type="text" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="qty"  class="form-control">
+				                  	 	<input type="text" value=""  id="quantity" onchange="calculateAmount()" name="quantity[]" required placeholder="Qty."  class="form-control">
 					                </div>
 					               <div class="col-lg-1"> 
                                     	<a onClick="addRow(true)" title="Add More Product" href="#"><i class="fa fa-plus"> more</i></a> 
@@ -201,13 +200,17 @@ function loadProducts(selectedSeq){
 	    });
 	   $('.produtSelect2').on('select2:select', function (e) {
 	  		 selectProduct(this);
-	  });
+	   });
+	   $(".produtSelect2").on("select2:unselect", function (e) {
+		   unSelectProduct(this);
+ 	   });
 }
 function addRow(isLoadProducts,value){
 	var quantity = "";
 	var selectedProduct = "";
 	var price = "";
-	var stock = 0;
+	var stock ="";
+	var stockStr = ""
 	if(value != null){
 		 productSeq = value.productseq	
 		 productTitle = value.title
@@ -215,6 +218,7 @@ function addRow(isLoadProducts,value){
 		 price = value.price;
 		 quantity = value.quantity;
 		 stock = parseInt(value.stock) + parseInt(value.quantity);
+		 stockStr = stock + "<small> Available</small>";
 	}
  	var html = '<div id="productRow" class="form-group row">';
  		html += '<label class="col-lg-1 col-form-label"></label>';
@@ -224,18 +228,18 @@ function addRow(isLoadProducts,value){
 		html += '</select> <label class="jqx-validator-error-label" id="lpError"></label>';
 		html += '</div>';
 		html += '<div class="col-lg-1 col-form-label">';
-      	html += '<span id="stockSpan">'+stock+'</span><small> Available</small>';
+      	html += '<div id="stockSpan">'+stock+'</div>';
         html += '</div>';
  		html += '<div class="col-lg-1">';
-	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Price"  class="form-control">';
+	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Rs."  class="form-control">';
 		html += '</div>'
 		html += '<div class="col-lg-1">';
-	 	html += '<input type="text" value="'+quantity+'" onchange="calculateAmount()"  id="quantity" name="quantity[]" placeholder="Quantity"  class="form-control">';
+	 	html += '<input type="text" value="'+quantity+'" onchange="calculateAmount()"  id="quantity" name="quantity[]" placeholder="Qty."  class="form-control">';
 		html += '</div>'; 
 		html += '<label class="col-lg-1 col-form-label">'; 
 		html += '<a onClick="removeRow(this)" href="#"><i class="fa fa-times"></i></a>';
 		html += '</label>';
-		html += '<input type="hidden" value="'+stock+'" id ="stock" name="stock[]"/></div>';
+		html += '<input type="hidden" value="'+stockStr+'" id ="stock" name="stock[]"/></div>';
  	$("#productDiv1").append(html);
  	if(isLoadProducts){
  		loadProducts();
@@ -289,11 +293,19 @@ function selectProduct(productDD){
 	 var productSeq = productDD.value;
 	 $.getJSON("Actions/ProductAction.php?call=getProductBySeq&seq="+productSeq,function( response ){
 		 var price = response.price;
-		 var stock = response.stock;
+		 var stock = response.stock + " <small> Available</small>";
 		 $(productDD).closest("div.form-group").find("input[name='price[]']").val(price);
-		 $(productDD).closest("div.form-group").find("#stockSpan").text(stock);
-		 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(stock);
+		 $(productDD).closest("div.form-group").find("#stockSpan").html(stock);
+		 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(response.stock);
+		 calculateAmount();
      }) 
+}
+function unSelectProduct(productDD){
+	 $(productDD).closest("div.form-group").find("input[name='price[]']").val("");
+	 $(productDD).closest("div.form-group").find("#stockSpan").html("");
+	 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(""); 
+	 $(productDD).closest("div.form-group").find("input[name='quantity[]']").val("");
+	 calculateAmount();
 }
 
 function calculateAmount(){
@@ -339,7 +351,8 @@ function getOrderDetail(seq){
  	 	 	 	$("#price").val(value.price);
  	 	 		$("#quantity").val(value.quantity);
  	 	 		var stock = parseInt(value.stock) + parseInt(value.quantity);
- 	 	 		$("#stockSpan").text(stock);
+ 	 	 		var stockStr = stock + "<small> Available</small>";
+ 	 	 		$("#stockSpan").html(stockStr);
  	 	 		$("#stock").val(stock);
  	 	 	 }else{
  			 	addRow(false,value);
