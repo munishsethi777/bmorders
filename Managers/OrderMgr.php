@@ -45,14 +45,15 @@ class OrderMgr{
 		$orders = self::$dataStore->executeQuery($query,true);
 		$mainArr = array();
 		foreach ($orders as $order){
-			$order["orders.createdon"] = $order["createdon"];
+			$orderArr["orders.createdon"] = $order["createdon"];
 			$totalAmount = $order["totalamount"];
 			$totalAmount = number_format($totalAmount,2,'.','');
-			$order["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
 			$pendingAmount = $totalAmount - $order["paidamount"];
-			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
-			$order["totalproducts"] = $order["totalproducts"];
-			array_push($mainArr, $order);
+			
+			$orderArr["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
+			$orderArr["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
+			$orderArr["totalproducts"] = $order["totalproducts"];
+			array_push($mainArr, $orderArr);
 		}
 		$jsonArr["Rows"] =  $mainArr;
 		$jsonArr["TotalRows"] = $this->getCount();
