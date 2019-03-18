@@ -165,16 +165,19 @@
                     var addButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-plus-square'></i><span style='margin-left: 4px; position: relative;'>    Add</span></div>");
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
-					
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    
 
                     container.append(addButton);
                     container.append(editButton);
                     container.append(deleteButton);
+                    container.append(reloadButton);
 
                     statusbar.append(container);
                     addButton.jqxButton({  width: 65, height: 18 });
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
+                    reloadButton.jqxButton({  width: 65, height: 18 });
 
                     // create new row.
                     addButton.click(function (event) {
@@ -200,6 +203,9 @@
                         gridId = "userGrid";
                         deleteUrl = "Actions/UserAction.php?call=deleteUsers";
                         deleteUsers(gridId,deleteUrl);
+                    });
+                    reloadButton.click(function (event) {
+                    	$("#userGrid").jqxGrid({ source: dataAdapter });
                     });
                 }
             });
