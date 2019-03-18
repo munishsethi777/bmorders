@@ -96,6 +96,7 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		$mainArr = array();
 		foreach ($payments as  $payment){
 			$payment["orders.seq"] = $payment["ordernumber"];
+			$payment["orderseq"] = $payment["ordernumber"];
 			$payment["orders.createdon"] = $payment["orderdate"];
 			$payment["customers.title"] = $payment["customer"];
 			$payment["orderpaymentdetails.createdon"] = $payment["createdon"];

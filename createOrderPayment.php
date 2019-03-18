@@ -11,11 +11,13 @@ $orderPaymentDetailMgr = OrderPaymentDetailMgr::getInstance();
 $orderSeq = 0;
 $orderPaymentPending = 0;
 $order = array();
+$isEdit = false;
 if(isset($_POST["orderSeq"])){
 	$orderSeq = $_POST["orderSeq"];
 	$order = $orderMgr->findOrderArr($orderSeq);
 	$paidAmount = $orderPaymentDetailMgr->getOrderPayments($orderSeq, 1);
 	$orderPaymentPending = $order["totalamount"] - $paidAmount;
+	$isEdit = isset($_POST["isEdit"]);
 }
 $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 ?>
@@ -151,7 +153,11 @@ function submitOrderPayment(action){
     		 var obj = $.parseJSON(data);
     		 showResponseToastr(data,null,"cashBookForm","mainDiv");
     		 if(obj.success == 1 && action == "save"){
- 		    	location.href = "showOrders.php";
+        		<?php if($isEdit){?>
+ 		    		location.href = "showOrderPayments.php";
+ 		    	<?php }else{?>
+ 		    		location.href = "showOrders.php";
+ 		    	<?}?>
  		     }   
     	 });
 	}else{
@@ -159,7 +165,11 @@ function submitOrderPayment(action){
 	}
 }
 function cancel(){
-	location.href = "showOrders.php";
+	<?php if($isEdit){?>
+		location.href = "showOrderPayments.php";
+	<?php }else{?>
+		location.href = "showOrders.php";
+	<?}?>
 }
 function removeRow(btn){
 	$(btn).closest("#paymentModeDiv").remove();
