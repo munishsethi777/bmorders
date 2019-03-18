@@ -239,7 +239,7 @@ function addRow(isLoadProducts,value){
 		html += '<label class="col-lg-1 col-form-label">'; 
 		html += '<a onClick="removeRow(this)" href="#"><i class="fa fa-times"></i></a>';
 		html += '</label>';
-		html += '<input type="hidden" value="'+stockStr+'" id ="stock" name="stock[]"/></div>';
+		html += '<input type="hidden" value="'+stock+'" id ="stock" name="stock[]"/></div>';
  	$("#productDiv1").append(html);
  	if(isLoadProducts){
  		loadProducts();
