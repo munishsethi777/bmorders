@@ -96,7 +96,7 @@ class CustomerMgr{
 	}
 	
 	public function getAllCustomerTitles(){
-		$query = "select title from customers";
+		$query = "select title,seq from customers";
 		$sessionUtil = SessionUtil::getInstance();
 		$isRep = $sessionUtil->isRepresentative();
 		if($isRep){
@@ -114,6 +114,14 @@ class CustomerMgr{
 		$_GET = array_merge($_GET,$output);
 		$customers =self::$dataStore->findAll(true);
 		ExportUtil::exportCustomers($customers);
+	}
+	
+	function groupByCustomerSeq($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val[$key]] = $val["title"];
+		}
+		return $return;
 	}
 
 }

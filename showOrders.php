@@ -95,7 +95,7 @@
            var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
-				{ text: 'Company', datafield: 'title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
+				{ text: 'Company', datafield: 'customers.title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
 				//{ text: 'Comments', datafield: 'comments',width:"25%"},
 				{ text: 'Amount', datafield: 'totalamount',width:"10%"},
 				{ text: 'Pending', datafield: 'pendingamount',width:"10%",filterable:false,sortable:false},
@@ -114,7 +114,7 @@
                 sortcolumn: 'orders.createdon',
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
-                            { name: 'title', type: 'string' },
+                            { name: 'customers.title', type: 'string' },
                             { name: 'comments', type: 'string'},
                             { name: 'totalamount', type: 'string' },
                             { name: 'pendingamount', type: 'string' },

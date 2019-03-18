@@ -31,7 +31,7 @@ class OrderMgr{
 	public function getAllOrdersForGrid(){
 		$sessionUtil = SessionUtil::getInstance();
 		$isRepersentative = $sessionUtil->isRepresentative();
-		$query = "SELECT sum(orderpaymentdetails.amount) paidamount, orders.*,customers.title FROM orders 
+		$query = "SELECT sum(orderpaymentdetails.amount) paidamount, orders.*,customers.title as customer FROM orders 
 			inner join customers on orders.customerseq = customers.seq
 			left join orderpaymentdetails on orders.seq  = orderpaymentdetails.orderseq and orderpaymentdetails.ispaid = 1";
 		//$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
@@ -48,10 +48,10 @@ class OrderMgr{
 			$totalAmount = $order["totalamount"];
 			$totalAmount = number_format($totalAmount,2,'.','');
 			$pendingAmount = $totalAmount - $order["paidamount"];
-			
 			$order["totalamount"] =  "<span class='text-success pull-right'>" .$totalAmount. "</span>";
 			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
-			array_push($mainArr, $order);
+			$order["customers.title"] = $order["customer"];
+			array_push($mainArr, $orderArr);
 		}
 		$jsonArr["Rows"] =  $mainArr;
 		$jsonArr["TotalRows"] = $this->getCount();

@@ -734,3 +734,295 @@ Stack trace:
 #1 /Applications/XAMPP/xamppfiles/htdocs/dinner/Managers/DiscountCouponMgr.php(53): BeanDataStore->deleteInList('5')
 #2 /Applications/XAMPP/xamppfiles/htdocs/dinner/Actions/DiscountCouponAction.php(66): DiscountCouponMgr->deleteBySeqs('5')
 #3 {main}
+Mon Mar 18 10:50:13 2019,153 [14339] INFO logger - Deleted Order object successfully : delete from orders where seq in(14). Deleted Flag: 1
+Mon Mar 18 10:51:31 2019,878 [92902] INFO logger - New Order object saved {"comments":"e","customerseq":"8","discountpercent":"","totalamount":"6000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 10:51:31"}. ID - 15
+Mon Mar 18 10:51:35 2019,774 [92902] INFO logger - New OrderProductDetail object saved {"orderseq":"15","price":"3000","productseq":"19","quantity":"2"}. ID - 118
+Mon Mar 18 10:51:35 2019,785 [92902] INFO logger - Order saved with id 15
+Mon Mar 18 10:52:51 2019,016 [14212] INFO logger - Deleted Order object successfully : delete from orders where seq in(15). Deleted Flag: 1
+Mon Mar 18 10:53:29 2019,970 [57157] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"6000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 10:53:29"}. ID - 16
+Mon Mar 18 10:53:29 2019,980 [57157] INFO logger - New OrderProductDetail object saved {"orderseq":"16","price":"3000","productseq":"19","quantity":"2"}. ID - 119
+Mon Mar 18 10:53:29 2019,984 [57157] INFO logger - Order saved with id 16
+Mon Mar 18 10:53:39 2019,167 [72526] INFO logger - Deleted Order object successfully : delete from orders where seq in(16). Deleted Flag: 1
+Mon Mar 18 10:54:07 2019,410 [72526] INFO logger - Order deleted with id(s) 16
+Mon Mar 18 10:54:31 2019,130 [14212] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"3000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 10:54:31"}. ID - 17
+Mon Mar 18 10:54:31 2019,136 [14212] INFO logger - New OrderProductDetail object saved {"orderseq":"17","price":"3000","productseq":"19","quantity":"1"}. ID - 120
+Mon Mar 18 10:54:31 2019,141 [14212] INFO logger - Order saved with id 17
+Mon Mar 18 10:55:31 2019,924 [92902] INFO logger - Deleted Order object successfully : delete from orders where seq in(17). Deleted Flag: 1
+Mon Mar 18 10:55:31 2019,938 [92902] INFO logger - Order deleted with id(s) 17
+Mon Mar 18 10:58:15 2019,952 [57157] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"3000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 10:58:15"}. ID - 18
+Mon Mar 18 10:58:15 2019,957 [57157] INFO logger - New OrderProductDetail object saved {"orderseq":"18","price":"3000","productseq":"19","quantity":"1"}. ID - 121
+Mon Mar 18 10:58:15 2019,960 [57157] INFO logger - Order saved with id 18
+Mon Mar 18 10:58:41 2019,002 [72526] INFO logger - Deleted Order object successfully : delete from orders where seq in(18). Deleted Flag: 1
+Mon Mar 18 10:59:12 2019,666 [72526] INFO logger - Order deleted with id(s) 18
+Mon Mar 18 11:00:36 2019,763 [92902] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"6000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 11:00:36"}. ID - 19
+Mon Mar 18 11:00:36 2019,768 [92902] INFO logger - New OrderProductDetail object saved {"orderseq":"19","price":"3000","productseq":"19","quantity":"2"}. ID - 122
+Mon Mar 18 11:00:36 2019,773 [92902] INFO logger - Order saved with id 19
+Mon Mar 18 11:01:02 2019,890 [27261] INFO logger - Update Order object {"comments":"","customerseq":"10","discountpercent":"0","totalamount":"6011","ispaymentcompletelypaid":0}. ID - 19
+Mon Mar 18 11:01:02 2019,899 [27261] INFO logger - New OrderProductDetail object saved {"orderseq":"19","price":"3000","productseq":"19","quantity":"2"}. ID - 123
+Mon Mar 18 11:01:02 2019,905 [27261] INFO logger - New OrderProductDetail object saved {"orderseq":"19","price":"11","productseq":"8","quantity":"1"}. ID - 124
+Mon Mar 18 11:01:02 2019,911 [27261] INFO logger - Order saved with id 19
+Mon Mar 18 11:01:10 2019,626 [27261] INFO logger - Deleted Order object successfully : delete from orders where seq in(19). Deleted Flag: 1
+Mon Mar 18 11:01:10 2019,640 [27261] INFO logger - Order deleted with id(s) 19
+Mon Mar 18 11:01:36 2019,833 [29212] INFO logger - New Order object saved {"comments":"","customerseq":"8","discountpercent":"","totalamount":"6000","ispaymentcompletelypaid":0,"createdon":"2019-03-18 11:01:36"}. ID - 20
+Mon Mar 18 11:01:36 2019,836 [29212] INFO logger - New OrderProductDetail object saved {"orderseq":"20","price":"3000","productseq":"19","quantity":"2"}. ID - 125
+Mon Mar 18 11:01:36 2019,839 [29212] INFO logger - Order saved with id 20
+Mon Mar 18 11:01:49 2019,933 [29212] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"11","ispaymentcompletelypaid":0,"createdon":"2019-03-18 11:01:49"}. ID - 21
+Mon Mar 18 11:01:49 2019,937 [29212] INFO logger - New OrderProductDetail object saved {"orderseq":"21","price":"11","productseq":"8","quantity":"1"}. ID - 126
+Mon Mar 18 11:01:49 2019,941 [29212] INFO logger - Order saved with id 21
+Mon Mar 18 11:01:55 2019,186 [29212] INFO logger - Deleted Order object successfully : delete from orders where seq in(21,20). Deleted Flag: 1
+Mon Mar 18 11:01:55 2019,195 [29212] INFO logger - Order deleted with id(s) 21,20
+Mon Mar 18 11:31:41 2019,394 [13233] INFO logger - New Order object saved {"comments":"t","customerseq":"10","discountpercent":"","totalamount":"9022","ispaymentcompletelypaid":0,"createdon":"2019-03-18 11:31:41"}. ID - 22
+Mon Mar 18 11:31:41 2019,402 [13233] INFO logger - New OrderProductDetail object saved {"orderseq":"22","price":"3000","productseq":"19","quantity":"3"}. ID - 127
+Mon Mar 18 11:31:41 2019,407 [13233] INFO logger - New OrderProductDetail object saved {"orderseq":"22","price":"11","productseq":"8","quantity":"2"}. ID - 128
+Mon Mar 18 11:31:41 2019,419 [13233] INFO logger - Order saved with id 22
+Mon Mar 18 11:49:38 2019,405 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:39 2019,523 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:41 2019,517 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:42 2019,167 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:45 2019,219 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:49 2019,551 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'totalproducts' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(712): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(70): BeanDataStore->executeCountQueryWithSql('SELECT count(*)...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(58): OrderMgr->getCount()
+#3 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#4 {main}
+Mon Mar 18 11:49:50 2019,313 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'totalproducts' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(712): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(70): BeanDataStore->executeCountQueryWithSql('SELECT count(*)...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(58): OrderMgr->getCount()
+#3 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#4 {main}
+Mon Mar 18 11:49:53 2019,590 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:54 2019,253 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:49:54 2019,709 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'totalproducts' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(712): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(70): BeanDataStore->executeCountQueryWithSql('SELECT count(*)...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(58): OrderMgr->getCount()
+#3 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#4 {main}
+Mon Mar 18 11:50:16 2019,270 [13233] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( pendingamount LIKE '%0%')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:50:16 2019,416 [13233] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( pendingamount LIKE '%0%')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:50:17 2019,242 [13233] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( pendingamount LIKE '%0%')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:53:53 2019,627 [92902] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 11:53:54 2019,839 [92902] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:01:28 2019,850 [14339] INFO logger - New Order object saved {"comments":"","customerseq":"8","discountpercent":"","totalamount":"26","ispaymentcompletelypaid":0,"createdon":"2019-03-18 12:01:28"}. ID - 23
+Mon Mar 18 12:01:28 2019,858 [14339] INFO logger - New OrderProductDetail object saved {"orderseq":"23","price":"11","productseq":"8","quantity":"2"}. ID - 129
+Mon Mar 18 12:01:28 2019,860 [14339] INFO logger - Order saved with id 23
+Mon Mar 18 12:02:47 2019,349 [66476] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"144","ispaymentcompletelypaid":0,"createdon":"2019-03-18 12:02:47"}. ID - 24
+Mon Mar 18 12:02:47 2019,358 [66476] INFO logger - New OrderProductDetail object saved {"orderseq":"24","price":"122","productseq":"26","quantity":"1"}. ID - 130
+Mon Mar 18 12:02:47 2019,367 [66476] INFO logger - Order saved with id 24
+Mon Mar 18 12:03:39 2019,941 [27261] INFO logger - New Order object saved {"comments":"","customerseq":"10","discountpercent":"","totalamount":"12666","ispaymentcompletelypaid":0,"createdon":"2019-03-18 12:03:35"}. ID - 25
+Mon Mar 18 12:12:11 2019,759 [92902] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:12:12 2019,324 [92902] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:29:34 2019,533 [13233] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'totalproducts' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(712): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(70): BeanDataStore->executeCountQueryWithSql('SELECT count(*)...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(58): OrderMgr->getCount()
+#3 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#4 {main}
+Mon Mar 18 12:37:25 2019,223 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:37:25 2019,946 [66476] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:37:38 2019,740 [66476] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( totalproducts LIKE '%0%')  ORDER BY totalproducts DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:37:39 2019,555 [66476] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( totalproducts LIKE '%0%')  ORDER BY totalproducts DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:38:27 2019,771 [14339] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:38:28 2019,610 [14339] ERROR logger - Error occured :exception 'Exception' with message 'Unknown column 'pendingamount' in 'order clause'' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:48:54 2019,007 [66475] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY customers.title DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:49:00 2019,649 [66475] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY customers.title DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:49:16 2019,125 [27261] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:49:30 2019,760 [13233] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:50:40 2019,195 [66475] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 12:52:55 2019,695 [66476] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY customers.title DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:03:14 2019,319 [92902] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:03:17 2019,216 [92902] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0' OR  customers.title = '0')  ORDER BY orders.create' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:05:05 2019,430 [29212] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0')  ORDER BY orders.createdon DESC limit 0,20' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:11:50 2019,941 [66475] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = '0' OR  customers.title = '0')  ORDER BY orders.create' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:21:26 2019,470 [66475] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY orders.createdon DESC' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:22:17 2019,265 [14339] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY orders.createdon DESC' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 13:24:28 2019,683 [66471] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY orders.createdon DESC' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 14:06:45 2019,741 [13995] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY customers.title DESC ' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 14:23:38 2019,576 [92902] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY orders.createdon DESC' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}
+Mon Mar 18 14:24:33 2019,425 [66476] ERROR logger - Error occured :exception 'Exception' with message 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE ( customers.title = 'Learntech Inc.21111')  ORDER BY orders.createdon DESC' at line 4' in /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php:815
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/bmorders/DataStores/BeanDataStore.php(733): BeanDataStore->throwException(Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Managers/OrderMgr.php(45): BeanDataStore->executeQuery('SELECT sum(orde...', true)
+#2 /Applications/XAMPP/xamppfiles/htdocs/bmorders/Actions/OrderAction.php(35): OrderMgr->getAllOrdersForGrid()
+#3 {main}

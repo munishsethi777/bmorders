@@ -86,7 +86,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
     if (isset($_GET['filterscount']))
     {
         $filterscount = $_GET['filterscount'];
-        
+       
         if ($filterscount > 0)
         {
             if (strpos(strtolower ($query),'where') !== false) {
@@ -104,13 +104,14 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                 $filtervalue = $_GET["filtervalue" . $i];
                 if($filtervalue == "true"){
                 	$filtervalue = 1;
-                }else{
+                }else if($filtervalue == "false"){
                 	$filtervalue = 0;
                 }
                 // get the filter's condition.
                 $filtercondition = $_GET["filtercondition" . $i];
                 // get the filter's column.
                 $filterdatafield = $_GET["filterdatafield" . $i];
+                
                 // get the filter's operator.
                 $filteroperator = $_GET["filteroperator" . $i];
                 
@@ -239,21 +240,21 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
         
           
       }
-      
-      if($isAppendGroupBy){
-      	$query .= " group by bookings.seq ";
-      }
-      
       //apply Sorting
-      $query = FilterUtil::appendSorting($query);
-     
-       
-      //apply limit
+      
+      //apply sorting and limit 
       if($isApplyLimit){
+      	$query = FilterUtil::appendSorting($query);
         $query = FilterUtil::appendLimit($query);
       }
       
       return $query;
+  }
+  
+  function startsWith ($string, $startString)
+  {
+  	$len = strlen($startString);
+  	return (substr($string, 0, $len) === $startString);
   }
 }
 ?>
