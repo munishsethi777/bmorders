@@ -67,17 +67,8 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                     	<span class="nav-label ">Dashboard</span>  
                     </a>
                 </li>
-                <li class="<?php echo $isCustomers;?>">
-                    <a href="showCustomers.php"><i class="fa fa-coffee"></i> 
-                    	<span class="nav-label">Customers</span>  
-                    </a>
-                </li>
+               
                 <?php if($userType != UserType::getName(UserType::representative)){?>
-	                <li class="<?php echo $isProducts;?>">
-	                    <a href="showProducts.php"><i class="fa fa-clock-o"></i> 
-	                    	<span class="nav-label">Products</span>  
-	                    </a>
-	                </li>
 	                <li class="<?php echo $isProductCategories;?>">
 	                    <a href="showProductCategories.php"><i class="fa fa-gift"></i> 
 	                    	<span class="nav-label">Product Categories</span>  
@@ -93,7 +84,17 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    	<span class="nav-label">Product Brands</span>  
 	                    </a>
 	                </li>
+	                <li class="<?php echo $isProducts;?>">
+	                    <a href="showProducts.php"><i class="fa fa-clock-o"></i> 
+	                    	<span class="nav-label">Products</span>  
+	                    </a>
+	                </li>
                 <?php }?>
+                 <li class="<?php echo $isCustomers;?>">
+                    <a href="showCustomers.php"><i class="fa fa-coffee"></i> 
+                    	<span class="nav-label">Customers</span>  
+                    </a>
+                </li>
                  <li class="<?php echo $isOrders;?>">
                     <a href="showOrders.php"><i class="fa fa-calendar"></i> 
                     	<span class="nav-label">Orders</span>  
