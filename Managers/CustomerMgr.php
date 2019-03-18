@@ -60,7 +60,13 @@ class CustomerMgr{
 	}
 
 	public function getCount(){
+		$sessionUtil =SessionUtil::getInstance();
+		$isRep = $sessionUtil->isRepresentative();
 		$query = "select count(*) from customers";
+		if($isRep){
+			$userSeq = $sessionUtil->getUserLoggedInSeq();
+			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
+		}
 		$count = self::$dataStore->executeCountQueryWithSql($query,true);
 		return $count;
 	}
@@ -96,7 +102,7 @@ class CustomerMgr{
 	}
 	
 	public function getAllCustomerTitles(){
-		$query = "select title,seq from customers";
+		$query = "select title,customers.seq from customers";
 		$sessionUtil = SessionUtil::getInstance();
 		$isRep = $sessionUtil->isRepresentative();
 		if($isRep){

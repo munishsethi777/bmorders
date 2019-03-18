@@ -94,12 +94,14 @@
         function loadGrid(customers){
            var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
-				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
-				{ text: 'Company', datafield: 'customers.title', width:"24%",filtertype: 'checkedlist',filteritems:customers}, 			
+				{ text: 'Order Date', datafield: 'orders.createdon',width:"16%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+				{ text: 'User', datafield: 'fullname',width:"15%"},
+				{ text: 'Company', datafield: 'customers.title', width:"30%",filtertype: 'checkedlist',filteritems:customers}, 			
 				//{ text: 'Comments', datafield: 'comments',width:"25%"},
-				{ text: 'Amount', datafield: 'totalamount',width:"10%"},
-				{ text: 'Pending', datafield: 'pendingamount',width:"10%",filterable:false,sortable:false},
-				{ text: 'Qty', datafield: 'totalproducts',width:"10%",filterable:false},
+				{ text: 'Amount', datafield: 'totalamount',width:"15%"},
+				{ text: 'Pending', datafield: 'pendingamount',width:"15%",filterable:false,sortable:false}
+				
+				//{ text: 'Qty', datafield: 'totalproducts',width:"10%",filterable:false},
 				
 				//{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
 				
@@ -120,6 +122,7 @@
                             { name: 'totalproducts', type: 'integer' },
                             { name: 'discountpercent', type: 'string' },
                             { name: 'orders.createdon', type: 'date' },
+                            { name: 'fullname', type: 'string' },
                             { name: 'ispaymentcompletelypaid', type: 'boolean' }
                             ],                          
                 url: 'Actions/OrderAction.php?call=getAllOrders',

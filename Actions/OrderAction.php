@@ -8,6 +8,7 @@ $message = "";
 $call = "";
 $response = new ArrayObject();
 $oderMgr = OrderMgr::getInstance();
+$sessionUtil = SessionUtil::getInstance();
 if(isset($_GET["call"])){
 	$call = $_GET["call"];
 }else{
@@ -20,10 +21,12 @@ if($call == "saveOrder"){
 		$order->createFromRequest($_REQUEST);
 		$order->setCreatedOn(new DateTime());
 		$order->setIsPaymentCompletelyPaid(0);
+		$userSeq = $sessionUtil->getUserLoggedInSeq();
 		$productDetail = $_REQUEST["products"];
 		if(empty($productDetail)){
 			throw new Exception("Please Select at least one product");
 		}
+		$order->setUserSeq($userSeq);
 		$oderMgr->saveOrder($order, $_REQUEST);
 		$message = "Order saved successfully!";
 	}catch(Exception $e){

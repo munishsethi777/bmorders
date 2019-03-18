@@ -1,6 +1,6 @@
 <?php
 class Order{
-	private $seq,$comments,$customerseq,$discountpercent,$totalamount,$ispaymentcompletelypaid,$createdon;
+	private $seq,$comments,$customerseq,$discountpercent,$totalamount,$ispaymentcompletelypaid,$userseq,$createdon;
 	public static $className = "Order";
 	public static $tableName = "orders";
 	public function setSeq($seq_){
@@ -52,6 +52,13 @@ class Order{
 		return $this->createdon;
 	}
 	
+	public function setUserSeq($userSeq_){
+		$this->userseq = $userSeq_;
+	}
+	public function getUserSeq(){
+		return $this->userseq;
+	}
+	
 	public function createFromRequest($request){
 		if (is_array($request)){
 			$this->from_array($request);
@@ -68,6 +75,7 @@ class Order{
 			}
 		}
 	}
+	
 		
 	
 }

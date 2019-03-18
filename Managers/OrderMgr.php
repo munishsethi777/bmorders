@@ -31,7 +31,7 @@ class OrderMgr{
 	public function getAllOrdersForGrid(){
 		$sessionUtil = SessionUtil::getInstance();
 		$isRepersentative = $sessionUtil->isRepresentative();
-		$query = "SELECT sum(orderpaymentdetails.amount) paidamount, orders.*,customers.title as customer FROM orders 
+		$query = "SELECT sum(orderpaymentdetails.amount) paidamount, orders.*,customers.title as customer,users.fullname FROM orders inner JOIN users on orders.userseq = users.seq 
 			inner join customers on orders.customerseq = customers.seq
 			left join orderpaymentdetails on orders.seq  = orderpaymentdetails.orderseq and orderpaymentdetails.ispaid = 1";
 		//$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
@@ -61,7 +61,7 @@ class OrderMgr{
 	public function getCount(){
 		$sessionUtil = SessionUtil::getInstance();
 		$isRepersentative = $sessionUtil->isRepresentative();
-		$query = "SELECT count(*) FROM orders inner join customers on orders.customerseq = customers.seq";
+		$query = "SELECT count(*) FROM orders inner JOIN users on orders.userseq = users.seq  inner join customers on orders.customerseq = customers.seq";
 		if($isRepersentative){
 			$userSeq = $sessionUtil->getUserLoggedInSeq();
 			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
