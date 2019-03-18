@@ -93,7 +93,8 @@
         
         function loadGrid(customers){
            var columns = [
-				{ text: 'Order No.', datafield: 'seq',width:"8%" },
+				{ text: 'id', datafield: 'seq',hidden:true },
+				{ text: 'Order No.', datafield: 'orders.seq',width:"8%" },
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'User', datafield: 'fullname',width:"15%"},
 				{ text: 'Company', datafield: 'customers.title', width:"29%",filtertype: 'checkedlist',filteritems:customers}, 			
@@ -115,6 +116,7 @@
                 sortcolumn: 'orders.createdon',
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
+                            { name: 'orders.seq', type: 'integer' },
                             { name: 'customers.title', type: 'string' },
                             { name: 'comments', type: 'string'},
                             { name: 'totalamount', type: 'string' },
