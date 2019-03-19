@@ -1,0 +1,7 @@
+ALTER TABLE `notifications` CHANGE `title` `emailtitle` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `notifications` CHANGE `description` `emailbody` VARCHAR(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `notifications` ADD `smsbody` VARCHAR(200) NULL AFTER `emailbody`;
+
+ALTER TABLE `notifications` ADD `mobile` VARCHAR(15) NOT NULL AFTER `userseq`, ADD `email` VARCHAR(50) NOT NULL AFTER `mobile`;
