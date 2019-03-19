@@ -53,7 +53,7 @@
 						<span style="color:red">Cash: Rs 10,000/- (28th March 2019)</span><br>
 						<span style="color:red">Pending: Rs. 25,000.00/-</span>				
 					</p>
-					
+					<p style="font-size:14px">Processed by:<br> Anup Sharma - 9814012345</p>
 					
 				</div>
 			</div>
