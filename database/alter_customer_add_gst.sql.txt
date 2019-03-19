@@ -1,0 +1,1 @@
+ALTER TABLE `customers` ADD `gst` VARCHAR(20) NULL AFTER `discount`;

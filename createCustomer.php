@@ -67,8 +67,13 @@ if(isset($_POST["seq"])){
                                
                                <div class="form-group row">
                        				<label class="col-lg-1 col-form-label">Description</label>
-                                    <div class="col-lg-11">
+                                    <div class="col-lg-5">
                                     	<input type="text" value="<?php echo $customer->getDescription()?>" id="description" name="description"  placeholder="description" class="form-control">
+                                    </div>
+                                    
+                                    <label class="col-lg-1 col-form-label">GST</label>
+                                    <div class="col-lg-5">
+                                    	<input type="text" value="<?php echo $customer->getGST()?>" id="gst" name="gst"  placeholder="gst" class="form-control">
                                     </div>
                                </div>
                               

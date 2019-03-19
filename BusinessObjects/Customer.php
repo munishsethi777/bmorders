@@ -1,7 +1,7 @@
 <?php
 class Customer{
 	
-	private $seq,$title,$description,$contactperson,$email,$mobile,$phone,$address1,$address2,$city,$state,$zip,$discount,$userseq,$createdon,
+	private $seq,$title,$description,$contactperson,$email,$mobile,$phone,$address1,$address2,$city,$state,$zip,$discount,$gst,$userseq,$createdon,
 	$lastmodifiedon,$isenabled;
 	public static $className = "Customer";
 	public static $tableName = "customers";
@@ -83,6 +83,12 @@ class Customer{
 	}
 	public function getDiscount(){
 		return $this->discount;
+	}
+	public function setGST($val){
+		$this->gst= $val;
+	}
+	public function getGST(){
+		return $this->gst;
 	}
 	public function setUserSeq($val){
 		$this->userseq= $val;
