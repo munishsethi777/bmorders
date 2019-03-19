@@ -33,8 +33,9 @@ include("SessionCheck.php");
         	</div>
        </div>
     </div>
-    <form id="form1" name="form1" method="post" action="createUser.php">
-     	<input type="hidden" id="seq" name="seq"/>
+    <form id="form1" name="form1" method="post" action="createOrderPayment.php">
+     	<input type="hidden" id="orderSeq" name="orderSeq"/>
+     	<input type="hidden" id="isEdit" name="isEdit" value="1"/>
    	</form>
    </body>
 </html>
@@ -113,6 +114,7 @@ include("SessionCheck.php");
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
                             { name: 'orders.seq', type: 'string' },
+                            { name: 'orderseq', type: 'integer' },
                             { name: 'customers.title', type: 'string'},
                             { name: 'orders.createdon', type: 'date' },
                             { name: 'amount', type: 'string' },
@@ -171,11 +173,14 @@ include("SessionCheck.php");
                     var container = $("<div style='overflow: hidden; position: relative; margin: 5px;height:30px'></div>");
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
                     var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
                     
                     container.append(reloadButton);
                     container.append(exportButton);
+                    container.append(editButton);
 
                     statusbar.append(container);
+                    editButton.jqxButton({  width: 65, height: 18 });
                     reloadButton.jqxButton({  width: 65, height: 18 });
                     exportButton.jqxButton({  width: 65, height: 18 });
                    
@@ -185,6 +190,20 @@ include("SessionCheck.php");
                     });
                     reloadButton.click(function (event) {
                     	$("#orderPaymentDetailGrid").jqxGrid({ source: dataAdapter });
+                    });
+                    editButton.click(function (event) {
+                    	var selectedrowindex = $("#orderPaymentDetailGrid").jqxGrid('selectedrowindexes');
+                        var value = -1;
+                        indexes = selectedrowindex.filter(function(item) { 
+                            return item !== value
+                        })
+                        if(indexes.length != 1){
+                            bootbox.alert("Please Select single row for payment detail.", function() {});
+                            return;    
+                        }
+                        var row = $('#orderPaymentDetailGrid').jqxGrid('getrowdata', indexes);
+                        $("#orderSeq").val(row.orderseq);                        
+                        $("#form1").submit(); 
                     });
                 }
             });

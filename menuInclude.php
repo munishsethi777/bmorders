@@ -39,7 +39,7 @@ if($file == "dashboard.php"){
 	$isChangePassword = "active";
 }elseif($file == "adminSettings.php"){
 	$isSettings = "active";
-}elseif($file == "showOrderPayment.php"){
+}elseif($file == "showOrderPayments.php"){
 	$isShowOrderPayment = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
