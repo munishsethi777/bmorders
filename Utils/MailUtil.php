@@ -3,13 +3,6 @@ require_once('class.phpmailer.php');
 //require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ConfigurationMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/NotificationMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/TimeSlotMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/MenuMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/BookingAddOnMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/BookingMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/PackageMgr.php");
-require_once($ConstantsArray['dbServerUrl'] ."vendor/autoload.php");
-require_once($ConstantsArray['dbServerUrl'] ."Utils/html2PdfUtil.php");
 Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
 require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
 require_once($ConstantsArray['dbServerUrl'] ."StringConstants.php");
@@ -607,28 +600,17 @@ class MailUtil{
 	
 	public static function sendEmailFromNotification($notification){
 		$type = $notification->getNotificationType();
-		$html = $notification->getEmailHtml();
-		$subject = $notification->getEmailSubject();
-		$emails = $notification->getEmailId();
+		$html = $notification->getBody();
+		$subject = $notification->getTitle();
+		$emails = $notification->getDestination();
 		$emails = explode(",", $emails);
-		$mobiles = $notification->getMobileNo();
-		$smsText = $notification->getSMSText();
 		$emailResponse = null;
-		$smsResponse = null;
 		if(!empty($emails)){
 			$emailResponse = MailUtil::sendSmtpMail($subject, $html, $emails,StringConstants::IS_SMTP);
 			if(!empty($emailResponse)){
-				$notification->setEmailErrorDetail($emailResponse);
+				$notification->setException($emailResponse);
 			}
-			$notification->setStatus(NotificationStatus::sent);
-		}
-		if(!empty($mobiles)){
-			$smsUtil = SMSUtil::getInstance();
-			$smsResponse = $smsUtil->sendSMS($mobiles, $smsText);
-			if(!empty($smsResponse)){
-				$notification->setSmsErrorDetail($smsResponse);
-			}
-			$notification->setStatus(NotificationStatus::sent);
+			$notification->setIsSent(1);
 		}
 		$notificationMgr = NotificationMgr::getInstance();
 		$notificationMgr->saveNotification($notification);
@@ -683,6 +665,10 @@ class MailUtil{
 	}
 	
 	public static function sendSmtpMail($subject,$body,$toEmails,$isSmtp,$attachments = array()){
+		$configurationMgr = ConfigurationMgr::getInstance();
+		$host = $configurationMgr->getConfiguration(Configuration::$SMTP_HOST);
+		$username = $configurationMgr->getConfiguration(Configuration::$SMTP_USERNAME);
+		$password = $configurationMgr->getConfiguration(Configuration::$SMTP_PASSWORD);
 		if(empty(self::$logger)){
 			self::$logger = self::$logger = Logger::getLogger ( "logger" );
 		}
@@ -693,19 +679,19 @@ class MailUtil{
 			$mail->IsSMTP(); // telling the class to use SMTP
 			$mail->SMTPAuth   = true;                  // enable SMTP authentication
 			$mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
-			$mail->Host       = "xxx";      // sets GMAIL as the SMTP server
-			$mail->Port       = xxx;                   // set the SMTP port for the GMAIL server
-			$mail->Username   = "xxxx";  // GMAIL username
-			$mail->Password   = "xxxx";           // GMAIL password
+			$mail->Host       = $host;      // sets GMAIL as the SMTP server
+			$mail->Port       = 465;                   // set the SMTP port for the GMAIL server
+			$mail->Username   = $username;  // GMAIL username
+			$mail->Password   = $password;           // GMAIL password
 		}
-		$mail->SetFrom('noreply@flydining.com', 'FlyDining');
+		$mail->SetFrom('noreply@myhealthsolutionz.com', 'BM Orders');
 		$mail->Subject = $subject;
 		$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 		$mail->MsgHTML($body);
 		foreach ($toEmails as $toEmail){
 			$mail->AddAddress($toEmail);
 		}
-        $mail->AddBCC(StringConstants::BCC_EMAIL);
+       // $mail->AddBCC(StringConstants::BCC_EMAIL);
         
 		foreach($attachments as $name=>$attachment){
 			$name .= ".pdf";

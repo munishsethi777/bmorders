@@ -1,6 +1,6 @@
 <?php
 class Notification{
-	private $seq, $notificationtype, $title, $body, $userseq, $destination, $isviewed, $createdon, $issent, $exception;
+	private $seq, $notificationtype, $title, $body, $destination, $isviewed, $createdon, $issent, $exception;
 	public static $className = "Notification";
 	public static $tableName = "notifications";
 	
@@ -30,13 +30,6 @@ class Notification{
 	}
 	public function getBody(){
 		return  $this->body;
-	}
-	
-	public function setUserSeq($val){
-		$this->userseq = $val;
-	}
-	public function getUserSeq(){
-		return  $this->userseq;
 	}
 	
 	public function setDestination($val){

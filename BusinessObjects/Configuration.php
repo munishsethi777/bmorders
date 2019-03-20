@@ -2,12 +2,12 @@
 class Configuration{
 	private $configkey,$configvalue;
 	
-	public static $CAKE_VENDOR_EMAIL = "cakevendoremail";
-	public static $CAKE_VENDOR_MOBILE = "cakevendormobile";
-	public static $CAKE_VENDOR_MESSAGE = "cakevendormessage";
+	public static $EMAIL = "email";
+	public static $MOBILE = "mobile";
+	public static $SMTP_USERNAME = "smtpusername";
+	public static $SMTP_PASSWORD = "smtppassword";
+	public static $SMTP_HOST = "smtphost";
 	
-	public static $BOOKING_CLOSUR_EMAIL = "bookingclosuremail";
-	public static $BOOKING_CLOSUR_MOBILE = "bookingclosurmobile";
 	
 	public static $tableName = "configurations";
 	public static $className = "configuration";

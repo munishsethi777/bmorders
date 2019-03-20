@@ -3,6 +3,8 @@ require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/NotificationMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Enums/NotificationType.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
 Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
 class OrderMgr{
@@ -25,6 +27,11 @@ class OrderMgr{
 			$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 			$orderProductDetailMgr->saveOrderProductDetail($id, $productDetail);
 			self::$logger->info("Order saved with id ".$id);
+		}
+		if(empty($order->getSeq())){
+			$order->setSeq($id);
+			$notificationMgr = NotificationMgr::getInstance();
+			$notificationMgr->saveCreateOrderNotificationForEmail($order, NotificationType::email);
 		}
 		return $id;
 	}
@@ -102,6 +109,9 @@ class OrderMgr{
 		}
 		return $flag;
 	}
+	
+	
+	
 	
 	
 }
