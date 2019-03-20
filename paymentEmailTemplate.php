@@ -42,20 +42,10 @@
 					
 				</div>
 				<div style="margin-bottom: 20px;max-width:80%;padding:0px 15px;">
-					<p style="color:navy;font-size:14px;margin-bottom:6px;">
-						Cash: Rs.12000/- <br><span style="color:grey;font-size:12px">paid in cash in 2000 notes</span>
-					</p>
-					<p style="color:navy;font-size:14px;margin-bottom:6px;">
-						Cheque: Rs.12000/- <br><span style="color:grey;font-size:12px">cheque number 982345, date 30/03/2019, PNB Ludhiana.</span>
-					</p>
-					
-					<p style="font-size: 12px; color: #000; margin-bottom: 0px;line-height:20px;">
-						EARLIER RECEIPTS:<br>
-						11/03/2019 Cash Rs. 20000/- <br>
-						11/03/2019 Cash Rs. 20000/- <br>
-					</p>
+					{PAYMENT_INFO}
+					{EARLIER_PAYMENTS}
 					<p style="font-size: 12px; color: red; margin-bottom: 0px;line-height:20px;">
-						Pending :Rs. 20000/- 
+						Pending :Rs. {PENDING_AMOUNT}/- 
 					</p>
 					
 					<p style="font-size:14px">Processed by:<br> {PROCESSED_BY_INFO}</p>

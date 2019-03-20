@@ -1,6 +1,7 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderPaymentDetail.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/NotificationMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/PaymentMode.php");
 
@@ -19,7 +20,8 @@ class OrderPaymentDetailMgr{
 	
 	public function savePaymentDetailFromRequest($orderSeq){
 		$seqs = $_REQUEST["seq"];
-		$existingSeqs = $this->findSeqsByOrderSeq($orderSeq);
+		$existingPayments = $this->findSeqsByOrderSeq($orderSeq);
+		$existingSeqs = array_keys($existingPayments);
 		$seqsForDelete = array_diff($existingSeqs, $seqs);
 		$paymentModes = $_REQUEST["paymentmode"];
 		$amounts = $_REQUEST["amount"];
@@ -27,6 +29,7 @@ class OrderPaymentDetailMgr{
 		$expectedDates = $_REQUEST["expectedon"];
 		$isConfirmed = $_REQUEST["isconfirmed"];
 		$isPaid = $_REQUEST["ispaid"];
+		$allPaidPayments = array();
 		foreach ($paymentModes as $key=>$paymentMode){
 			$orderPaymnetDetail = new OrderPaymentDetail();
 			if(!empty($seqs[$key])){
@@ -44,12 +47,18 @@ class OrderPaymentDetailMgr{
 			$orderPaymnetDetail->setIsPaid($isPaid[$key]);
 			$orderPaymnetDetail->setOrderSeq($orderSeq);
 			$orderPaymnetDetail->setCreatedOn(new DateTime());
-			self::$dataStore->save($orderPaymnetDetail);
+			$paymentSeq = self::$dataStore->save($orderPaymnetDetail);
+			if(!empty($isPaid[$key])){
+				$allPaidPayments[$paymentSeq] = $orderPaymnetDetail;
+			}
 		}
 		if(!empty($seqsForDelete)){
 			$seqsForDelete = implode(",", $seqsForDelete);
 			$this->deleteInList($seqsForDelete);
 		}
+		$notificationMgr = NotificationMgr::getInstance();
+		$notificationMgr->saveCreatePaymentNotificationForEmail($allPaidPayments, $existingPayments);
+		
 	}
 	
 	public function deleteInList($seqs){
@@ -79,9 +88,17 @@ class OrderPaymentDetailMgr{
 	
 	public function findSeqsByOrderSeq($orderSeq){
 		$colVal["orderSeq"] = $orderSeq;
-		$orderPaymentDetail = self::$dataStore->executeConditionQuery($colVal);
-		$seqs = array_map(create_function('$o', 'return $o->getSeq();'), $orderPaymentDetail);
-		return $seqs;
+		$orderPaymentDetails = self::$dataStore->executeConditionQuery($colVal);
+		$orderPaymentDetails = $this->groupBySeq($orderPaymentDetails, "seq");
+		return $orderPaymentDetails;
+	}
+	
+	function groupBySeq($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val->getSeq()] = $val;
+		}
+		return $return;
 	}
 	
 	public function getPaymentModesJson(){

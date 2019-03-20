@@ -10,6 +10,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Managers/UserMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/NotificationType.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/NotificationStatus.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderMgr.php");
 class NotificationMgr{
 	private static $notificationMgr;
 	private static $dataStore;
@@ -94,6 +95,106 @@ class NotificationMgr{
 		$notificationMgr->saveNotification($notification);
 	}
 	
+	public function saveCreatePaymentNotificationForEmail($payments,$existingPayments){
+		$notification = new Notification();
+		$paymentDate = new DateTime();
+		$paymentDateStr = $paymentDate->format("M d, Y");
+		$orderMgr = OrderMgr::getInstance();
+		$paymentHtml = "";
+		$earilerPaymentsHtml = '<p style="font-size: 12px; color: #000; margin-bottom: 0px;line-height:20px;">EARLIER RECEIPTS:<br>';
+		$flag = false;
+		$orderNo = 0;
+		$amountPaid = 0;
+		$isPaidPayment = false;
+		foreach ($payments as $key=>$payment){
+			$isPaid = $payment->getIsPaid();
+			$paymentMode = PaymentMode::getValue($payment->getPaymentMode());
+			$amount = $payment->getAmount();
+			$amountStr = number_format($amount,2,'.','');
+			$detail = $payment->getDetails();
+			$createOn = $payment->getCreatedOn();
+			$createOn = $createOn->format("d/m/Y");
+			$amountPaid = $amountPaid + $amount;
+			if(isset($existingPayments[$key])){
+				$existingPayment = $existingPayments[$key];
+				$existingPaymentIsPaid = $existingPayment->getIsPaid();
+				if(!empty($existingPaymentIsPaid)){
+					$earilerPaymentsHtml .= $createOn . ' ' . $paymentMode . ' Rs. '. $amountStr . '/- <br>';
+					$flag = true;
+					continue;
+				}
+			}
+			$isPaidPayment = true;
+			$paymentHtml = '<p style="color:navy;font-size:14px;margin-bottom:6px;">';
+			$paymentHtml .= $paymentMode . ': Rs. '.$amountStr.'/- <br><span style="color:grey;font-size:12px">'.$detail.'</span></p>';
+			$orderNo = $payment->getOrderSeq();
+			
+		}
+		if(!$isPaidPayment){
+			return;
+		}
+		if($flag){
+			$earilerPaymentsHtml .= "</p>";
+		}else{
+			$earilerPaymentsHtml = "";
+		}
+		$order = $orderMgr->findBySeq($orderNo);
+		$totalAmount = $order->getTotalAmount();
+		$userMgr = UserMgr::getInstance();
+		$user = $userMgr->findBySeq($order->getUserSeq());
+		$userInfo = $user->getFullName() . " - " . $user->getMobile();
+		$customerMgr = CustomerMgr::getInstance();
+		$customer = $customerMgr->findBySeq($order->getCustomerSeq());
+		$customerName = $customer->getTitle() . ", " . $customer->getCity();
+		$customerAddress = $customer->getAddress1() . ", " . $customer->getAddress2() . ", " . $customer->getCity() . "-" . $customer->getZip() . ", " . $customer->getState();
+		$productDetailHtml = $this->getProductDetailInfo($orderNo);
+		$netAmount = $totalAmount;
+		$discountPercent = $order->getDiscountPercent();
+		$discount = 0;
+		if(!empty($discountPercent)){
+			$discount = ($discountPercent / 100) * $totalAmount;
+			$netAmount = $netAmount - $discount;
+		}
+		$pendingAmount = $netAmount - $amountPaid;
+		$discount = number_format($discount,2,'.','');
+		$totalAmount = number_format($totalAmount,2,'.','');
+		$netAmount = number_format($netAmount,2,'.','');
+		$pendingAmount = number_format($pendingAmount,2,'.','');
+		$body = file_get_contents("../paymentEmailTemplate.php");
+		$phAnValues = array();
+		$phAnValues["ORDER_ID"] = $order->getSeq();
+		$phAnValues["CUSTOMER_NAME"] = $customerName;
+		$phAnValues["CUSTOMER_ADDRESS"] = $customerAddress;
+		$phAnValues["CUSTOMER_MOBILE"] = $customer->getMobile();
+		$phAnValues["CUSTOMER_EMAIL"] = $customer->getEmail();
+		$phAnValues["ORDER_COMMENTS"] = $order->getComments();
+		$phAnValues["ORDER_AMOUNT"] = $amountStr;
+		$phAnValues["PROCESSED_BY_INFO"] = $userInfo;
+		$phAnValues["PRODUCT_HTML"] = $productDetailHtml;
+		$phAnValues["GROSS_TOTAL"] = $totalAmount;
+		$phAnValues["DISCOUNT_AMOUNT"] = $discount;
+		$phAnValues["NET_AMOUNT"] = $netAmount;
+		$phAnValues["PAYMENT_INFO"] = $paymentHtml;
+		$phAnValues["EARLIER_PAYMENTS"] = $earilerPaymentsHtml;
+		$phAnValues["PENDING_AMOUNT"] = $pendingAmount;
+		$phAnValues["PAYMENT_DATE"] = $paymentDateStr;
+		$body = $this->replacePlaceHolders($phAnValues, $body);
+		$subject = "Payment Confirmation";
+		$configurationMgr = ConfigurationMgr::getInstance();
+		$destination = $configurationMgr->getConfiguration(Configuration::$EMAIL);
+		$notification->setBody($body);
+		$notification->setCreatedOn(new DateTime());
+		$notification->setDestination($destination);
+		$notification->setIsViewed(1);
+		$notification->setIsSent(0);
+		$notification->setTitle($subject);
+		$notification->setNotificationType(NotificationType::email);
+		$notification->setCreatedOn(new DateTime());
+		$notificationMgr = NotificationMgr::getInstance();
+		$notificationMgr->saveNotification($notification);
+	}
+	
+	
 	private function replacePlaceHolders($placeHolders,$body){
 		foreach ($placeHolders as $key=>$value){
 			$placeHolder = "{".$key."}";
@@ -124,4 +225,6 @@ class NotificationMgr{
 		}
 		return $productDetailHtml;
 	}
+	
+	
 }
