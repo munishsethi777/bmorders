@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div
-		style="background-color: grey; width: 100%; color: #676a6c; font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif">
+		style="background-color: grey; width: 100%; color: #676a6c; font-size:12px;font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif">
 		<div
 			style="background-color: white; margin: auto; max-width: 600px; padding: 0px 15px 0px 15px">
 			<div
@@ -26,8 +26,8 @@
 				</div>
 			</div>
 			<div style="margin: 20px 0 0;display:flex">
-				<div style="border-right: 1px solid #f1f1f1;max-width:50%;padding:0px 15px;">
-					<h3 style="color: #000;">{CUSTOMER_NAME}</h3>
+				<div style="border-right: 1px solid #f1f1f1;max-width:30%;padding:0px 15px;">
+					<p style="color: #000;">{CUSTOMER_NAME}</p>
 					<p style="margin: 0px;">{CUSTOMER_ADDRESS}</p>
 					<p style="margin: 0px;">
 						<span style="font-weight: bold;">GST#:</span> 29ADHFS4111J1ZY
@@ -41,10 +41,14 @@
 					</p>
 					
 				</div>
-				<div style="margin-bottom: 20px;max-width:50%;padding:0px 15px;">
-					<p style="font-size: 18px; color:navy; margin-bottom: 0px;">
-						Rs. {PAYMENT_AMOUNT}/-				
+				<div style="margin-bottom: 20px;max-width:80%;padding:0px 15px;">
+					<p style="color:navy;font-size:14px;margin-bottom:6px;">
+						Cash: Rs.12000/- <br><span style="color:grey;font-size:12px">paid in cash in 2000 notes</span>
 					</p>
+					<p style="color:navy;font-size:14px;margin-bottom:6px;">
+						Cheque: Rs.12000/- <br><span style="color:grey;font-size:12px">cheque number 982345, date 30/03/2019, PNB Ludhiana.</span>
+					</p>
+					
 					<p style="font-size: 12px; color: #000; margin-bottom: 0px;line-height:20px;">
 						EARLIER RECEIPTS:<br>
 						11/03/2019 Cash Rs. 20000/- <br>
