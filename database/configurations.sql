@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2019 at 12:28 PM
+-- Generation Time: Mar 25, 2019 at 12:32 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -22,37 +22,16 @@ SET time_zone = "+00:00";
 -- Database: `bmorders`
 --
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `configurations`
+-- Dumping data for table `configurations`
 --
 
-CREATE TABLE `configurations` (
-  `configkey` varchar(100) NOT NULL,
-  `configvalue` varchar(200) NOT NULL,
-  `seq` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `configurations`
---
-ALTER TABLE `configurations`
-  ADD PRIMARY KEY (`seq`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `configurations`
---
-ALTER TABLE `configurations`
-  MODIFY `seq` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `configurations` (`configkey`, `configvalue`, `seq`) VALUES
+('email', 'baljeetgaheer@gmail.com', 1),
+('mobile', '9814600356', 2),
+('smtpusername', 'noreply@myhealthsolutionz.com', 3),
+('smtppassword', '!NMaoHY6ZsO%', 4),
+('smtphost', 'mail.myhealthsolutionz.com', 5);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
