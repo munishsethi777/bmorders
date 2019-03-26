@@ -7,16 +7,11 @@
 	<div
 		style="background-color: grey; width: 100%; color: #676a6c; font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif">
 		<div
-			style="background-color: white; margin: auto; max-width: 600px; padding: 0px 15px 0px 15px">
+			style="background-color: white; margin: auto; max-width: 600px;">
 			<div
-				style="padding: 15px; background-color: #DAA520; color: white; margin: 0px -15px 0px -15px;">
-				<h1 style="margin-top: 0px; margin-bottom: 20px;">
-					<img
-						src="https://1ceipl3l02ez252khj15lgak-wpengine.netdna-ssl.com/wp-content/uploads/2018/10/logo-white-small.png"
-						style="float: left;">
-				</h1>
+				style="padding: 15px; background-color: #DAA520; color: white;">
 				<p align="right" style="margin: 0px;">
-					<a href="https://www.flydining.com/" style="color: #fff; text-decoration: none;">www.myhealthsolutionz.com</a>
+					<a href="" style="color: #fff; text-decoration: none;">www.myhealthsolutionz.com</a>
 				</p>
 			</div>
 			<div style="margin-top: 20px;display:flex;padding:15px;">
@@ -51,7 +46,7 @@
 			</div>
 
 			<div style="margin: 0; background: #f1f1f1; padding: 20px 20;display:flex">
-				<div style="width:100%">
+				<div style="width:100%; padding:10px;">
 					<p	style="margin: 0 0 10px 0; font-weight: bold; border-bottom: 1px silver solid;">Order
 						Summary</p>
 					<table style="text-align:left;font-size:12px;vertical-align:top;border-bottom:1px silver solid;width:100%">
