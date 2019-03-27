@@ -125,7 +125,7 @@ class NotificationMgr{
 				}
 			}
 			$isPaidPayment = true;
-			$paymentHtml = '<p style="color:navy;font-size:14px;margin-bottom:6px;">';
+			$paymentHtml .= '<p style="color:navy;font-size:14px;margin-bottom:6px;">';
 			$paymentHtml .= $paymentMode . ': Rs. '.$amountStr.'/- <br><span style="color:grey;font-size:12px">'.$detail.'</span></p>';
 			$orderNo = $payment->getOrderSeq();
 			
