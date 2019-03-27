@@ -110,6 +110,30 @@ class OrderMgr{
 		return $flag;
 	}
 	
+	public function exportOrders($queryString){
+		$output = array();
+		parse_str($queryString, $output);
+		$_GET = array_merge($_GET,$output);
+		$query = "select customers.title as customer,products.title as product ,orders.*,orderproductdetails.productseq,orderproductdetails.price,orderproductdetails.quantity from orders 
+inner join orderproductdetails on orders.seq = orderproductdetails.orderseq
+inner join products on orderproductdetails.productseq = products.seq
+inner join customers on orders.customerseq = customers.seq
+inner join users on orders.userseq = users.seq";
+		$orders =self::$dataStore->executeQuery($query,true);
+		$orders = $this->group_by($orders, "seq");
+		ExportUtil::exportOrders($orders);
+	}
+	
+	
+	function group_by($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val[$key]][] = $val;
+		}
+		return $return;
+	}
+	
+	
 	
 	
 	

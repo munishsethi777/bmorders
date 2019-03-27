@@ -37,6 +37,10 @@
    	<form id="form2" name="form2" method="post" action="createOrderPayment.php">
      	<input type="hidden" id="orderSeq" name="orderSeq"/>
    	</form>
+   	<form id="exportForm" name="exportForm" method="GET" action="Actions/OrderAction.php">
+     	<input type="hidden" id="call" name="call" value="exportOrders"/>
+     	<input type="hidden" id="queryString" name="queryString"/>
+   	</form>
    </body>
 </html>
 
@@ -176,6 +180,7 @@
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
                     var paymentButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Payment</span></div>");
+                    var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
                     var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
                     
 
@@ -183,6 +188,7 @@
                     container.append(editButton);
                     container.append(deleteButton);
                     container.append(paymentButton);
+                    container.append(exportButton);
                     container.append(reloadButton);
 
                     statusbar.append(container);
@@ -190,6 +196,7 @@
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     paymentButton.jqxButton({  width: 90, height: 18 });
+                    exportButton.jqxButton({  width: 70, height: 18 });
                     reloadButton.jqxButton({  width: 65, height: 18 });
 
                     // create new row.
@@ -234,9 +241,16 @@
                     reloadButton.click(function (event) {
                     	$("#orderGrid").jqxGrid({ source: dataAdapter });
                     });
+                    exportButton.click(function (event) {
+						filterQstr = getFilterString("orderGrid");
+						exportOrders(filterQstr);
+                    });
                 }
             });
         }
-		
+        function exportOrders(filterString){
+            $("#queryString").val(filterString);
+        	$('#exportForm').submit();
+        }
         
 </script>
