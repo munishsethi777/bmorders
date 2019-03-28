@@ -50,6 +50,16 @@ if($call == "deleteOrders"){
 		//$message = ErrorUtil::checkReferenceError(LearningPlan::$className,$e);
 	}
 }
+if($call == "exportOrders"){
+	try{
+		$queryString = $_GET["queryString"];
+		$oderMgr->exportOrders($queryString);
+		return;
+	}catch(Exception $e){
+		$success = 0;
+		$message = $e->getMessage();
+	}
+}
 $response["success"] = $success;
 $response["message"] = $message;
 echo json_encode($response);
