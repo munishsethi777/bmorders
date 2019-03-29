@@ -117,6 +117,11 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    	<span class="nav-label">Users</span>  
 	                    </a>
 	                </li>
+	                <li class="<?php echo $isSettings;?>">
+	                    <a href="adminSettings.php"><i class="fa fa-cog"></i> 
+	                    	<span class="nav-label">Settings</span>  
+	                    </a>
+	                </li>
                 <?php }?>
                 <li>
                     <a href="logout.php"><i class="fa fa-sign-out"></i> 

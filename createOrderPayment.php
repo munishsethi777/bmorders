@@ -12,9 +12,14 @@ $orderSeq = 0;
 $orderPaymentPending = 0;
 $order = array();
 $isEdit = false;
+$grossAmaount =0;
+$discountAmount = 0;
 if(isset($_POST["orderSeq"])){
 	$orderSeq = $_POST["orderSeq"];
 	$order = $orderMgr->findOrderArr($orderSeq);
+	$grossAmaount = $order["grossamount"];
+	$totalAmaount = $order["totalamount"];
+	$discountAmount = $grossAmaount - $totalAmaount;
 	$paidAmount = $orderPaymentDetailMgr->getOrderPayments($orderSeq, 1);
 	$orderPaymentPending = $order["totalamount"] - $paidAmount;
 	$isEdit = isset($_POST["isEdit"]);
@@ -56,7 +61,11 @@ $paymentModesJson = $orderPaymentDetailMgr->getPaymentModesJson();
 		                	<div class="col-sm-4"> 
 			                	<strong>Order #<?php echo $order["seq"]?></strong>
 		                		<div><strong>Dated</strong>: <?php echo $order["createdon"]?></div>
-		                		<div><strong>Total Amount</strong>: Rs. <?php echo number_format($order["totalamount"],2,'.','');?>/-</div>
+		                		<?php if($discountAmount > 0){?>
+		                			<div><strong>Total Amount</strong>: Rs. <?php echo number_format($order["grossamount"],2,'.','');?>/-</div>
+		                			<div><strong>Discount</strong><small> (<?php echo $order["discountpercent"]?>%)</small>: Rs. - <?php echo number_format($discountAmount,2,'.','');?></div>
+		                		<?php }?>
+		                		<div><strong>Net Amount</strong>: Rs. <?php echo number_format($order["totalamount"],2,'.','');?>/-</div>
 		                		<div class="text-danger"><strong>Pending Amount</strong>: Rs. <?php echo number_format($orderPaymentPending,2,'.','');?>/-</div>
 		                	</div>
 		                     <div class="col-sm-8">

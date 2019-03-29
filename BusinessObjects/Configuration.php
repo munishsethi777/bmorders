@@ -1,9 +1,12 @@
 <?php
 class Configuration{
 	private $configkey,$configvalue;
-	
-	public static $EMAIL = "email";
-	public static $MOBILE = "mobile";
+	public static $PAYMENT_NOTIFICATION_EMAIL = "paymentNotificationEmail";
+	public static $PAYMENT_NOTIFICATION_MOBILE = "paymentNotificationMobile";
+	public static $ORDER_NOTIFICATION_EMAIL = "orderNotificationEmail";
+	public static $ORDER_NOTIFICATION_MOBILE = "orderNotificationMobile";
+	public static $EXPECTED_PAYMENT_NOTIFICATION_EMAIL = "expectedPaymentNotificationEmail";
+	public static $EXPECTED_PAYMENT_NOTIFICATION_MOBILE = "expectedPaymentNotificationMobile";
 	public static $SMTP_USERNAME = "smtpusername";
 	public static $SMTP_PASSWORD = "smtppassword";
 	public static $SMTP_HOST = "smtphost";

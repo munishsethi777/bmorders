@@ -1,6 +1,6 @@
 <?php
 class OrderPaymentDetail{
-	private $seq,$amount,$details,$isconfirmed,$ispaid,$orderseq,$paymentmode,$createdon,$expectedon;
+	private $seq,$amount,$details,$isconfirmed,$ispaid,$orderseq,$paymentmode,$createdon,$expectedon,$isnotificationgenerated;
 	public static $className = "OrderPaymentDetail";
 	public static $tableName = "orderpaymentdetails";
 	public function setSeq($seq_){
@@ -65,5 +65,12 @@ class OrderPaymentDetail{
 	}
 	public function getExpectedOn(){
 		return $this->expectedon;
+	}
+	
+	public function setIsNotificationGenerated($isGenereated_){
+		$this->isnotificationgenerated  = $isGenereated_;
+	}
+	public function getIsNotificationGenerated(){
+		return $this->isnotificationgenerated;
 	}
 }
