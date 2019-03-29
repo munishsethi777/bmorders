@@ -6,4 +6,6 @@ class MeasuringUnitType extends BasicEnum{
 	const pounds = "lbs";
 	const pieces = "pcs";
 	const millilitres = "ml";
+	const tablets = "tabs";
+	const capsules = "caps";
 }
