@@ -385,12 +385,17 @@ class ExportUtil{
 			}
 			$i = 10;
 			$colName = $alphas[$i++]. $count;
+			$comments = $order["comments"];
+			if(!empty($comments)){
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$count, "Comments - " . $comments);
+			}
+			$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A'.$count. ':J'.$count);
 			$totaAmount = $order["totalamount"];
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $totaAmount);
 			$objPHPExcel->getActiveSheet()->getStyle($colName)->getFont()->setBold(true);
 			$grandTotal += $totaAmount;
 			$i = 0;
-			$count = $count+2;
+			$count = $count+3;
 		}
 		$i= 4;
 		$colName = $alphas[$i++]. $count;
