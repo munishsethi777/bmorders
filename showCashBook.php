@@ -25,7 +25,7 @@
 							</nav>
 	                    </div>
 	                    <div class="ibox-content">
-	                        <div id="expenseLogGrid" style="margin-top:8px"></div>
+	                        <div id="cashbookGrid" style="margin-top:8px"></div>
 	                    </div>
 	                </div>
 	            </div>
@@ -35,8 +35,8 @@
     <form id="form1" name="form1" method="post" action="createCashBook.php">
      	<input type="hidden" id="seq" name="seq"/>
    	</form>
-   	 <form id="exportForm" name="exportForm" method="GET" action="Actions/ExpenseLogAction.php?seq=0">
-     	<input type="hidden" id="call" name="call" value="exportExpenseLogs"/>
+   	 <form id="exportForm" name="exportForm" method="GET" action="Actions/CashbookAction.php?seq=0">
+     	<input type="hidden" id="call" name="call" value="exportCashbook"/>
      	<input type="hidden" id="queryString" name="queryString"/>
    	</form>
    </body>
@@ -44,7 +44,9 @@
 
 	<script type="text/javascript">
 	    $(document).ready(function(){
-            loadGrid(); 
+	    	 $.getJSON("Actions/CashbookAction.php?call=getMenusForFilter",function( response ){
+		    	 	loadGrid(response)
+	           });
         });
         
         function deleteUsers(gridId,deleteURL){
@@ -86,15 +88,18 @@
             }
         }
         
-        function loadGrid(){
+        function loadGrid(response){
+            var categories = response.categories;
+            var transactionTypes = response.transactiontypes;
+            var users = response.users;
          	var columns = [
          	    { text: 'id', datafield: 'seq' , hidden:true},
-         	    { text: 'Date', datafield: 'createdon',width:"17%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
-         	    { text: 'Amount', datafield: 'amount',width:"14%"},
-				{ text: 'Title', datafield: 'title', width:"30%"}, 	
-				{ text: 'Description', datafield: 'description',width:"35%"},
-				
-				
+         	    { text: 'Date', datafield: 'cashbook.createdon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+         	    { text: 'Amount', datafield: 'amount',width:"12%"},
+				{ text: 'Title', datafield: 'title', width:"25%"}, 	
+				{ text: 'Category', datafield: 'category', width:"15%",filtertype: 'checkedlist',filteritems:categories}, 
+				{ text: 'Transaction Type', datafield: 'transactiontype', width:"15%",filtertype: 'checkedlist',filteritems:transactionTypes}, 
+				{ text: 'Processed By', datafield: 'fullname', width:"15%",filtertype: 'checkedlist',filteritems:users},
 	        ]
            
             var source =
@@ -102,15 +107,17 @@
                 datatype: "json",
                 id: 'id',
                 pagesize: 20,
-                sortcolumn: 'createdon',
+                sortcolumn: 'cashbook.createdon',
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
                             { name: 'title', type: 'string' },
-                            { name: 'description', type: 'string'},
                             { name: 'amount', type: 'string' },
-                            { name: 'createdon', type: 'date' },
+                            { name: 'category', type: 'string' },
+                            { name: 'transactiontype', type: 'string' },
+                            { name: 'fullname', type: 'string' },
+                            { name: 'cashbook.createdon', type: 'date' },
                             ],                          
-                url: 'Actions/ExpenseLogAction.php?call=getAllExpenseLogs',
+                url: 'Actions/CashbookAction.php?call=getAllCashbook',
                 root: 'Rows',
                 cache: false,
                 beforeprocessing: function(data)
@@ -120,18 +127,18 @@
                 filter: function()
                 {
                     // update the grid and send a request to the server.
-                    $("#expenseLogGrid").jqxGrid('updatebounddata', 'filter');
+                    $("#cashbookGrid").jqxGrid('updatebounddata', 'filter');
                 },
                 sort: function()
                 {
                     // update the grid and send a request to the server.
-                    $("#expenseLogGrid").jqxGrid('updatebounddata', 'sort');
+                    $("#cashbookGrid").jqxGrid('updatebounddata', 'sort');
                 }
             };
             
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
-            $("#expenseLogGrid").jqxGrid(
+            $("#cashbookGrid").jqxGrid(
             {
             	width: '100%',
     			height: '75%',
@@ -182,7 +189,7 @@
                     });
                     // update row.
                     editButton.click(function (event){
-                    	var selectedrowindex = $("#expenseLogGrid").jqxGrid('selectedrowindexes');
+                    	var selectedrowindex = $("#cashbookGrid").jqxGrid('selectedrowindexes');
                         var value = -1;
                         indexes = selectedrowindex.filter(function(item) { 
                             return item !== value
@@ -191,27 +198,27 @@
                             bootbox.alert("Please Select single row for edit.", function() {});
                             return;    
                         }
-                        var row = $('#expenseLogGrid').jqxGrid('getrowdata', indexes);
+                        var row = $('#cashbookGrid').jqxGrid('getrowdata', indexes);
                         $("#seq").val(row.seq);                        
                         $("#form1").submit();    
                     });
                     // delete row.
                     deleteButton.click(function (event) {
-                        gridId = "expenseLogGrid";
+                        gridId = "cashbookGrid";
                         deleteUrl = "Actions/ExpenseLogAction.php?call=deleteExpenseLogs";
                         deleteUsers(gridId,deleteUrl);
                     });
                     exportButton.click(function (event) {
-						filterQstr = getFilterString("expenseLogGrid");
-                    	exportExpenseLogs(filterQstr);
+						filterQstr = getFilterString("cashbookGrid");
+                    	exportCashbook(filterQstr);
                     });
                     reloadButton.click(function (event) {
-                    	$("#expenseLogGrid").jqxGrid({ source: dataAdapter });
+                    	$("#cashbookGrid").jqxGrid({ source: dataAdapter });
                     });
                 }
             });
         }
-        function exportExpenseLogs(filterString){
+        function exportCashbook(filterString){
             $("#queryString").val(filterString);
         	$('#exportForm').submit();
         }

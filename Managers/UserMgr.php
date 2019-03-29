@@ -66,6 +66,20 @@ class UserMgr{
 		return $admins;
 	}
 	
+	public function getAllUserNames(){
+		$sessionUtil = SessionUtil::getInstance();
+		$isRep = $sessionUtil->isRepresentative();
+		$names = array();
+		if($isRep){
+			$userName = $sessionUtil->getUserLoggedInName();
+			$names = array(0=>$userName);
+		}else{
+			$admins = $this->getAllUsers();
+			$names = array_map(create_function('$o', 'return $o->getFullName();'), $admins);
+		}
+		return $names;
+	}
+	
 	
 	public function toArray($user){
 		$adminArr = array();

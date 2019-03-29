@@ -106,11 +106,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    	<span class="nav-label">Order Payments</span>  
 	                    </a>
 	                </li>
-	                <li class="<?php echo $isCashBook;?>">
-	                    <a href="showCashBook.php"><i class="fa fa-money"></i> 
-	                    	<span class="nav-label">Cash Book</span>  
-	                    </a>
-	                </li>
+	               
                
 	                <li class="<?php echo $isUsers;?>">
 	                    <a href="showUsers.php"><i class="fa fa-users"></i> 
@@ -123,6 +119,11 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    </a>
 	                </li>
                 <?php }?>
+                 <li class="<?php echo $isCashBook;?>">
+	                    <a href="showCashBook.php"><i class="fa fa-money"></i> 
+	                    	<span class="nav-label">Cash Book</span>  
+	                    </a>
+	                </li>
                 <li>
                     <a href="logout.php"><i class="fa fa-sign-out"></i> 
                     	<span class="nav-label">Logout</span>  
