@@ -2,6 +2,7 @@
 require_once ($ConstantsArray ['dbServerUrl'] . "Enums/MeasuringUnitType.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Enums/UserType.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Enums/PaymentMode.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Enums/ExpenseType.php");
 class DropDownUtils {
 	
    public static function getDropDown($values, $selectName, $onChangeMethod, $selectedValue,$isAll = false,$firstOption = "Select Any") {
@@ -38,6 +39,11 @@ class DropDownUtils {
 	public static function getPaymentModeDD($selectName, $onChangeMethod, $selectedValue,$isAll = false) {
 		$paymentMode = PaymentMode::getAll();
 		return self::getDropDown ($paymentMode, $selectName, $onChangeMethod, $selectedValue,true,"Payment Mode");
+	}
+	
+	public static function getExpenseTypeDD($selectName, $onChangeMethod, $selectedValue,$isAll = false) {
+		$enums = ExpenseType::getAll();
+		return self::getDropDown ($enums, $selectName, $onChangeMethod, $selectedValue,true,"Expense Type");
 	}
 
 }

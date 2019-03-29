@@ -2,6 +2,8 @@
 include("SessionCheck.php");
 require_once('IConstants.inc');
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/ExpenseLogMgr.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropdownUtil.php");
+require_once($ConstantsArray['dbServerUrl'] ."Enums/ExpenseType.php");
 
 $expenseLog = new ExpenseLog();
 $expenseLogMgr = ExpenseLogMgr::getInstance();
@@ -40,6 +42,24 @@ if(isset($_POST["seq"])){
 		        	<form id="cashBookForm" method="post" enctype="multipart/form-data" action="Actions/ExpenseLogAction.php" class="m-t-lg">
 		                <input type="hidden" id ="call" name="call"  value="saveExpenseLog"/>
 		                <input type="hidden" id ="seq" name="seq"  value="<?php echo $expenseLog->getSeq()?>"/>
+		                <div class="form-group row">
+		                	<label class="col-lg-1 col-form-label"></label>
+		                    <div class="col-lg-2 col-form-label">
+		                    	Receipt <input type="radio" name="transactiontype" value="receipt" class="i-checks" checked>
+		                    </div>
+		                    <div class="col-lg-2 col-form-label">
+		                    	Payment <input type="radio" name="transactiontype" value="payment" class="i-checks">
+		                    </div>
+		                </div>
+		                 <div class="form-group row">
+		                	<label class="col-lg-1 col-form-label">Type</label>
+		                    <div class="col-lg-7">
+		                    	<?php 
+		                             	$select = DropDownUtils::getExpenseTypeDD("exepensetype[]", null, "");
+		                                echo $select;
+	                             	?>
+		                    </div>
+		                </div>
 		                <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Title</label>
 		                    <div class="col-lg-7">
@@ -85,6 +105,12 @@ if(isset($_POST["seq"])){
 </body>
 </html>
 <script type="text/javascript">
+$(document).ready(function(){
+    $('.i-checks').iCheck({
+		checkboxClass: 'icheckbox_square-green',
+	   	radioClass: 'iradio_square-green',
+	});
+});
 function submitCashBookForm(action){
 	if($("#cashBookForm")[0].checkValidity()) {
     	 $('#cashBookForm').ajaxSubmit(function( data ){
