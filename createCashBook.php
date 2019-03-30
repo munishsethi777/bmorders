@@ -1,15 +1,22 @@
 <?php
 include("SessionCheck.php");
 require_once('IConstants.inc');
-require_once ($ConstantsArray ['dbServerUrl'] . "Managers/ExpenseLogMgr.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Managers/CashbookMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DropdownUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/ExpenseType.php");
 
-$expenseLog = new ExpenseLog();
-$expenseLogMgr = ExpenseLogMgr::getInstance();
+$cashbook = new Cashbook();
+$cashbookMgr = CashbookMgr::getInstance();
+$receiptChecked = "checked";
+$paymentChecked = "";
+
 if(isset($_POST["seq"])){
 	$seq = $_POST["seq"];
-	$expenseLog = $expenseLogMgr->findBySeq($seq);
+	$cashbook = $cashbookMgr->findBySeq($seq);
+	$type = $cashbook->getTransactionType();
+	if($type == "payment"){
+		$paymentChecked = "checked";
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -39,23 +46,23 @@ if(isset($_POST["seq"])){
 	                </div>
 	            </div>
 	            <div class="ibox-content mainDiv">
-		        	<form id="cashBookForm" method="post" enctype="multipart/form-data" action="Actions/ExpenseLogAction.php" class="m-t-lg">
-		                <input type="hidden" id ="call" name="call"  value="saveExpenseLog"/>
-		                <input type="hidden" id ="seq" name="seq"  value="<?php echo $expenseLog->getSeq()?>"/>
+		        	<form id="cashBookForm" method="post" enctype="multipart/form-data" action="Actions/CashbookAction.php" class="m-t-lg">
+		                <input type="hidden" id ="call" name="call"  value="saveCashbook"/>
+		                <input type="hidden" id ="seq" name="seq"  value="<?php echo $cashbook->getSeq()?>"/>
 		                <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label"></label>
 		                    <div class="col-lg-2 col-form-label">
-		                    	Receipt <input type="radio" name="transactiontype" value="receipt" class="i-checks" checked>
+		                    	Receipt <input type="radio" name="transactiontype" value="receipt" class="i-checks" <?php echo $receiptChecked?>>
 		                    </div>
 		                    <div class="col-lg-2 col-form-label">
-		                    	Payment <input type="radio" name="transactiontype" value="payment" class="i-checks">
+		                    	Payment <input type="radio" name="transactiontype" value="payment" class="i-checks" <?php echo $paymentChecked?>>
 		                    </div>
 		                </div>
 		                 <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Type</label>
 		                    <div class="col-lg-7">
 		                    	<?php 
-		                             	$select = DropDownUtils::getExpenseTypeDD("exepensetype[]", null, "");
+		                             	$select = DropDownUtils::getExpenseTypeDD("category", null, $cashbook->getCategory());
 		                                echo $select;
 	                             	?>
 		                    </div>
@@ -63,19 +70,19 @@ if(isset($_POST["seq"])){
 		                <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Title</label>
 		                    <div class="col-lg-7">
-		                    	<input type="text" value="<?php echo $expenseLog->getTitle()?>"  id="title" name="title" required placeholder="Title" class="form-control">
+		                    	<input type="text" value="<?php echo $cashbook->getTitle()?>"  id="title" name="title" required placeholder="Title" class="form-control">
 		                    </div>
 		                </div>
 		                <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Description</label>
 		                    <div class="col-lg-7">
-		                    	<input type="text" value="<?php echo $expenseLog->getDescription()?>"  id="description" name="description" required placeholder="Description" class="form-control">
+		                    	<input type="text" value="<?php echo $cashbook->getDescription()?>"  id="description" name="description" required placeholder="Description" class="form-control">
 		                    </div>
 		                </div>
 		                <div class="form-group row">
 		                	<label class="col-lg-1 col-form-label">Amount</label>
 		                    <div class="col-lg-7">
-		                    	<input type="text" value="<?php echo $expenseLog->getAmount()?>"  id="amount" name="amount" required placeholder="Amount" class="form-control">
+		                    	<input type="text" value="<?php echo $cashbook->getAmount()?>"  id="amount" name="amount" required placeholder="Amount" class="form-control">
 		                    </div>
 		                </div>
 		                <div class="form-group row">
@@ -85,7 +92,7 @@ if(isset($_POST["seq"])){
 	                               				id="rzp-button">
 	                               			Save
 		                           	</button>
-		                           	<?php if(empty($expenseLog->getSeq())){?>
+		                           	<?php if(empty($cashbook->getSeq())){?>
 			                           <button class="btn btn-primary" type="button" onclick="javascript:submitCashBookForm('saveandnew')" 
 		                               				id="rzp-button">
 		                               			Save & New
@@ -115,9 +122,12 @@ function submitCashBookForm(action){
 	if($("#cashBookForm")[0].checkValidity()) {
     	 $('#cashBookForm').ajaxSubmit(function( data ){
     		 var obj = $.parseJSON(data);
-    		 showResponseToastr(data,null,"cashBookForm","mainDiv");
+    		 
     		 if(obj.success == 1 && action == "save"){
- 		    	location.href = "showCashBook.php";
+    			showResponseToastr(data,null,null,"mainDiv");
+    	    	location.href = "showCashBook.php";
+ 		     }else{
+ 		    	showResponseToastr(data,null,"cashBookForm","mainDiv");
  		     }   
     	 });
 	}else{

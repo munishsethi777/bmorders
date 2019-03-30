@@ -38,7 +38,6 @@
 					
 				</div>
 				<div style="margin-bottom: 20px;max-width:80%;padding:0px 15px;">
-					{PAYMENT_INFO}
 					{EARLIER_PAYMENTS}
 					<p style="font-size: 12px; color: red; margin-bottom: 0px;line-height:20px;">
 						Pending :Rs. {PENDING_AMOUNT}/- 
@@ -99,4 +98,4 @@
 		</div>
 	</div>
 </body>
-</html>;
+</html>

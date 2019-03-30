@@ -2,11 +2,13 @@
 require_once('IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ConfigurationMgr.php");
 $configurationMgr = ConfigurationMgr::getInstance();
-$cakeVendorEmail = $configurationMgr->getConfiguration(Configuration::$CAKE_VENDOR_EMAIL);
-$cakeVendorMobile = $configurationMgr->getConfiguration(Configuration::$CAKE_VENDOR_MOBILE);
-$cakeVendorMessage = $configurationMgr->getConfiguration(Configuration::$CAKE_VENDOR_MESSAGE);
-$bookingClosurEmail = $configurationMgr->getConfiguration(Configuration::$BOOKING_CLOSUR_EMAIL);
-$bookingClosurMobile = $configurationMgr->getConfiguration(Configuration::$BOOKING_CLOSUR_MOBILE);
+$paymentNotificationEmail = $configurationMgr->getConfiguration(Configuration::$PAYMENT_NOTIFICATION_EMAIL);
+$paymentNotificationMobile = $configurationMgr->getConfiguration(Configuration::$PAYMENT_NOTIFICATION_MOBILE);
+$orderNotificationEmail = $configurationMgr->getConfiguration(Configuration::$ORDER_NOTIFICATION_EMAIL);
+$orderNotificationMobile = $configurationMgr->getConfiguration(Configuration::$ORDER_NOTIFICATION_MOBILE);
+$expectedPaymentNotificationEmail = $configurationMgr->getConfiguration(Configuration::$EXPECTED_PAYMENT_NOTIFICATION_EMAIL);
+$expectedPaymentNotificationMobile = $configurationMgr->getConfiguration(Configuration::$EXPECTED_PAYMENT_NOTIFICATION_MOBILE);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,63 +34,83 @@ $bookingClosurMobile = $configurationMgr->getConfiguration(Configuration::$BOOKI
 							</nav>
 	                        <h5>Settings</h5>
 	                    </div>
-	                     <div class="ibox-content">
-	                     		<h5>Cake Vendor Settings</h5>
-	                        	<form id="cakeSettingForm" action="Actions/AdminAction.php" class="m-t-lg">
-	                        		<input type="hidden" id ="call" name="call"   value="saveCakeVendorSettings"/>
+	                    <div class="ibox-content">
+	                     		<h5>Order Notifications</h5>
+	                        	<form id="orderNotificationForm" action="Actions/UserAction.php" class="m-t-lg">
+	                        		<input type="hidden" id ="call" name="call" value="saveOrderNotificationSettings"/>
 		                        		<div id="cakeSettingDiv">
 			                        		<div class="form-group row">
 			                       				<label class="col-lg-1 col-form-label">Email</label>
 			                                  	<div class="col-lg-8">
-			                                  		<input type="text" required placeholder="Email" value="<?php echo $cakeVendorEmail?>" name="cakeVendorEmail" class="form-control">
+			                                  		<input type="text" required placeholder="Email" value="<?php echo $orderNotificationEmail?>" name="orderNotificationEmail" class="form-control">
 			                            		</div>
 			                            	</div>
 			                            	<div class="form-group row">
 			                       				<label class="col-lg-1 col-form-label">Mobile</label>
 			                                  	<div class="col-lg-8">
-			                                  		 <input type="text" required placeholder="Mobile" value="<?php echo $cakeVendorMobile?>" name="cakeVendorMobile" class="form-control">
+			                                  		 <input type="text" required placeholder="Mobile" value="<?php echo $orderNotificationMobile?>" name="orderNotificationMobile" class="form-control">
 			                            		</div>
 			                            	</div>		
-			                            	<div class="form-group row">
-			                       				<label class="col-lg-1 col-form-label">Email Text</label>
+			                           </div>
+		                            	<div>
+		                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="saveOrderNotificationSettings" type="button">
+		                                        <span class="ladda-label">Save</span>
+		                                    </button>
+	                               		</div>  
+	                       		 </form>
+	                     </div>
+	                     <div class="ibox-content">
+	                     		<h5>Expected Payment Notifications</h5>
+	                        	<form id="expectedPaymentSettingForm" action="Actions/UserAction.php" class="m-t-lg">
+	                        		<input type="hidden" id ="call" name="call"   value="saveExpectedPaymentNotificationSettings"/>
+		                        		<div id="cakeSettingDiv">
+			                        		<div class="form-group row">
+			                       				<label class="col-lg-1 col-form-label">Email</label>
 			                                  	<div class="col-lg-8">
-			                                  		<textarea rows="3" id="cakeVendorMessage" name="cakeVendorMessage" placeholder=" Content" cols="81"><?php echo $cakeVendorMessage?></textarea>
+			                                  		<input type="text" required placeholder="Email" value="<?php echo $expectedPaymentNotificationEmail?>" name="expectedPaymentNotificationEmail" class="form-control">
 			                            		</div>
 			                            	</div>
-			                         	</div>
+			                            	<div class="form-group row">
+			                       				<label class="col-lg-1 col-form-label">Mobile</label>
+			                                  	<div class="col-lg-8">
+			                                  		 <input type="text" required placeholder="Mobile" value="<?php echo $expectedPaymentNotificationMobile?>" name="expectedPaymentNotificationMobile" class="form-control">
+			                            		</div>
+			                            	</div>		
+			                           </div>
 		                            	<div>
-		                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="saveCakeSettingBtn" type="button">
+		                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="saveExpectedPaymentSettingBtn" type="button">
+		                                        <span class="ladda-label">Save</span>
+		                                    </button>
+	                               		</div>  
+	                       		 </form>
+	                     </div>
+	                     <div class="ibox-content">
+	                     		<h5>Payment Notifications</h5>
+	                        	<form id="paymentSettingForm" action="Actions/UserAction.php" class="m-t-lg">
+	                        		<input type="hidden" id ="call" name="call"   value="savePaymentNotificationSettings"/>
+		                        		<div id="cakeSettingDiv">
+			                        		<div class="form-group row">
+			                       				<label class="col-lg-1 col-form-label">Email</label>
+			                                  	<div class="col-lg-8">
+			                                  		<input type="text" required placeholder="Email" value="<?php echo $paymentNotificationEmail?>" name="paymentNotificationEmail" class="form-control">
+			                            		</div>
+			                            	</div>
+			                            	<div class="form-group row">
+			                       				<label class="col-lg-1 col-form-label">Mobile</label>
+			                                  	<div class="col-lg-8">
+			                                  		 <input type="text" required placeholder="Mobile" value="<?php echo $paymentNotificationMobile?>" name="paymentNotificationMobile" class="form-control">
+			                            		</div>
+			                            	</div>		
+			                           </div>
+		                            	<div>
+		                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="savePaymentSettingBtn" type="button">
 		                                        <span class="ladda-label">Save</span>
 		                                    </button>
 	                               		</div>  
 	                       		 </form>
 	                     </div>
 	                     
-	                     <div class="ibox-content">
-	                     		<h5>Booking Summary at Closure</h5>
-	                        	<form id="bookingClosureSettingForm" action="Actions/AdminAction.php" class="m-t-lg">
-	                        		<input type="hidden" id ="call" name="call"   value="saveBookingClosurSettings"/>
-		                        		<div id="cakeSettingDiv">
-			                        		<div class="form-group row">
-			                       				<label class="col-lg-1 col-form-label">Email</label>
-			                                  	<div class="col-lg-8">
-			                                  		<input type="text" required placeholder="Email" value="<?php echo $bookingClosurEmail?>" name="bookingClosurEmail" class="form-control">
-			                            		</div>
-			                            	</div>
-			                            	<div class="form-group row">
-			                       				<label class="col-lg-1 col-form-label">Mobile</label>
-			                                  	<div class="col-lg-8">
-			                                  		 <input type="text" required placeholder="Mobile" value="<?php echo $bookingClosurMobile?>" name="bookingClosurMobile" class="form-control">
-			                            		</div>
-			                            	</div>		
-			                           </div>
-		                            	<div>
-		                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="saveBookingClosurSettingBtn" type="button">
-		                                        <span class="ladda-label">Save</span>
-		                                    </button>
-	                               		</div>  
-	                       		 </form>
-	                     </div>
+	                     
 	                 </div>
 	              </div>
         	</div>
@@ -98,20 +120,29 @@ $bookingClosurMobile = $configurationMgr->getConfiguration(Configuration::$BOOKI
  </html>
 <script type="text/javascript">
 $(document).ready(function(){ 
-    $("#saveCakeSettingBtn").click(function(e){
-    	if($("#cakeSettingForm")[0].checkValidity()) {
-        	saveSettings("cakeSettingForm");
+	$("#saveOrderNotificationSettings").click(function(e){
+    	if($("#orderNotificationForm")[0].checkValidity()) {
+        	saveSettings("orderNotificationForm");
     	}else{
-    		$("#cakeSettingForm")[0].reportValidity(); 
+    		$("#orderNotificationForm")[0].reportValidity(); 
     	}
     })
-    $("#saveBookingClosurSettingBtn").click(function(e){
-    	if($("#bookingClosureSettingForm")[0].checkValidity()) {
-        	saveSettings("bookingClosureSettingForm");
+     $("#saveExpectedPaymentSettingBtn").click(function(e){
+    	if($("#expectedPaymentSettingForm")[0].checkValidity()) {
+        	saveSettings("expectedPaymentSettingForm");
     	}else{
-    		$("#bookingClosureSettingForm")[0].reportValidity(); 
+    		$("#expectedPaymentSettingForm")[0].reportValidity(); 
     	}
     })
+    $("#savePaymentSettingBtn").click(function(e){
+    	if($("#paymentSettingForm")[0].checkValidity()) {
+        	saveSettings("paymentSettingForm");
+    	}else{
+    		$("#paymentSettingForm")[0].reportValidity(); 
+    	}
+    })
+    
+   
 });
 function saveSettings(formId){
     $('#'+formId).ajaxSubmit(function( data ){

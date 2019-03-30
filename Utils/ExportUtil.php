@@ -188,7 +188,7 @@ class ExportUtil{
 	
 	
 	
-	public static function exportExpenseLogs($expenseLogs){
+	public static function exportCashbook($cashBooks){
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getProperties()->setCreator("Admin")
 		->setLastModifiedBy("Admin")
@@ -201,37 +201,82 @@ class ExportUtil{
 		$rowCount = 1;
 		$count = 1;
 		$i = 0;
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Date");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Amount");
-		
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "User");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Title");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Description");
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Category");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Payment");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($colName)->getAlignment()->applyFromArray(
+				array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,)
+				);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Receipt");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($colName)->getAlignment()->applyFromArray(
+				array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,)
+				);
 		$count = 2;
 		$i = 0;
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('B2:B'.count($expenseLogs))->getNumberFormat()->setFormatCode('#,##0.00');
-		foreach($expenseLogs as $expenseLog){
+		$totalRow = count($cashBooks) + 2;
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('E2:E'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('F2:F'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
+		$receiptTotal = 0;
+		$paymentTotal = 0;
+		foreach($cashBooks as $cashBook){
 			$colName = $alphas[$i++]. $count;
-			$createOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$expenseLog->getCreatedOn());
+			$createOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$cashBook["createdon"]);
 			$createOnStr = $createOn->format("d-m-Y h:i:s a");
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $createOnStr);
-				
+						
 			$colName = $alphas[$i++]. $count;
-			//$amount = number_format($expenseLog->getAmount(),2,'.','');
-			
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseLog->getAmount());
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["fullname"]);
 	
 			$colName = $alphas[$i++]. $count;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseLog->getTitle());
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["title"]);
 	
 			$colName = $alphas[$i++]. $count;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseLog->getDescription());
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["category"]);
+			$amount = $cashBook["amount"];
+			if($cashBook["transactiontype"] == "receipt"){
+				$colName = $alphas[$i++]. $count;
+				$receiptTotal += $amount; 
+			}else {
+				$paymentTotal += $amount;
+			}
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $amount);
 			$count++;
 			$i = 0;
 		}
+		$i=4;
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $paymentTotal);
+		
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $receiptTotal);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:F1')->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':F'.$totalRow)->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:F1')
+		->getFill()
+		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		->getStartColor()
+		->setRGB('D3D3D3');
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':F'.$totalRow)
+		->getFill()
+		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		->getStartColor()
+		->setRGB('FFFF99');
 		$objPHPExcel->getActiveSheet()->setTitle("Report");
 			
 			
@@ -251,7 +296,7 @@ class ExportUtil{
 		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
 		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 		header ('Pragma: public'); // HTTP/1.0
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		ob_end_clean();
 		$objWriter->save('php://output');
 	}
@@ -385,12 +430,17 @@ class ExportUtil{
 			}
 			$i = 10;
 			$colName = $alphas[$i++]. $count;
+			$comments = $order["comments"];
+			if(!empty($comments)){
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$count, "Comments - " . $comments);
+			}
+			$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A'.$count. ':J'.$count);
 			$totaAmount = $order["totalamount"];
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $totaAmount);
 			$objPHPExcel->getActiveSheet()->getStyle($colName)->getFont()->setBold(true);
 			$grandTotal += $totaAmount;
 			$i = 0;
-			$count = $count+2;
+			$count = $count+3;
 		}
 		$i= 4;
 		$colName = $alphas[$i++]. $count;

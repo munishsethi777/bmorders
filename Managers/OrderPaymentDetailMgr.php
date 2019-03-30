@@ -41,6 +41,7 @@ class OrderPaymentDetailMgr{
 			$expectedDate = $expectedDates[$key];
 			if(!empty($expectedDate)){
 				$expectedDate = DateUtil::StringToDateByGivenFormat("d-m-Y", $expectedDate);
+				$expectedDate->setTime(0,0);
 				$orderPaymnetDetail->setExpectedOn($expectedDate);
 			}
 			$orderPaymnetDetail->setIsConfirmed($isConfirmed[$key]);
@@ -93,6 +94,14 @@ class OrderPaymentDetailMgr{
 		return $orderPaymentDetails;
 	}
 	
+	public function findPaidPaymentsByOrderSeq($orderSeq){
+		$colVal["orderSeq"] = $orderSeq;
+		$colVal["ispaid"] = 1;
+		$orderPaymentDetails = self::$dataStore->executeConditionQuery($colVal);
+		$orderPaymentDetails = $this->groupBySeq($orderPaymentDetails, "seq");
+		return $orderPaymentDetails;
+	}
+	
 	function groupBySeq($array, $key) {
 		$return = array();
 		foreach($array as $val) {
@@ -137,6 +146,25 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		$query = "select sum(amount) from orderpaymentdetails where ispaid = $isPaid and orderseq = ". $orderSeq;
 		$response = self::$dataStore->executeCountQueryWithSql($query);
 		return $response;
+	}
+	
+	public function getExpectedPayments(){
+		$expectedOn = new DateTime();
+		$expectedOn->setTime(0, 0);
+		$expectedOnToday = new DateTime();
+		$expectedOnToday->modify("+2 days");
+		$expectedOnToday->setTime(0, 0);
+		$expectedOnStr = $expectedOn->format("Y-m-d H:i:s");
+		$expectedOnTodayStr = $expectedOnToday->format("Y-m-d H:i:s");
+		$query = "select * from orderpaymentdetails where isnotificationgenerated is  NULL and ispaid = 0 and (expectedon = '$expectedOnStr' or expectedon = '$expectedOnTodayStr') ";
+		$expectedPayments = self::$dataStore->executeObjectQuery($query);
+		return $expectedPayments;
+	}
+	
+	public function updateIsNotificationFlag($flag,$seq){
+		$colval["isnotificationgenerated"] = $flag;
+		$condition["seq"] = $seq;
+		self::$dataStore->updateByAttributesWithBindParams($colval,$condition);
 	}
 	
 }

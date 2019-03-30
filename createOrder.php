@@ -45,6 +45,7 @@ if(isset($_POST["seq"])){
                         		<input type="hidden" id ="call" name="call"  value="saveOrder"/>
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $order->getSeq()?>"/>
                         		<input type="hidden" id ="totalamount" name="totalamount"/>
+                        		<input type="hidden" id ="grossamount" name="grossamount"/>
                         		<div class="form-group row">
 				                	<label class="col-lg-1 col-form-label">Customer</label>
 				                	<div class="col-lg-10">
@@ -313,6 +314,7 @@ function calculateAmount(){
 	var quantityArr = $("input[name='quantity[]']").map(function(){return $(this).val();}).get();
 	var stockArr = $("input[name='stock[]']").map(function(){return $(this).val();}).get();
 	var totalAmount = 0;
+	var grossAmount = 0;
 	$("select.produtSelect2").each(function(i, sel){
 		var price = priceArr[i];
 		var quantity = quantityArr[i];
@@ -328,6 +330,7 @@ function calculateAmount(){
 			totalAmount += price * quantity;
 		}
 	});
+	grossAmount = totalAmount;
 	if(totalAmount > 0){
 		var discount = $("#discount").val();
 		if(discount != null && discount != "" && discount > 0){
@@ -336,8 +339,11 @@ function calculateAmount(){
 			totalAmount = totalAmount - discountAmount;
 		}	
 	}
+	totalAmount = Math.round(totalAmount);
+	grossAmount = Math.round(grossAmount);
 	$("#totalamount").val(totalAmount);
 	$("#finalAmount").html("Rs. " + totalAmount);
+	$("#grossamount").val(grossAmount);
 }
 
 function getOrderDetail(seq){

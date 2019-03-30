@@ -1,6 +1,7 @@
 <?php
 require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/UserMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ConfigurationMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
@@ -91,6 +92,47 @@ if($call == "changePassword"){
 			$success = 0;
 		}
 
+	}catch(Exception $e){
+		$success = 0;
+		$message  = $e->getMessage();
+	}
+}
+if($call == "saveOrderNotificationSettings"){
+	$orderNotificationEmail = $_GET["orderNotificationEmail"];
+	$orderNotificationMobile = $_GET["orderNotificationMobile"];
+	try{
+		$configurationMgr = ConfigurationMgr::getInstance();
+		$configurationMgr->saveConfiguration(Configuration::$ORDER_NOTIFICATION_EMAIL, $orderNotificationEmail);
+		$configurationMgr->saveConfiguration(Configuration::$ORDER_NOTIFICATION_MOBILE, $orderNotificationMobile);
+		$message = "Settings Saved Successfully";
+	}catch(Exception $e){
+		$success = 0;
+		$message  = $e->getMessage();
+	}
+}
+
+if($call == "savePaymentNotificationSettings"){
+	$paymentNotificationEmail = $_GET["paymentNotificationEmail"];
+	$paymentNotificationMobile = $_GET["paymentNotificationMobile"];
+	try{
+		$configurationMgr = ConfigurationMgr::getInstance();
+		$configurationMgr->saveConfiguration(Configuration::$PAYMENT_NOTIFICATION_EMAIL, $paymentNotificationEmail);
+		$configurationMgr->saveConfiguration(Configuration::$PAYMENT_NOTIFICATION_MOBILE, $paymentNotificationMobile);
+		$message = "Settings Saved Successfully";
+	}catch(Exception $e){
+		$success = 0;
+		$message  = $e->getMessage();
+	}
+}
+
+if($call == "saveExpectedPaymentNotificationSettings"){
+	$expectedPaymentNotificationEmail = $_GET["expectedPaymentNotificationEmail"];
+	$expectedPaymentNotificationMobile = $_GET["expectedPaymentNotificationMobile"];
+	try{
+		$configurationMgr = ConfigurationMgr::getInstance();
+		$configurationMgr->saveConfiguration(Configuration::$EXPECTED_PAYMENT_NOTIFICATION_EMAIL, $expectedPaymentNotificationEmail);
+		$configurationMgr->saveConfiguration(Configuration::$EXPECTED_PAYMENT_NOTIFICATION_MOBILE, $expectedPaymentNotificationMobile);
+		$message = "Settings Saved Successfully";
 	}catch(Exception $e){
 		$success = 0;
 		$message  = $e->getMessage();

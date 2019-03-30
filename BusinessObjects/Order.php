@@ -1,6 +1,7 @@
 <?php
 class Order{
 	private $seq,$comments,$customerseq,$discountpercent,$totalamount,$ispaymentcompletelypaid,$userseq,$createdon;
+	private $grossamount;
 	public static $className = "Order";
 	public static $tableName = "orders";
 	public function setSeq($seq_){
@@ -57,6 +58,13 @@ class Order{
 	}
 	public function getUserSeq(){
 		return $this->userseq;
+	}
+	
+	public function setGrossAmount($grossAmount_){
+		$this->grossamount = $grossAmount_;
+	}
+	public function getGrossAmount(){
+		return $this->grossamount;
 	}
 	
 	public function createFromRequest($request){

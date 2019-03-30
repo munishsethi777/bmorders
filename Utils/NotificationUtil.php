@@ -24,4 +24,14 @@ class NotificationUtil{
 			}	
 		}
 	}
+	
+	public static function generateExpectedPaymentNotification(){
+		$logger = Logger::getLogger ( "logger" );
+		try{
+			$notificationMgr = NotificationMgr::getInstance();
+			$notificationMgr->saveExcpectedPaymentNotificationForEmail();
+		}catch (Exception $e){
+			$logger->error("Error During Generate Expected Payment Notificaton - " . $e->getMessage(),$e);
+		}
+	}
 }
