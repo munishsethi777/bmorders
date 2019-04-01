@@ -43,6 +43,11 @@ if($call == "getAllUsers"){
 	echo json_encode($users);
 	return;
 }
+if($call == "getAllAdmins"){
+	$users = $userMgr->getAllAdmins();
+	echo json_encode($users);
+	return;
+}
 if($call == "getUserTypes"){
 	$userTypes = UserType::getAll();
 	$userTypes = array_values($userTypes);

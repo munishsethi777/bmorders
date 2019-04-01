@@ -1,4 +1,12 @@
-<?include("SessionCheck.php");?>
+<?include("SessionCheck.php");
+$sessionUtil = SessionUtil::getInstance();
+$isRep = $sessionUtil->isRepresentative();
+$loggedInUserName = $sessionUtil->getUserLoggedInName();
+$rep = 0;
+if($isRep){
+	$rep = 1;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,26 +44,79 @@
    	</form>
    	<form id="form2" name="form2" method="post" action="createOrderPayment.php">
      	<input type="hidden" id="orderSeq" name="orderSeq"/>
+     	<input type="hidden" id="orderid" name="orderid"/>
+     	<input type="hidden" id="touser" name="touser"/>
    	</form>
    	<form id="exportForm" name="exportForm" method="GET" action="Actions/OrderAction.php">
      	<input type="hidden" id="call" name="call" value="exportOrders"/>
      	<input type="hidden" id="queryString" name="queryString"/>
    	</form>
+   	<div  id="startChatModelForm" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Select Admin to Start Chat</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" >
+                        <div class="col-sm-12">
+                            <form role="form"  method="post" action="Actions/LearnerAction.php" id="setProfileForm" class="form-horizontal">
+                                <input type="hidden" value="setProfile" name="call">
+                                <input type="hidden" id="ids" name="ids" value="0">
+                                <div id="adminDiv" class="form-group i-checks">
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                     <button class="btn btn-primary ladda-button" data-style="expand-right" id="startNewChat" type="button">
+                                        <span class="ladda-label">Start Chat</span>
+                                    </button>
+                                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
    </body>
 </html>
 
 	<script type="text/javascript">
 	 isSelectAll = false;
+	 var isRep = <?php echo $rep?>;
+	 var loggedInUser = "<?php echo $loggedInUserName?>";
         $(document).ready(function(){
            $.getJSON("Actions/CustomerAction.php?call=getCustomerTitlesForFilter",function( response ){
             	loadGrid(response.customers)
-           }) 
+           })
+           $.getJSON("Actions/UserAction.php?call=getAllAdmins",function( response ){
+            	populateAdmins(response)
+           })  
            $('.i-checks').iCheck({
 	        	checkboxClass: 'icheckbox_square-green',
 	        	radioClass: 'iradio_square-green',
 	    	});
         });
-        
+        function populateAdmins(admins){
+            var html = "";
+            $("#adminDiv").html("");
+            checked = "checked";
+        	$.each(admins, function(index , value){
+            	 html += '<div class="col-sm-5"><input type="radio" name="adminRadio" '+checked+' value="'+value.seq+'"> '+value.fullname+'<small> ('+value.usertype+')</small> </div>';		
+            	 checked = ""; 
+        	}); 
+        	$("#adminDiv").html(html); 
+        	$('.i-checks').iCheck({
+        		checkboxClass: 'icheckbox_square-green',
+        	   	radioClass: 'iradio_square-green',
+        	});
+        	$("#startNewChat").click(function(e){
+        		startNewChat();
+        	});
+        }
         function deleteCustomers(gridId,deleteURL){
             var selectedRowIndexes = $("#" + gridId).jqxGrid('selectedrowindexes');
             if(selectedRowIndexes.length > 0){
@@ -179,7 +240,9 @@
                     var addButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-plus-square'></i><span style='margin-left: 4px; position: relative;'>    Add</span></div>");
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
-                    var paymentButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Payment</span></div>");
+                    var paymentButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-credit-card'></i><span style='margin-left: 4px; position: relative;'>Payment</span></div>");
+                    var chatButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-whatsapp'></i><span style='margin-left: 4px; position: relative;'>Start Chat</span></div>");
+                    
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
                     var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
                     
@@ -188,6 +251,7 @@
                     container.append(editButton);
                     container.append(deleteButton);
                     container.append(paymentButton);
+                    container.append(chatButton);
                     container.append(exportButton);
                     container.append(reloadButton);
 
@@ -196,12 +260,27 @@
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     paymentButton.jqxButton({  width: 90, height: 18 });
+                    chatButton.jqxButton({  width: 80, height: 18 });
                     exportButton.jqxButton({  width: 70, height: 18 });
+                    
                     reloadButton.jqxButton({  width: 65, height: 18 });
 
                     // create new row.
                     addButton.click(function (event) {
                         location.href = ("createOrder.php");
+                    });
+                    chatButton.click(function (event) {
+                    	var selectedrowindex = $("#orderGrid").jqxGrid('selectedrowindexes');
+                        var value = -1;
+                        indexes = selectedrowindex.filter(function(item) { 
+                            return item !== value
+                        })
+                        if(indexes.length != 1){
+                            bootbox.alert("Please Select single row for payment detail.", function() {});
+                            return;    
+                        }
+                        var row = $('#orderGrid').jqxGrid('getrowdata', indexes);
+                        startChat(row.seq,row.fullname);
                     });
                     paymentButton.click(function (event) {
                     	var selectedrowindex = $("#orderGrid").jqxGrid('selectedrowindexes');
@@ -252,5 +331,31 @@
             $("#queryString").val(filterString);
         	$('#exportForm').submit();
         }
+
+        function startChat(orderid,orderUser){
+        	$("#form2").attr("action", "orderChat.php");        
+       		$("#orderid").val(orderid); 
+            if(isRep > 0){
+	        	$.getJSON("Actions/ChatMessageAction.php?call=isChatExists&orderid="+orderid,function( response ){
+		           	 if(response.isExists){
+		                 $("#form2").submit();  		    	 	 		 
+		           	 }else{
+		           		$('#startChatModelForm').modal('show');
+		           	 }
+		       	 });    
+            }else{
+                if(orderUser == loggedInUser){
+                   alert("You can't start chat with your self!"); 
+                }else{
+                   $("#form2").submit();    
+                }
+            	 
+            }
+       }
+       function startNewChat(){
+    	  var touser = $('input[name=adminRadio]:checked').val();
+    	  $("#touser").val(touser);
+    	  $("#form2").submit();  
+       }
         
 </script>

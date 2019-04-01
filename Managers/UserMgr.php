@@ -4,6 +4,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Managers/UserCompanyMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
 Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
+require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 
 
 class UserMgr{
@@ -50,6 +51,12 @@ class UserMgr{
 		return $count;
 	}
 	
+	public function getAllAdmins(){
+		$rep = UserType::representative;
+		$query = "select * from users where usertype != '$rep'";
+		$admins = self::$userDataStore->executeQuery($query,false,true);
+		return $admins;
+	}
 	
 	public function logInUser($username, $password){
 		$conditionVal["emailid"] = $username;

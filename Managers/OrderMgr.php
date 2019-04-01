@@ -45,7 +45,7 @@ class OrderMgr{
 		//$query = "SELECT orders.*,customers.title FROM orders inner join customers on orders.customerseq = customers.seq";
 		if($isRepersentative){
 			$userSeq = $sessionUtil->getUserLoggedInSeq();
-			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
+			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq and orders.userseq = $userSeq";
 		}
 		$query .= " GROUP by orders.seq";
 		
@@ -73,7 +73,7 @@ class OrderMgr{
 		$query = "SELECT count(*) FROM orders inner JOIN users on orders.userseq = users.seq  inner join customers on orders.customerseq = customers.seq";
 		if($isRepersentative){
 			$userSeq = $sessionUtil->getUserLoggedInSeq();
-			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
+			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq and orders.userseq = $userSeq";
 		}
 		$count = self::$dataStore->executeCountQueryWithSql($query,true);
 		return $count;
