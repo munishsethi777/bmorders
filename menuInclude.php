@@ -10,6 +10,7 @@ $isOrders="";
 $isChangePassword="";
 $isSettings = "";
 $isGroupChat = "";
+$isOrderChat = "";
 $isCashBook = "";
 $isUsers = "";
 $isShowOrderPayment = "";
@@ -44,6 +45,8 @@ if($file == "dashboard.php"){
 	$isShowOrderPayment = "active";
 }elseif($file == "groupChat.php"){
 	$isGroupChat = "active";
+}elseif($file == "showOrderChats.php"){
+	$isOrderChat = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
 $userType = $sessionUtil->getUserLoggedInUserType();
@@ -122,6 +125,11 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    </a>
 	                </li>
                 <?php }?>
+                <li class="<?php echo $isOrderChat;?>">
+	                 <a href="showOrderChats.php"><i class="fa fa-whatsapp"></i> 
+	                   	<span class="nav-label">Order Chat</span>  
+	                 </a>
+	             </li>
                	<li class="<?php echo $isGroupChat;?>">
 	                 <a href="groupChat.php"><i class="fa fa-whatsapp"></i> 
 	                   	<span class="nav-label">Group Chat</span>  

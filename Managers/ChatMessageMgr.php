@@ -55,4 +55,38 @@ class ChatMessageMgr{
 		$query = "update chatmessages set readon = '$dataStr' where orderid = $orderId and fromuser != $fromUser";
 		self::$dataStore->executeQuery($query);
 	}
+	
+	public function getAllChatsForGrid(){
+		$sessionUtil = SessionUtil::getInstance();
+		$userSeq = $sessionUtil->getUserLoggedInSeq();
+		$query = "select MAX(chatmessages.createdon) as lastmessagedate , users.fullname ,customers.title as customer ,orders.seq as orderid, chatmessages.* from chatmessages 
+inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on orders.userseq = users.seq GROUP by chatmessages.orderid";
+		$orderChats = self::$dataStore->executeQuery($query,true);
+		$mainArr = array();
+		$chatMgr = ChatMessageMgr::getInstance();
+		$sessionUtil = SessionUtil::getInstance();
+		$loggedInUser = $sessionUtil->getUserLoggedInSeq();
+		foreach ($orderChats as $orderChat){
+			$orderChat["chatmessages.createdon"] = $orderChat["lastmessagedate"];
+			$orderChat["customers.title"] = $orderChat["customer"];
+			$readon = $orderChat["readon"];
+			$fromUser = $orderChat["fromuser"];
+			$hasChat = 0;
+			if(empty($readon) && $fromUser != $userSeq){
+				$hasChat = 1;
+			}
+			$orderChat["haschat"] = $this->hadUnReadChatForOrder($orderChat["orderid"], $userSeq);
+			array_push($mainArr, $orderChat);
+		}
+ 		$jsonArr["Rows"] =  $mainArr;
+		$jsonArr["TotalRows"] = $this->getCount();
+		return $jsonArr;
+	}
+	
+	public function getCount(){
+		$query = "select count(*) from (select count(*) from chatmessages 
+inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on orders.userseq = users.seq GROUP by chatmessages.orderid) table1";
+		$count = self::$dataStore->executeCountQueryWithSql($query,true);
+		return $count;
+	}
 }

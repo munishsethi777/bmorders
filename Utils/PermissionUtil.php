@@ -7,7 +7,7 @@ class PermissionUtil{
 			4=>'createOrder.php',
 			5=>'createOrderPayment.php',
 			6=>'showCashBook.php',
-			7=>'createCashBook.php',8=>'orderChat.php',9=>'groupChat.php'
+			7=>'createCashBook.php',8=>'orderChat.php',9=>'groupChat.php',10=>'showOrderChats.php'
 	);
 	public static function isAuthRep($pageUrl){
 		if(in_array($pageUrl, self::$repersentativePermissions)){
