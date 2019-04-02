@@ -24,6 +24,9 @@ if($call == "saveCashbook"){
 		$cashbook->createFromRequest($_REQUEST);
 		$cashbook->setUserSeq($userSeq);
 		$cashbook->setCreatedOn(new DateTime());
+		if($cashbook->getTransactionType() == "receipt"){
+			$cashbook->setCategory(null);
+		}
 		$cashbookMgr->saveCashbook($cashbook);
 		$message = "Cash book saved successfully!";
 	}catch(Exception $e){
