@@ -127,7 +127,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                 <?php }?>
                 <li class="<?php echo $isOrderChat;?>">
 	                 <a href="showOrderChats.php"><i class="fa fa-whatsapp"></i> 
-	                   	<span class="nav-label">Order Chat</span>  
+	                   	<span class="nav-label">Order Chat <label class="badge badge-primary chatcount">2</label></span>  
 	                 </a>
 	             </li>
                	<li class="<?php echo $isGroupChat;?>">
