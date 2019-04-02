@@ -9,7 +9,7 @@ $cashbook = new Cashbook();
 $cashbookMgr = CashbookMgr::getInstance();
 $receiptChecked = "checked";
 $paymentChecked = "";
-
+$type = "receipt";
 if(isset($_POST["seq"])){
 	$seq = $_POST["seq"];
 	$cashbook = $cashbookMgr->findBySeq($seq);
@@ -62,7 +62,7 @@ if(isset($_POST["seq"])){
 		                	<label class="col-lg-1 col-form-label">Type</label>
 		                    <div class="col-lg-7">
 		                    	<?php 
-		                             	$select = DropDownUtils::getExpenseTypeDD("category", null, $cashbook->getCategory());
+		                             	$select = DropDownUtils::getExpenseTypeDD("category", null, $cashbook->getCategory(),false);
 		                                echo $select;
 	                             	?>
 		                    </div>
@@ -112,26 +112,55 @@ if(isset($_POST["seq"])){
 </body>
 </html>
 <script type="text/javascript">
+var paymentType = "<?php echo $type?>";
 $(document).ready(function(){
     $('.i-checks').iCheck({
 		checkboxClass: 'icheckbox_square-green',
 	   	radioClass: 'iradio_square-green',
 	});
+    $("input[name=transactiontype]").on('ifChecked', function(event){
+		handleExpenseType(this.value)
+	});
+	handleExpenseType(paymentType);
 });
 function submitCashBookForm(action){
 	if($("#cashBookForm")[0].checkValidity()) {
-    	 $('#cashBookForm').ajaxSubmit(function( data ){
-    		 var obj = $.parseJSON(data);
-    		 
-    		 if(obj.success == 1 && action == "save"){
-    			showResponseToastr(data,null,null,"mainDiv");
-    	    	location.href = "showCashBook.php";
- 		     }else{
- 		    	showResponseToastr(data,null,"cashBookForm","mainDiv");
- 		     }   
-    	 });
+		if(isValidatePaymentType()){
+	    	 $('#cashBookForm').ajaxSubmit(function( data ){
+	    		 var obj = $.parseJSON(data);
+	    		 
+	    		 if(obj.success == 1 && action == "save"){
+	    			showResponseToastr(data,null,null,"mainDiv");
+	    	    	location.href = "showCashBook.php";
+	 		     }else{
+	 		    	showResponseToastr(data,null,"cashBookForm","mainDiv");
+	 		     }   
+	    	 });
+		}else{
+			alert("Select Expense Type!");
+		}
 	}else{
 		$("#cashBookForm")[0].reportValidity();
+	}
+}
+function isValidatePaymentType(){
+	 var transactionType = $('input[name=transactiontype]:checked').val();
+	 if(transactionType == "payment"){
+		 var type = $("#category").val();
+		 if(type == ""){
+			 return false;
+		 }else{
+			 return true;
+		 }
+	 }else{
+		 return true;
+	 }
+}
+function handleExpenseType(type){
+	if(type == "payment"){
+		$('#category').prop('disabled', false);
+	}else{
+		$('#category').prop('disabled', 'disabled');
 	}
 }
 function cancel(){

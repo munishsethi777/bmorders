@@ -172,13 +172,13 @@
 
                     container.append(addButton);
                     container.append(editButton);
-                    container.append(deleteButton);
+                   // container.append(deleteButton);
                     container.append(exportButton);
                     container.append(reloadButton);
 
                     statusbar.append(container);
                     addButton.jqxButton({  width: 65, height: 18 });
-                    deleteButton.jqxButton({  width: 70, height: 18 });
+                   // deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     exportButton.jqxButton({  width: 65, height: 18 });
                     reloadButton.jqxButton({  width: 65, height: 18 });

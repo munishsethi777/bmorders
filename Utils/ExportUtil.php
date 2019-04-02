@@ -1,6 +1,7 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once $ConstantsArray['dbServerUrl'] . 'PHPExcel/IOFactory.php';
+require_once $ConstantsArray['dbServerUrl'] . 'Enums/ExpenseType.php';
 class ExportUtil{
 	public static function exportCustomers($customers){
 		$objPHPExcel = new PHPExcel();
@@ -212,6 +213,9 @@ class ExportUtil{
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Title");
 		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Description");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Category");
 		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
 		$colName = $alphas[$i++]. $count;
@@ -229,8 +233,8 @@ class ExportUtil{
 		$count = 2;
 		$i = 0;
 		$totalRow = count($cashBooks) + 2;
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('E2:E'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
 		$objPHPExcel->setActiveSheetIndex(0)->getStyle('F2:F'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('G2:G'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
 		$receiptTotal = 0;
 		$paymentTotal = 0;
 		foreach($cashBooks as $cashBook){
@@ -244,9 +248,14 @@ class ExportUtil{
 	
 			$colName = $alphas[$i++]. $count;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["title"]);
-	
+			
 			$colName = $alphas[$i++]. $count;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["category"]);
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $cashBook["description"]);
+	
+			$expenseType = $cashBook["category"];
+			$expenseType = ExpenseType::getValue($expenseType);
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expenseType);
 			$amount = $cashBook["amount"];
 			if($cashBook["transactiontype"] == "receipt"){
 				$colName = $alphas[$i++]. $count;
@@ -259,20 +268,20 @@ class ExportUtil{
 			$count++;
 			$i = 0;
 		}
-		$i=4;
+		$i=5;
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $paymentTotal);
 		
 		$colName = $alphas[$i++]. $count;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $receiptTotal);
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:F1')->getFont()->setBold(true);
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':F'.$totalRow)->getFont()->setBold(true);
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:F1')
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:G1')->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':G'.$totalRow)->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:G1')
 		->getFill()
 		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 		->getStartColor()
 		->setRGB('D3D3D3');
-		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':F'.$totalRow)
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':G'.$totalRow)
 		->getFill()
 		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 		->getStartColor()
