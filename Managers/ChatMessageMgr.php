@@ -28,6 +28,14 @@ class ChatMessageMgr{
 		return $chatMessages;
 	}
 	
+	public function getGroupChatConversation($afterSeq = 0){
+		$sessionUtil = SessionUtil::getInstance();
+		$userSeq = $sessionUtil->getUserLoggedInSeq();
+		$sql = "SELECT chatmessages.*,users.fullname as fromusername FROM chatmessages inner join users on chatmessages.fromuser = users.seq where chatmessages.touser = 0 and chatmessages.seq > $afterSeq and chatmessages.orderid = 0 order by chatmessages.createdon ASC";
+		$chatMessages = self::$dataStore->executeQuery($sql,false,true);
+		return $chatMessages;
+	}
+	
 	public function isChatExistsForOrder($orderId){
 		$colVal = array();
 		$colVal["orderid"] = $orderId;

@@ -65,6 +65,22 @@ if($call == "getMessagesChat"){
 	echo json_encode($response);
 	
 }
+if($call == "getGroupMessagesChat"){
+	$response = new ArrayObject();
+	try{
+		$chatLoadedTillSeq = $_GET['chatLoadedTillSeq'];
+		$messages = $chatMessageMgr->getGroupChatConversation($chatLoadedTillSeq);
+		$response["messages"] = $messages;
+		$success = 1;
+	}catch(Exception $e){
+		$success = 0;
+		$message  = $e->getMessage();
+	}
+
+	$response["success"]  = $success;
+	$response["message"]  = $message;
+	echo json_encode($response);
+}
 if($call == "deleteMessageChat"){
 	try{
 		$chatMessageMgr->deleteChatConversation($_POST['userseq'],$_POST['usertype']);
