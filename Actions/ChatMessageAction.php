@@ -21,6 +21,7 @@ if($call == "sendMessageChat"){
 		$chatMessage = new ChatMessage();
 		$chatMessage->createFromRequest($_REQUEST);
 		$chatMessage->setCreatedOn(new DateTime());
+		$chatMessage->setReadOn(null);
 		$id = $chatMessageMgr->saveChatMessage($chatMessage);
 		$success = 1;
 	}catch(Exception $e){
@@ -41,6 +42,14 @@ if($call == "isChatExists"){
 		$response["isExists"] = $isExists;
 		$json = json_encode($response);
 		echo $json;
+	}catch(Exception $e){
+		$success = 0;
+	}
+}
+if($call == "markAsRead"){
+	try{
+		$orderId = $_GET["orderid"];
+		$chatMessageMgr->markAsReadOrderMessages($orderId,$userSeq);
 	}catch(Exception $e){
 		$success = 0;
 	}

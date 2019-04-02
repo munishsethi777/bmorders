@@ -171,7 +171,7 @@ if($isRep){
         	var chaticons = function (row, columnfield, value, defaulthtml, columnproperties) {
                 data = $('#orderGrid').jqxGrid('getrowdata', row);
                 if(data["haschat"] == "1"){
-					return "<div class='datacell'>" + data['seq'] + " <a target='new' href='http://www.google.com'><i class='fa fa-whatsapp'></i></a>" +"</div>";
+					return "<div class='datacell'>" + data['seq'] + " <a href='javascript:startChat("+data['seq']+",\""+ data['fullname']+"\")'><i class='fa fa-whatsapp'></i></a>" +"</div>";
                 }
                 return defaulthtml;                   
             }

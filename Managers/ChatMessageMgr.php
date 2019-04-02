@@ -42,4 +42,17 @@ class ChatMessageMgr{
 		$count = self::$dataStore->executeCountQuery($colVal);
 		return $count > 0;
 	}
+	
+	public function hadUnReadChatForOrder($orderId,$fromUserSeq){
+		$query = "select count(*) from chatmessages where orderid = $orderId and readon is NULL and fromuser != $fromUserSeq";
+		$count = self::$dataStore->executeCountQueryWithSql($query);
+		return $count > 0;
+	}
+	
+	public function markAsReadOrderMessages($orderId,$fromUser){
+		$date = new DateTime();
+		$dataStr = $date->format("Y-m-d- H:i:s");
+		$query = "update chatmessages set readon = '$dataStr' where orderid = $orderId and fromuser != $fromUser";
+		self::$dataStore->executeQuery($query);
+	}
 }

@@ -92,7 +92,7 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
                                     		<input type="hidden" name="fromuser" id="fromuserseq" value="<?php echo $fromUserSeq?>"/>
                                     		<input type="hidden" name="orderid" id="orderid" value="<?php echo $orderSeq?> "/>
                                     		<input type="hidden" name="isgroupchat" id="isgroupchat" value="0"/>
-                                    		<input type="hidden" name="readon" id="readon" value="0"/>
+                                    		<input type="hidden" name="readon" id="readon"/>
                                     		<input type="hidden" name="touser" id="touserseq" value="<?php echo $toUserSeq?>"/>
                                     		<input type="hidden" name="call" value="sendMessageChat"/>
                                     		<div class="col-md-11">
@@ -126,6 +126,7 @@ $(document).ready(function(){
 	var $t = $('.chat-discussion');
     $t.animate({"scrollTop": $('.chat-discussion')[0].scrollHeight}, "slow");
     autoLoadMessages();
+    markAsRead();
     setInterval(function(){ autoLoadMessages();}, 3000);
     $.currentDateFormat = function() {
         var d = new Date();
@@ -165,6 +166,13 @@ function autoLoadMessages(){
 		})
 	}
 }
+
+function markAsRead(){
+	orderId = $("#orderid").val();
+	url = "Actions/ChatMessageAction.php?call=markAsRead&orderid="+orderId;
+	$.post(url, function(data){});
+}
+
 
 function sendMessageCall(){
 	 messasgeQueue++;

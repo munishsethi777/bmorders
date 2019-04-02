@@ -4,6 +4,7 @@ require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/NotificationMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/ChatMessageMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/NotificationType.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "log4php/Logger.php");
 Logger::configure ( $ConstantsArray ['dbServerUrl'] . "log4php/log4php.xml" );
@@ -51,6 +52,9 @@ class OrderMgr{
 		
 		$orders = self::$dataStore->executeQuery($query,true);
 		$mainArr = array();
+		$chatMgr = ChatMessageMgr::getInstance();
+		$sessionUtil = SessionUtil::getInstance();
+		$loggedInUser = $sessionUtil->getUserLoggedInSeq();
 		foreach ($orders as $order){
 			$order["orders.createdon"] = $order["createdon"];
 			$totalAmount = $order["totalamount"];
@@ -60,13 +64,15 @@ class OrderMgr{
 			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
 			$order["customers.title"] = $order["customer"];
 			$order["orders.seq"] = $order["seq"];
-			$order["haschat"] = 1;
+			$order["haschat"] = $chatMgr->hadUnReadChatForOrder($order["seq"],$loggedInUser);
 			array_push($mainArr, $order);
 		}
 		$jsonArr["Rows"] =  $mainArr;
 		$jsonArr["TotalRows"] = $this->getCount();
 		return $jsonArr;
 	}
+	
+	
 	
 	public function getCount(){
 		$sessionUtil = SessionUtil::getInstance();
