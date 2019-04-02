@@ -50,7 +50,6 @@ if($file == "dashboard.php"){
 }
 $sessionUtil = SessionUtil::getInstance();
 $userType = $sessionUtil->getUserLoggedInUserType();
-
 ?>
 
 <nav class="navbar-default navbar-static-side" role="navigation">
@@ -127,7 +126,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
                 <?php }?>
                 <li class="<?php echo $isOrderChat;?>">
 	                 <a href="showOrderChats.php"><i class="fa fa-whatsapp"></i> 
-	                   	<span class="nav-label">Order Chat <label class="badge badge-primary chatcount">2</label></span>  
+	                   	<span class="nav-label">Order Chat <label class="badge badge-primary chatcount"></label></span>  
 	                 </a>
 	             </li>
                	<li class="<?php echo $isGroupChat;?>">
@@ -152,3 +151,18 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 
         </div>
     </nav>
+    <script type="text/javascript">
+	    $(document).ready(function(){
+	    	getUnreadMessageCount();
+	    	setInterval(function(){ getUnreadMessageCount();}, 3000);
+	    });
+	    function getUnreadMessageCount(){
+	    	 $.getJSON("Actions/ChatMessageAction.php?call=getUnReadCount",function( response ){
+		    	if(response.unreadCount > 0){
+	         		$(".chatcount").text(response.unreadCount);
+		    	}else{
+		    		$(".chatcount").text("");
+		    	}
+	         })
+	    }
+	 </script>   

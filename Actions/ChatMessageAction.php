@@ -46,6 +46,16 @@ if($call == "isChatExists"){
 		$success = 0;
 	}
 }
+if($call == "getUnReadCount"){
+	try{
+		$count = $chatMessageMgr->getUnReadChatCount($userSeq);
+		$response["unreadCount"] = $count;
+		$json = json_encode($response);
+		echo $json;
+	}catch(Exception $e){
+		$success = 0;
+	}
+}
 if($call == "markAsRead"){
 	try{
 		$orderId = $_GET["orderid"];

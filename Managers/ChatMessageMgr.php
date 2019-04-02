@@ -49,6 +49,12 @@ class ChatMessageMgr{
 		return $count > 0;
 	}
 	
+	public function getUnReadChatCount($fromUserSeq){
+		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq";
+		$count = self::$dataStore->executeCountQueryWithSql($query);
+		return $count;
+	}
+	
 	public function markAsReadOrderMessages($orderId,$fromUser){
 		$date = new DateTime();
 		$dataStr = $date->format("Y-m-d- H:i:s");
