@@ -28,7 +28,7 @@ class UserMgr{
 		if(!empty($id)){
 			$userCompanyMgr = UserCompanyMgr::getInstance();
 			$userCompanyMgr->saveFromUser($id, $customers);
-			self::$logger->info("User ".$user->getEmailId()." saved for customers ". $customers);
+			self::$logger->info("User ".$user->getEmailId()." saved for customers ". implode(",", $customers));
 		}
 	}
 	
