@@ -1,0 +1,1 @@
+ALTER TABLE `cashbook` CHANGE `dated` `createdon` DATETIME NOT NULL;
