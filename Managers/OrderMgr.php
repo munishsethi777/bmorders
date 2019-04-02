@@ -60,6 +60,7 @@ class OrderMgr{
 			$order["pendingamount"] = "<span class='text-danger pull-right'>" .number_format($pendingAmount,2,'.','') ."</span>";
 			$order["customers.title"] = $order["customer"];
 			$order["orders.seq"] = $order["seq"];
+			$order["haschat"] = 1;
 			array_push($mainArr, $order);
 		}
 		$jsonArr["Rows"] =  $mainArr;
