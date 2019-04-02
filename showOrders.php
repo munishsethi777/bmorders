@@ -14,6 +14,17 @@ if($isRep){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders List</title>
     <?include "ScriptsInclude.php"?>
+    <style>
+    	.datacell{
+    	overflow: hidden;
+		text-overflow: ellipsis;
+		padding-bottom: 2px;
+		text-align: left;
+		margin-right: 2px;
+		margin-left: 4px;
+		margin-top: 4px;
+		}
+    </style>
 </head>
 <body>
     <div id="wrapper">
@@ -157,20 +168,24 @@ if($isRep){
         }
         
         function loadGrid(customers){
+        	var chaticons = function (row, columnfield, value, defaulthtml, columnproperties) {
+                data = $('#orderGrid').jqxGrid('getrowdata', row);
+                if(data["haschat"] == "1"){
+					return "<div class='datacell'>" + data['seq'] + " <a target='new' href='http://www.google.com'><i class='fa fa-whatsapp'></i></a>" +"</div>";
+                }
+                return defaulthtml;                   
+            }
            var columns = [
 				{ text: 'id', datafield: 'seq',hidden:true },
-				{ text: 'Order No.', datafield: 'orders.seq',width:"8%" },
+				{ text: 'Order No.', datafield: 'orders.seq',width:"8%",cellsrenderer:chaticons},
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'User', datafield: 'fullname',width:"15%"},
 				{ text: 'Company', datafield: 'customers.title', width:"29%",filtertype: 'checkedlist',filteritems:customers}, 			
 				//{ text: 'Comments', datafield: 'comments',width:"25%"},
 				{ text: 'Amount', datafield: 'totalamount',width:"15%"},
 				{ text: 'Pending', datafield: 'pendingamount',width:"15%",filterable:false,sortable:false}
-				
 				//{ text: 'Qty', datafield: 'totalproducts',width:"10%",filterable:false},
-				
 				//{ text: 'Payment Completed', datafield: 'ispaymentcompletelypaid',width:"14%",columntype: 'checkbox'}
-				
             ]
            
             var source =
@@ -190,7 +205,8 @@ if($isRep){
                             { name: 'discountpercent', type: 'string' },
                             { name: 'orders.createdon', type: 'date' },
                             { name: 'fullname', type: 'string' },
-                            { name: 'ispaymentcompletelypaid', type: 'boolean' }
+                            { name: 'ispaymentcompletelypaid', type: 'boolean' },
+                            { name: 'haschat', type: 'integer' }
                             ],                          
                 url: 'Actions/OrderAction.php?call=getAllOrders',
                 root: 'Rows',
