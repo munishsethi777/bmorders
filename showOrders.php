@@ -61,7 +61,7 @@ if($isRep){
                 <div class="modal-body">
                     <div class="row" >
                         <div class="col-sm-12">
-                            <form role="form"  method="post" action="Actions/LearnerAction.php" id="setProfileForm" class="form-horizontal">
+                            <form role="form"  method="post" class="form-horizontal">
                                 <input type="hidden" value="setProfile" name="call">
                                 <input type="hidden" id="ids" name="ids" value="0">
                                 <div id="adminDiv" class="form-group i-checks">
@@ -294,6 +294,7 @@ if($isRep){
                         }
                         var row = $('#orderGrid').jqxGrid('getrowdata', indexes);
                         $("#orderSeq").val(row.seq);                        
+                        $("#form2").attr("action", "createOrderPayment.php"); 
                         $("#form2").submit(); 
                     });
                     // update row.
