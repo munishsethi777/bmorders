@@ -236,7 +236,7 @@ class NotificationMgr{
 			}else{
 				$earilerPaymentsHtml = "";
 			}
-			$order = $orderMgr->findBySeq($orderNo);
+			$order = $orderMgr->findBySeq($orderId);
 			$totalAmount = $order->getGrossAmount();
 			$userMgr = UserMgr::getInstance();
 			$user = $userMgr->findBySeq($order->getUserSeq());
@@ -267,7 +267,6 @@ class NotificationMgr{
 			$phAnValues["CUSTOMER_MOBILE"] = $customer->getMobile();
 			$phAnValues["CUSTOMER_EMAIL"] = $customer->getEmail();
 			$phAnValues["ORDER_COMMENTS"] = $order->getComments();
-			$phAnValues["ORDER_AMOUNT"] = $amountStr;
 			$phAnValues["PROCESSED_BY_INFO"] = $userInfo;
 			$phAnValues["PRODUCT_HTML"] = $productDetailHtml;
 			$phAnValues["GROSS_TOTAL"] = $totalAmount;
