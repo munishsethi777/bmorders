@@ -135,6 +135,13 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		$jsonArr["TotalRows"] = $this->getAllCount();
 		return $jsonArr;
 	}
+	public function getAllPayments(){
+		$query = 'select orderpaymentdetails.*,orders.seq as ordernumber,orders.createdon as orderdate,customers.title as customer from orderpaymentdetails
+inner join orders on orders.seq = orderpaymentdetails.orderseq inner join customers on customers.seq = orders.customerseq';
+		$payments = self::$dataStore->executeQuery($query,true);
+		return $payments;
+	}
+	
 	
 	public function getAllCount(){
 		$query = 'select count(*) from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq inner join customers on customers.seq = orders.customerseq';
@@ -167,4 +174,11 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		self::$dataStore->updateByAttributesWithBindParams($colval,$condition);
 	}
 	
+	public function exportPayments($queryString){
+		$output = array();
+		parse_str($queryString, $output);
+		$_GET = array_merge($_GET,$output);
+		$payments =$this->getAllPayments();
+		ExportUtil::exportPayments($payments);
+	}
 }

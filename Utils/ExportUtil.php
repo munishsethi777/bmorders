@@ -2,6 +2,7 @@
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once $ConstantsArray['dbServerUrl'] . 'PHPExcel/IOFactory.php';
 require_once $ConstantsArray['dbServerUrl'] . 'Enums/ExpenseType.php';
+require_once $ConstantsArray['dbServerUrl'] . 'Enums/PaymentMode.php';
 class ExportUtil{
 	public static function exportCustomers($customers){
 		$objPHPExcel = new PHPExcel();
@@ -484,6 +485,145 @@ class ExportUtil{
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="Orders"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+			
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		ob_end_clean();
+		$objWriter->save('php://output');
+	}
+	
+	public static function exportPayments($payments){
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getProperties()->setCreator("Admin")
+		->setLastModifiedBy("Admin")
+		->setTitle("Payments")
+		->setSubject("Payments")
+		->setDescription("Payments")
+		->setKeywords("office 2007 openxml php")
+		->setCategory("Report");
+		$alphas = range('A', 'Z');
+		$rowCount = 1;
+		$count = 1;
+		$i = 0;
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Order#");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Customer");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Order Date");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Mode");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Paid On");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Paid");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Expected Date");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Details");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, "Amount");
+		$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($alphas[$i])->setAutoSize(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle($colName)->getAlignment()->applyFromArray(
+				array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,)
+				);
+		
+		$count = 2;
+		$i = 0;
+		$totalRow = count($payments) + 2;
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('I2:I'.$totalRow)->getNumberFormat()->setFormatCode('#,##0.00');
+		$paymentTotal = 0;
+		foreach($payments as $payment){
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $payment["ordernumber"]);
+			
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $payment["customer"]);
+			
+			$colName = $alphas[$i++]. $count;
+			$createOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$payment["orderdate"]);
+			$createOnStr = $createOn->format("d-m-Y h:i:s a");
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $createOnStr);
+			
+			$paymentMode  = $payment["paymentmode"];
+			$paymentMode = PaymentMode::getValue($paymentMode);
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $paymentMode);
+			
+			$colName = $alphas[$i++]. $count;
+			$createOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$payment["createdon"]);
+			$createOnStr = $createOn->format("d-m-Y h:i:s a");
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $createOnStr);
+			
+			$isPaid = $payment["ispaid"];
+			$paid = "YES";
+			if(empty($isPaid)){
+				$paid = "NO"; 
+			}
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $paid);
+			
+			$colName = $alphas[$i++]. $count;
+			if(!empty($payment["expectedon"])){
+				$expectedDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$payment["expectedon"]);
+				$expectedDate = $expectedDate->format("d-m-Y");
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $expectedDate);
+			}
+			
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $payment["details"]);
+			
+			$amount = $payment["amount"];
+			$paymentTotal += $amount;
+			$colName = $alphas[$i++]. $count;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $payment["amount"]);
+			$count++;
+			$i = 0;
+		}
+		$i=8;
+		$colName = $alphas[$i++]. $count;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $paymentTotal);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:I1')->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':I'.$totalRow)->getFont()->setBold(true);
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:I1')
+		->getFill()
+		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		->getStartColor()
+		->setRGB('D3D3D3');
+		$objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$totalRow.':I'.$totalRow)
+		->getFill()
+		->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+		->getStartColor()
+		->setRGB('FFFF99');
+		$objPHPExcel->getActiveSheet()->setTitle("Report");
+			
+			
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+			
+			
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="Payments"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

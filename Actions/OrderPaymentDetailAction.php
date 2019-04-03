@@ -35,6 +35,16 @@ if($call == "getOrderPaymentDetails"){
 	echo json_encode($payments);
 	return;
 }
+if($call == "exportPayments"){
+	try{
+		$queryString = $_GET["queryString"];
+		$oderPaymentDetailMgr->exportPayments($queryString);
+		return;
+	}catch(Exception $e){
+		$success = 0;
+		$message = $e->getMessage();
+	}
+}
 $response["success"] = $success;
 $response["message"] = $message;
 echo json_encode($response);

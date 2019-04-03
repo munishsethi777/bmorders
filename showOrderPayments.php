@@ -37,6 +37,10 @@ include("SessionCheck.php");
      	<input type="hidden" id="orderSeq" name="orderSeq"/>
      	<input type="hidden" id="isEdit" name="isEdit" value="1"/>
    	</form>
+   	 <form id="exportForm" name="exportForm" method="GET" action="Actions/OrderPaymentDetailAction.php">
+     	<input type="hidden" id="call" name="call" value="exportPayments"/>
+     	<input type="hidden" id="queryString" name="queryString"/>
+   	</form>
    </body>
 </html>
 
@@ -186,7 +190,7 @@ include("SessionCheck.php");
                    
                     exportButton.click(function (event) {
 						filterQstr = getFilterString("orderPaymentDetailGrid");
-						exportCustomers(filterQstr);
+						exportPayments(filterQstr);
                     });
                     reloadButton.click(function (event) {
                     	$("#orderPaymentDetailGrid").jqxGrid({ source: dataAdapter });
@@ -208,6 +212,9 @@ include("SessionCheck.php");
                 }
             });
         }
-		
+        function exportPayments(filterString){
+            $("#queryString").val(filterString);
+        	$('#exportForm').submit();
+        }
         
 </script>
