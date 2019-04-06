@@ -126,9 +126,16 @@ inner join orderproductdetails on orders.seq = orderproductdetails.orderseq
 inner join products on orderproductdetails.productseq = products.seq
 inner join customers on orders.customerseq = customers.seq
 inner join users on orders.userseq = users.seq";
+		$sessionUtil = SessionUtil::getInstance();
+		$isRepersentative = $sessionUtil->isRepresentative();
+		if($isRepersentative){
+			$userSeq = $sessionUtil->getUserLoggedInSeq();
+			$query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq and orders.userseq = $userSeq";
+		}
 		$orders =self::$dataStore->executeQuery($query,true);
 		$orders = $this->group_by($orders, "seq");
 		ExportUtil::exportOrders($orders);
+		
 	}
 	
 	
