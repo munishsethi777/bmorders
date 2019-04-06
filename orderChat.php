@@ -246,13 +246,17 @@ function setLastMessageSeq(messageSeq){
 function loadMessages(messages){
 	str="";
 	var i = 0;
+	var fromUser = 0;
+	var hasReceivedMessage = false;
 	$.each(messages, function(index , message){
 		leftOrRight = "left";
 		name = message.fromusername;
+		fromUser = message.fromuser;
 		if(message.fromuser == fromUserSeq){
 			leftOrRight = "right";
 			name = userName;
 			$("#touserseq").val(message.touser);
+			hasReceivedMessage = true;
 		}
 		str = '<div class="chat-message '+leftOrRight+'">';
 		str += '<div class="message">';
@@ -268,6 +272,9 @@ function loadMessages(messages){
 	    $t.animate({"scrollTop": $('.chat-discussion')[0].scrollHeight}, "slow");
 	    $(".msg-input").val("");
 	});
+	if(!hasReceivedMessage && fromUser > 0){
+		$("#touserseq").val(fromUser);
+	}
 }
 
 function populateUserMessages(flag){

@@ -153,11 +153,14 @@ $userType = $sessionUtil->getUserLoggedInUserType();
     </nav>
     <script type="text/javascript">
 	    $(document).ready(function(){
-	    	getUnreadMessageCount();
-	    	setInterval(function(){ getUnreadMessageCount();}, 3000);
+		    var file = "<?php echo $file?>";
+		    if(file != "orderChat.php"){
+	    		getUnreadMessageCount();
+	    		setInterval(function(){ getUnreadMessageCount();}, 3000);
+		    }
 	    });
 	    function getUnreadMessageCount(){
-	    	 $.getJSON("Actions/ChatMessageAction.php?call=getUnReadCount",function( response ){
+		     $.getJSON("Actions/ChatMessageAction.php?call=getUnReadCount",function( response ){
 		    	if(response.unreadCount > 0){
 	         		$(".chatcount").text(response.unreadCount);
 		    	}else{
