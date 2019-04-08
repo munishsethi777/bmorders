@@ -147,9 +147,30 @@ inner join users on orders.userseq = users.seq";
 		return $return;
 	}
 	
+	private function getOrdersByFromToDate($days,$userSeq){
+		$toDate = new DateTime();
+		$fromDate = new DateTime();
+		$fromDate->modify("-".$days . "days");
+		$toDateStr = $toDate->format("Y-m-d H:i:s");
+		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
+		$query = "select * from orders where createdon  >= '$fromDateStr' and createdon <= '$toDateStr' ";
+		if(!empty($userSeq)){
+			$query .= " and userseq = $userSeq";
+		}
+		$orders =self::$dataStore->executeQuery($query,false,true);
+		return $orders;
+	}
 	
-	
-	
-	
-	
+	public function getOrdersByForDashBoard($days,$userSeq){
+		$orders = $this->getOrdersByFromToDate($days, $userSeq);
+		$orderArr = array();
+		foreach ($orders as $order){
+			$orderDate = $order["createdon"];
+			$orderDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $orderDate);
+			$order["createdon"] = $orderDate->format("Y,n,j");
+			array_push($orderArr, $order);
+		}
+		$orderArr = $this->group_by($orderArr,"createdon");
+		return $orderArr;
+	}
 }

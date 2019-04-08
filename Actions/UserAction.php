@@ -54,7 +54,11 @@ if($call == "getUserTypes"){
 	echo json_encode($userTypes);
 	return;
 }
-
+if($call == "getAllUsersForDD"){
+	$users = $userMgr->findAllArr();
+	echo json_encode($users);
+	return;
+}
 if($call == "loginUser"){
 	$username = $_GET["username"];
 	$password = $_GET["password"];

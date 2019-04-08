@@ -84,6 +84,10 @@
 <script src="scripts/plugins/flot/jquery.flot.spline.js"></script>
 <script src="scripts/plugins/flot/jquery.flot.resize.js"></script>
 <script src="scripts/plugins/flot/jquery.flot.pie.js"></script>
+<script src="scripts/plugins/flot/jquery.flot.symbol.js"></script>
+<script src="scripts/plugins/flot/jquery.flot.time.js"></script>
+
+
 
 <!-- Peity -->
 <script src="scripts/plugins/peity/jquery.peity.min.js"></script>

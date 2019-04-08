@@ -69,6 +69,11 @@ if($call == "getAllChats"){
 	echo json_encode($chats);
 	return;
 }
+if($call == "getAllUnreadMessages"){
+	$chats = $chatMessageMgr->getAllUnreadChatForUser($userSeq);
+	echo json_encode($chats);
+	return;
+}
 if($call == "getMessagesChat"){
 	$response = new ArrayObject();
 	try{

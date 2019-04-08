@@ -39,6 +39,18 @@ if($call == "getAllOrders"){
 	echo json_encode($orders);
 	return;
 }
+if($call == "getOrderAndPaymentForDashboard"){
+	$paymentMgr = OrderPaymentDetailMgr::getInstance();
+	$days = $_GET["days"];
+	$userSeq = $_GET["userSeq"];
+	$orders = $oderMgr->getOrdersByForDashBoard($days, $userSeq);
+	$payments = $paymentMgr->getPaymentsForDashBoard($days, $userSeq);
+	$response["orders"] = $orders;
+	$response["payments"] = $payments;
+	echo json_encode($response);
+	return;
+}
+
 if($call == "deleteOrders"){
 	$ids = $_GET["ids"];
 	try{

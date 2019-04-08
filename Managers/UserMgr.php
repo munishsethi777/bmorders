@@ -45,6 +45,11 @@ class UserMgr{
 		return $jsonArr;
 	}
 	
+	public function findAllArr(){
+		$users = self::$userDataStore->findAllArr();
+		return $users;
+	}
+	
 	public function getAllCount(){
 		$query = "select count(*) from users";
 		$count = self::$userDataStore->executeCountQueryWithSql($query,true);

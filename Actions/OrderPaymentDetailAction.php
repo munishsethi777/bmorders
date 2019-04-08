@@ -35,6 +35,11 @@ if($call == "getOrderPaymentDetails"){
 	echo json_encode($payments);
 	return;
 }
+if($call == "getRecentExpectedPayments"){
+	$payments = $oderPaymentDetailMgr->getRecentExpectedPayments();
+	echo json_encode($payments);
+	return;
+}
 if($call == "exportPayments"){
 	try{
 		$queryString = $_GET["queryString"];
