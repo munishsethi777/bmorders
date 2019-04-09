@@ -23,7 +23,7 @@ $fromName = SessionUtil::getInstance()->getUserLoggedInName();
     	<?php include("menuInclude.php")?>  
     	<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom"></div>
-			<div class="row">
+				<div class="row">
 				<div class="col-lg-12">
 					<div class="ibox">
 						<div class="ibox-title">
@@ -31,19 +31,20 @@ $fromName = SessionUtil::getInstance()->getUserLoggedInName();
 								style="margin-bottom: 0">
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 									href="#"><i class="fa fa-bars"></i> </a>
-								<h4 class="p-h-sm font-normal">Order Chat</h4>
+								<h4 class="p-h-sm font-normal">Group Chat</h4>
 							</nav>
 							
 						</div>
 					</div>
 				</div>
 				<div class="ibox-content mainDiv">
-					<div class="col-md-12" style="padding: 0px">
-						<div class="chat-discussion">
-	                     	
-	                     </div>
-					</div>
-					<div class="col-lg-12">
+					<div class="row" style="margin:0px !important">
+						<div class="col-md-12" style="padding: 0px">
+								<div class="chat-discussion">
+			                     	
+			                     </div>
+							</div>
+							<div class="col-lg-12  m-t-sm">
                                 <div class="chat-message-form">
                                     <div class="form-group" style="height:50px">
                                     	<form method="get" action="Actions/ChatMessageAction.php" class="sendMessageForm">
@@ -55,7 +56,7 @@ $fromName = SessionUtil::getInstance()->getUserLoggedInName();
                                     		<input type="hidden" name="touser" id="touserseq" value="0"/>
                                     		<input type="hidden" name="call" value="sendMessageChat"/>
                                     		<div class="col-md-11">
-                                    			<textarea class="form-control msg-input" name="message" placeholder="Enter message text"></textarea>
+                                    			<textarea class="form-control msg-input" style="padding-left:0px" name="message" placeholder="Enter message text"></textarea>
 	                                        </div>
 	                                        <div class="col-md-1" style="padding:0px">
                                     			<input style="height:100%" type="button" value="Send" class="btn btn-primary sendMessage"/>
@@ -64,6 +65,7 @@ $fromName = SessionUtil::getInstance()->getUserLoggedInName();
                                     </div>
                                 </div>
                             </div>
+                      </div>
 				</div>
 			</div>
 		</div>

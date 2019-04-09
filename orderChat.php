@@ -55,36 +55,35 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
 					</div>
 				</div>
 				<div class="ibox-content mainDiv">
-					<div class="col-md-12" style="padding: 0px">
-						<div class="chat-discussion">
-	                     	<?php
-							foreach ( $messagesArr as $message ) {
-								$leftOrRight = "left";
-								$messageAvatar = $chatUserImage;
-								$name = $chattingName;
-								if ($message ['fromadminseq'] == $adminSeq) {
-									$leftOrRight = "right";
-									$messageAvatar = $userImageName;
-									$name = $userName;
-								}
-								$chatLoadedTillSeq = $message ['seq'];
-							?>
-												
-							<div class="chat-message <?php echo $leftOrRight ?>" >
-								<img class="message-avatar" src="<?php echo $messageAvatar?>"
-									alt="">
-								<div class="message">
-									<a class="message-author" href="#"> <?php echo $name?> </a> <span
-										class="message-date"> <?php echo $message['dated']?> </span> <span
-										class="message-content"><?php echo $message['messagetext']?></span>
+					<div class="row" style="margin:0px !important">
+						<div class="col-md-12" style="padding: 0px">
+							<div class="chat-discussion">
+		                     	<?php
+								foreach ( $messagesArr as $message ) {
+									$leftOrRight = "left";
+									$messageAvatar = $chatUserImage;
+									$name = $chattingName;
+									if ($message ['fromadminseq'] == $adminSeq) {
+										$leftOrRight = "right";
+										$messageAvatar = $userImageName;
+										$name = $userName;
+									}
+									$chatLoadedTillSeq = $message ['seq'];
+								?>
+								<div class="chat-message <?php echo $leftOrRight ?>" >
+									<img class="message-avatar" src="<?php echo $messageAvatar?>"
+										alt="">
+									<div class="message">
+										<a class="message-author" href="#"> <?php echo $name?> </a> <span
+											class="message-date"> <?php echo $message['dated']?> </span> <span
+											class="message-content"><?php echo $message['messagetext']?></span>
+									</div>
 								</div>
-							</div>
-							<?php
-								}
-							?>
-	                     </div>
-					</div>
-					<div class="col-lg-12">
+								<?php } ?>
+		                     </div>
+						</div>
+					
+						<div class="col-lg-12 m-t-sm">
                                 <div class="chat-message-form">
                                     <div class="form-group" style="height:50px">
                                     	<form method="get" action="Actions/ChatMessageAction.php" class="sendMessageForm">
@@ -95,7 +94,7 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
                                     		<input type="hidden" name="readon" id="readon"/>
                                     		<input type="hidden" name="touser" id="touserseq" value="<?php echo $toUserSeq?>"/>
                                     		<input type="hidden" name="call" value="sendMessageChat"/>
-                                    		<div class="col-md-11">
+                                    		<div class="col-md-11" style="padding-left:0px">
                                     			<textarea class="form-control msg-input" name="message" placeholder="Enter message text"></textarea>
 	                                        </div>
 	                                        <div class="col-md-1" style="padding:0px">
@@ -104,7 +103,8 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                         </div>
+                      </div>  
 				</div>
 			</div>
 		</div>
