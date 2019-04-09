@@ -162,6 +162,7 @@ function autoLoadMessages(){
 		$.getJSON($url, function(data){
 			if(data.success == 1){
 				loadMessages(data.messages);
+				markAsRead();
 			}
 		})
 	}
