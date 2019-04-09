@@ -50,14 +50,12 @@
 	                                    <label>Days</label>
 	                             	</div>
 	                             	<div class="col-lg-1">
-	                             		<button type="button" onclick="populateOrders()" class="btn btn-default btn-xs">Show</button>
+	                             		<button type="button" onclick="populateOrdersNew()" class="btn btn-default btn-xs">Show</button>
 	                             	</div>
 	                             </div>
 	                                <div class="row">
 		                                <div class="col-lg-12">
-		                                    <div class="flot-chart">
-		                                        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-		                                    </div>
+		                                   <div id='chartContainer' style="height:400px">
 		                                </div>
 	                                </div>
                                 </div>
@@ -140,7 +138,7 @@
 	<script type="text/javascript">
         $(document).ready(function(){
         	populateUnreadMessages();
-        	populateOrders();
+        	populateOrdersNew();
         	populateUsers();
         	populateRecentOrders();
         	populateExpectedPayments();
@@ -196,6 +194,87 @@
 				});	
         })
         }
+
+        function populateOrdersNew(){
+        	var userSeq = $("#usersDD").val()
+            var days = $("#daysDD").val()
+            $("#chartContainer").html('<i class="fa fa-spinner"></i>');
+        	$.getJSON("Actions/OrderAction.php?call=getOrderAndPaymentForDashboard&userSeq="+userSeq + "&days="+days,function( response ){
+            		var orderAndPayments = response.orders;
+            		var sampleData = [];
+            		$.each(orderAndPayments, function(key, orderAndPayment) {
+                		var order =  orderAndPayment.order;
+                		var payment = orderAndPayment.payment;
+                		
+                		var orderAmount = 0
+                		if(order != null){
+                			orderAmount = parseInt(order.amount);
+                		}
+                		var paymentAmount = 0
+                		if(payment != null){
+                			paymentAmount = parseInt(payment.amount)
+                		}
+                		var obj = { Date: key, Orders: orderAmount, Payments: paymentAmount }	
+                		sampleData.push(obj);
+               		});
+        	              	var settings = {
+        	              		title: "Order & Payment Details ",
+        	              		description: "For Last 7 Days By All Users",
+        	              		enableAnimations: true,
+        	              		showLegend: true,
+        	              		padding: { left: 5, top: 5, right: 5, bottom: 5 },
+        	              		titlePadding: { left: 90, top: 0, right: 0, bottom: 10 },
+        	              		source: sampleData,
+        	              		colorScheme: 'scheme05',
+        	              		borderLineColor: '#888888',
+        	              		xAxis:
+        	              		{
+        	              			dataField: 'Date',
+        	              			tickMarks:
+        	              			{
+        	              				visible: true,
+        	              				interval: 1,
+        	              				color: '#888888'
+        	              			},
+        	              			gridLines:{
+        	              				visible: false,
+        	              				interval: 1,
+        	              				color: '#888888'
+        	              			},
+        	              			axisSize: 'auto'
+        	              		},
+        	              		valueAxis:
+        	              		{
+        	              			visible: true,
+        	              			minValue: 0,
+        	              			title: { text: 'Amount' },
+        	              			tickMarks: {color: '#888888'},
+        	              			gridLines: {color: '#888888'},
+        	              			axisSize: 'auto'
+        	              		},
+        	              		seriesGroups:
+        	              		[
+        	              		{
+        	              			type: 'splinearea',
+        	              			series: [
+        	              			{ dataField: 'Payments', displayText: 'Payments', opacity: 0.7 }
+        	              			]
+        	              		},
+        	              		{
+        	              			type: 'stackedcolumn',
+        	              			columnsGapPercent: 50,
+        	              			seriesGapPercent: 5,
+        	              			series: [
+        	              				{ dataField: 'Orders', displayText: 'Orders' }
+        	              			]
+        	              		}
+        	              		]
+        	              	};
+        	              	// setup the chart
+        	              	$('#chartContainer').jqxChart(settings);
+        	});
+        }
+        
         function populateOrders(){
             var userSeq = $("#usersDD").val()
             var days = $("#daysDD").val()

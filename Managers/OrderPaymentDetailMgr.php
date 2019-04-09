@@ -204,22 +204,19 @@ where ispaid = 0 and expectedon is not NULL order by expectedon desc limit 0,9";
 	function getPaymentsForDashBoard($days,$userSeq){
 		$toDate = new DateTime();
 		$fromDate = new DateTime();
+		$fromDate->setTime(0, 0);
 		$fromDate->modify("-".$days . "days");
 		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
 		$toDateStr = $toDate->format("Y-m-d H:i:s");
-		$query = "select orderpaymentdetails.* from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq where ispaid = 1 and orderpaymentdetails.createdon >= '$fromDateStr' and orderpaymentdetails.createdon <= '$toDateStr' ";
+		$query = "select sum(orderpaymentdetails.amount) as amount, CAST(orderpaymentdetails.createdon AS DATE) as createddate from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq where ispaid = 1 and orderpaymentdetails.createdon >= '$fromDateStr' and orderpaymentdetails.createdon <= '$toDateStr' GROUP BY createddate";
 		if(!empty($userSeq)){
 			$query .= " and orders.userseq = $userSeq";
 		}
 		$payments =self::$dataStore->executeQuery($query,false,true);
 		$paymentArr = array();
-		foreach ($payments as $payment){
-			$paymentDate = $payment["createdon"];
-			$paymentDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $paymentDate);
-			$payment["createdon"] = $paymentDate->format("Y,n,j");
-			array_push($paymentArr, $payment);
+		if(!empty($payments)){
+			$paymentArr = $this->groupByDate($payments,"createddate");
 		}
-		$paymentArr = $this->groupByDate($paymentArr,"createdon");
 		return $paymentArr;
 	}
 	

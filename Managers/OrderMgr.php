@@ -1,5 +1,6 @@
 <?php
 require_once($ConstantsArray['dbServerUrl'] ."DataStores/BeanDataStore.php");
+require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php");
@@ -147,30 +148,48 @@ inner join users on orders.userseq = users.seq";
 		return $return;
 	}
 	
-	private function getOrdersByFromToDate($days,$userSeq){
+	
+	public function getOrdersByForDashBoard($days,$userSeq){
 		$toDate = new DateTime();
 		$fromDate = new DateTime();
+		$fromDate->setTime(0, 0);
 		$fromDate->modify("-".$days . "days");
 		$toDateStr = $toDate->format("Y-m-d H:i:s");
 		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
-		$query = "select * from orders where createdon  >= '$fromDateStr' and createdon <= '$toDateStr' ";
+		$query = "select sum(totalamount) as amount, CAST(createdon AS DATE) as createddate  from orders where createdon >= '$fromDateStr' and createdon <= '$toDateStr' GROUP BY createddate";
 		if(!empty($userSeq)){
 			$query .= " and userseq = $userSeq";
 		}
 		$orders =self::$dataStore->executeQuery($query,false,true);
-		return $orders;
-	}
-	
-	public function getOrdersByForDashBoard($days,$userSeq){
-		$orders = $this->getOrdersByFromToDate($days, $userSeq);
-		$orderArr = array();
-		foreach ($orders as $order){
-			$orderDate = $order["createdon"];
-			$orderDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $orderDate);
-			$order["createdon"] = $orderDate->format("Y,n,j");
-			array_push($orderArr, $order);
-		}
-		$orderArr = $this->group_by($orderArr,"createdon");
+		$dateSlices = DateUtil::getDatesSlicesTillNowWithFormat($fromDateStr,"Y-m-d");
+		$orderArr = $this->group_by($orders,"createddate");
+		$paymentMgr = OrderPaymentDetailMgr::getInstance();
+		$paymentArr = $paymentMgr->getPaymentsForDashBoard($days, $userSeq);
+		$orderArr  = $this->getDataByDates($dateSlices, $orderArr,$paymentArr);
 		return $orderArr;
 	}
+	
+	private function getDataByDates($dateSlices,$orderArr,$paymentArr){
+		$orderArrByDate = array();
+		foreach ($dateSlices as $formatedDate){
+			$order = null;
+			$data = array();
+			if(isset($orderArr[$formatedDate])){
+				$order = array();
+				$order = $orderArr[$formatedDate][0];
+			}
+			$data["order"] = $order;
+			$payment = null;
+			if(isset($paymentArr[$formatedDate])){
+				$payment = $paymentArr[$formatedDate][0];
+			}
+			$data["payment"] = $payment;
+			$key = DateUtil::StringToDateByGivenFormat("Y-m-d", $formatedDate);
+			$key = $key->format("j F");
+			$orderArrByDate[$key] = $data;
+		}
+		return $orderArrByDate;
+	}
+	
+	
 }
