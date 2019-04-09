@@ -50,9 +50,21 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
 									href="#"><i class="fa fa-bars"></i> </a>
 								<h4 class="p-h-sm font-normal">Order Chat</h4>
 							</nav>
-							
 						</div>
 					</div>
+				</div>
+				<div class="col-lg-12 m-b-xs">
+					<div class="col-lg-6">
+						<b>Order:</b> 243 <br>
+						<b>Customer:</b> Flex Body Liners, Ludhiana <br>
+						<b>Order Date:</b> 12 Jan 2019<br>
+					</div>
+					<div class="col-lg-6 text-right">
+						<b>Processed By:</b> Rakesh Kumar <br>
+						<span class="text-danger"><b>Pending Payment:</b> Rs. 60,000/-</span><br>
+						<span class="text-success"><b>Total Payment:</b> Rs. 80,500/-</span><br>
+					</div>
+				
 				</div>
 				<div class="ibox-content mainDiv">
 					<div class="row" style="margin:0px !important">

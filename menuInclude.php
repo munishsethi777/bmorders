@@ -45,7 +45,7 @@ if($file == "dashboard.php"){
 	$isShowOrderPayment = "active";
 }elseif($file == "groupChat.php"){
 	$isGroupChat = "active";
-}elseif($file == "showOrderChats.php"){
+}elseif($file == "showOrderChats.php" || $file == "orderChat.php"){
 	$isOrderChat = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
