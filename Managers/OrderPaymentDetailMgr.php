@@ -168,6 +168,25 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		return $expectedPayments;
 	}
 	
+	public function getRecentExpectedPayments(){
+		$query = "select orderpaymentdetails.*,customers.title from orderpaymentdetails 
+inner join orders on orderpaymentdetails.orderseq = orders.seq inner join customers on orders.customerseq = customers.seq
+where ispaid = 0 and expectedon is not NULL order by expectedon desc limit 0,9";
+		$expectedPayments = self::$dataStore->executeQuery($query);
+		$mainArr = array();
+		foreach ($expectedPayments as $payment){
+			$expectedOn = $payment["expectedon"];
+			$expectedOn = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $expectedOn);
+			$expectedOn = $expectedOn->format("M d, Y");
+			$payment["expectedon"] = $expectedOn;
+			$amount = $payment["amount"];
+			$amount = number_format($amount,2,'.','');
+			$payment["amount"] = $amount;
+			array_push($mainArr, $payment);
+		}
+		return $mainArr;
+	}
+	
 	public function updateIsNotificationFlag($flag,$seq){
 		$colval["isnotificationgenerated"] = $flag;
 		$condition["seq"] = $seq;
@@ -181,4 +200,35 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		$payments =$this->getAllPayments();
 		ExportUtil::exportPayments($payments);
 	}
+	
+	function getPaymentsForDashBoard($days,$userSeq){
+		$toDate = new DateTime();
+		$fromDate = new DateTime();
+		$fromDate->modify("-".$days . "days");
+		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
+		$toDateStr = $toDate->format("Y-m-d H:i:s");
+		$query = "select orderpaymentdetails.* from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq where ispaid = 1 and orderpaymentdetails.createdon >= '$fromDateStr' and orderpaymentdetails.createdon <= '$toDateStr' ";
+		if(!empty($userSeq)){
+			$query .= " and orders.userseq = $userSeq";
+		}
+		$payments =self::$dataStore->executeQuery($query,false,true);
+		$paymentArr = array();
+		foreach ($payments as $payment){
+			$paymentDate = $payment["createdon"];
+			$paymentDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $paymentDate);
+			$payment["createdon"] = $paymentDate->format("Y,n,j");
+			array_push($paymentArr, $payment);
+		}
+		$paymentArr = $this->groupByDate($paymentArr,"createdon");
+		return $paymentArr;
+	}
+	
+	function groupByDate($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val[$key]][] = $val;
+		}
+		return $return;
+	}
+	
 }

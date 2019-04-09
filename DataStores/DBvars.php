@@ -2,7 +2,7 @@
 	 class DBvars{
 		public $database = "bmorders";
 		public $username = "root";
-        public $password = "";
+        public $password = "root";
         public $hostname = "localhost";
 	}
  ?>

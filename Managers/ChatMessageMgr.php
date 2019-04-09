@@ -49,6 +49,21 @@ class ChatMessageMgr{
 		return $count > 0;
 	}
 	
+	
+	public function getAllUnreadChatForUser($userSeq){
+		$query = "select users.fullname, chatmessages.* from chatmessages inner join users on chatmessages.fromuser = users.seq where readon is NULL and fromuser != $userSeq and touser = $userSeq";
+		$orderChats = self::$dataStore->executeQuery($query,false,true);
+		$mainArr = array();
+		foreach ($orderChats as $orderChat){
+			$createDate = $orderChat["createdon"];
+			$createDateObj = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $createDate);
+			$date = DateUtil::getTimeDiffTillNow($createDateObj);
+			$orderChat["createdon"] = $date;
+			array_push($mainArr, $orderChat);
+		}
+		return $mainArr;
+	}
+	
 	public function getUnReadChatCount($fromUserSeq){
 		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq";
 		$count = self::$dataStore->executeCountQueryWithSql($query);
