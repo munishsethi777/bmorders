@@ -65,10 +65,18 @@ class ChatMessageMgr{
 	}
 	
 	public function getUnReadChatCount($fromUserSeq){
-		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq";
+		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq and orderid > 0";
 		$count = self::$dataStore->executeCountQueryWithSql($query);
 		return $count;
 	}
+	
+	public function getUnReadGroupChatCount($fromUserSeq){
+		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq and orderid = 0";
+		$count = self::$dataStore->executeCountQueryWithSql($query);
+		return $count;
+	}
+	
+	
 	
 	public function markAsReadOrderMessages($orderId,$fromUser){
 		$date = new DateTime();

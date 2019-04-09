@@ -108,6 +108,11 @@ $(document).ready(function(){
       };
     
 })
+function markAsRead(){
+	orderId = $("#orderid").val();
+	url = "Actions/ChatMessageAction.php?call=markAsReadGroupChat";
+	$.post(url, function(data){});
+}
 function autoLoadMessages(){
 	if(messasgeQueue < 1){
 		chatLoadedTill = $(".chatLoadedTillSeq").val();
@@ -117,6 +122,7 @@ function autoLoadMessages(){
 		$.getJSON($url, function(data){
 			if(data.success == 1){
 				loadMessages(data.messages);
+				markAsRead();
 			}
 		})
 	}

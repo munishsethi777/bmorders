@@ -50,6 +50,8 @@ if($call == "getUnReadCount"){
 	try{
 		$count = $chatMessageMgr->getUnReadChatCount($userSeq);
 		$response["unreadCount"] = $count;
+		$groupChatCount = $chatMessageMgr->getUnReadGroupChatCount($userSeq);
+		$response["unreadGroupCount"] = $groupChatCount;
 		$json = json_encode($response);
 		echo $json;
 	}catch(Exception $e){
@@ -60,6 +62,13 @@ if($call == "markAsRead"){
 	try{
 		$orderId = $_GET["orderid"];
 		$chatMessageMgr->markAsReadOrderMessages($orderId,$userSeq);
+	}catch(Exception $e){
+		$success = 0;
+	}
+}
+if($call == "markAsReadGroupChat"){
+	try{
+		$chatMessageMgr->markAsReadOrderMessages(0,$userSeq);
 	}catch(Exception $e){
 		$success = 0;
 	}

@@ -131,7 +131,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	             </li>
                	<li class="<?php echo $isGroupChat;?>">
 	                 <a href="groupChat.php"><i class="fa fa-whatsapp"></i> 
-	                   	<span class="nav-label">Group Chat</span>  
+	                   	<span class="nav-label">Group Chat <label class="badge badge-primary groupchatcount"></label></span>  
 	                 </a>
 	             </li>
                 <li class="<?php echo $isCashBook;?>">
@@ -152,20 +152,27 @@ $userType = $sessionUtil->getUserLoggedInUserType();
         </div>
     </nav>
     <script type="text/javascript">
+    	var file = "<?php echo $file?>";
 	    $(document).ready(function(){
-		    var file = "<?php echo $file?>";
-		    if(file != "orderChat.php"){
-	    		getUnreadMessageCount();
-	    		setInterval(function(){ getUnreadMessageCount();}, 3000);
-		    }
+		    getUnreadMessageCount();
+	    	setInterval(function(){ getUnreadMessageCount();}, 3000); 
 	    });
 	    function getUnreadMessageCount(){
 		     $.getJSON("Actions/ChatMessageAction.php?call=getUnReadCount",function( response ){
-		    	if(response.unreadCount > 0){
-	         		$(".chatcount").text(response.unreadCount);
-		    	}else{
-		    		$(".chatcount").text("");
-		    	}
+		    	 if(file != "orderChat.php"){
+			    	if(response.unreadCount > 0){
+		         		$(".chatcount").text(response.unreadCount);
+		        	}else{
+			    		$(".chatcount").text("");
+			    	}
+		    	 }
+		    	 if(file != "groupChat.php"){ 
+			    	if(response.unreadGroupCount > 0){
+		         		$(".groupchatcount").text(response.unreadGroupCount);
+			    	}else{
+			    		$(".groupchatcount").text("");
+			    	}
+		    	 }
 	         })
 	    }
 	 </script>   
