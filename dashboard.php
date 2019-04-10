@@ -32,14 +32,12 @@
                                 <h5>Orders</h5>
                             </div>
                             <div class="ibox-content">
-	                             <div class="row">
-	                            	<div class="col-lg-2">
+	                             <div class="row pull-right">
+	                            	<div class="col-lg-12 text-muted p-xs">
 	                            		<label>Users</label>
 	                            		<select class="usersDD" id="usersDD">
 	                                    	<option value='0'>All Users</option>
 	                                    </select>
-	                             	</div>
-	                             	<div class="col-lg-2">
 	                             		<label>Last</label>
 	                            		<select  id="daysDD">
 	                                    	<option value="7">7</option>
@@ -48,9 +46,7 @@
 	                                    	<option value="30">30</option>
 	                                    </select>
 	                                    <label>Days</label>
-	                             	</div>
-	                             	<div class="col-lg-1">
-	                             		<button type="button" onclick="populateOrdersNew()" class="btn btn-default btn-xs">Show</button>
+	                             		<button type="button" onclick="populateOrdersNew()" class="btn btn-primary btn-xs">Show</button>
 	                             	</div>
 	                             </div>
 	                                <div class="row">
@@ -89,7 +85,7 @@
 				                </div>
 				                <div class="col-lg-8">
                             <div class="ibox">
-			       				<div class="ibox-content">
+			       				<div class="ibox-content no-padding" style="border:0px">
 			       				<div class="ibox-title">
 			                                <h5>Expected Payments</h5>
 			                                <div class="ibox-tools">
@@ -225,7 +221,7 @@
         	              		padding: { left: 5, top: 5, right: 5, bottom: 5 },
         	              		titlePadding: { left: 90, top: 0, right: 0, bottom: 10 },
         	              		source: sampleData,
-        	              		colorScheme: 'scheme05',
+        	              		colorScheme: 'scheme17',
         	              		borderLineColor: '#888888',
         	              		xAxis:
         	              		{

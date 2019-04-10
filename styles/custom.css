@@ -66,12 +66,12 @@
 	border: 1px #f0f0f0 solid;
 	
 }
-.jqx-grid .jqx-button{
-	font-size:12px;
-	line-height:normal;
-	height:15px !important;
+.jqx-action-button{
+	top:0px;
 }
-
+.jqx-grid-cell-left-align{
+	padding-left:3px;
+}
 /** preloader Styling **/
 .no-js #loader { display: none;  }
 .js #loader { display: block; position: absolute; left: 100px; top: 0; }
@@ -118,4 +118,12 @@ ul.nav-second-level{
 .leftBorderThin{
 	border-left:1px silver solid;
 	height:100%;
+}
+@media screen and (max-width: 800px) {
+	.ibox-content {
+	    padding: 5px;
+	}
+	.jqx-button{width:30px !important}
+	.jqx-button span{display:none}
+  
 }

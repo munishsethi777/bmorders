@@ -131,7 +131,7 @@
     			columnsreorder: true,
     			showstatusbar: true,
     			virtualmode: true,
-    			selectionmode: 'checkbox',
+    			selectionmode: 'singlerow',
     			rendergridrows: function (toolbar) {
                   return dataAdapter.records;     
            		 },
@@ -139,9 +139,9 @@
                     // appends buttons to the status bar.
                     var container = $("<div style='overflow: hidden; position: relative; margin: 5px;height:30px'></div>");
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
-                    var chatButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-whatsapp'></i><span style='margin-left: 4px; position: relative;'>Start Chat</span></div>");
+                    var chatButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-whatsapp'></i><span style='margin-left: 4px; position: relative;'>Chat</span></div>");
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
-                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Reload</span></div>");
                     
 
                     

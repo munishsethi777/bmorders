@@ -246,7 +246,7 @@ if($isRep){
     			columnsreorder: true,
     			showstatusbar: true,
     			virtualmode: true,
-    			selectionmode: 'checkbox',
+    			selectionmode: 'singlerow',
     			rendergridrows: function (toolbar) {
                   return dataAdapter.records;     
            		 },
@@ -257,10 +257,10 @@ if($isRep){
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
                     var paymentButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-credit-card'></i><span style='margin-left: 4px; position: relative;'>Payment</span></div>");
-                    var chatButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-whatsapp'></i><span style='margin-left: 4px; position: relative;'>Start Chat</span></div>");
+                    var chatButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-whatsapp'></i><span style='margin-left: 4px; position: relative;'>Chat</span></div>");
                     
                     var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
-                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Relaod</span></div>");
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Reload</span></div>");
                     
 
                     container.append(addButton);
