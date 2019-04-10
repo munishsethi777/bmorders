@@ -22,7 +22,7 @@
 									href="#"><i class="fa fa-bars"></i> </a>
 									<h4 class="p-h-sm font-normal"> Administrator Dashboard</h4>
 							</nav>
-	                        
+	                      
 	                    </div>
 	                    <div class="ibox-content">
 	                    <div class="row">
@@ -219,7 +219,7 @@
                		});
         	              	var settings = {
         	              		title: "Order & Payment Details ",
-        	              		description: "For Last 7 Days By All Users",
+        	              		description: "For Last "+days+" Days By All Users",
         	              		enableAnimations: true,
         	              		showLegend: true,
         	              		padding: { left: 5, top: 5, right: 5, bottom: 5 },
