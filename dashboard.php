@@ -20,7 +20,7 @@
 	                    	 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 									href="#"><i class="fa fa-bars"></i> </a>
-									<h4 class="p-h-sm font-normal"> Administrator Dashboard</h4>
+									<h4 class="p-h-sm font-normal">Dashboard</h4>
 							</nav>
 	                      
 	                    </div>
@@ -28,15 +28,12 @@
 	                    <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Orders</h5>
-                            </div>
+                            
                             <div class="ibox-content">
 	                             <div class="row pull-right">
 	                            	<div class="col-lg-12 text-muted p-xs">
 	                            		<label>Users</label>
 	                            		<select class="usersDD" id="usersDD">
-	                                    	<option value='0'>All Users</option>
 	                                    </select>
 	                             		<label>Last</label>
 	                            		<select  id="daysDD">
@@ -51,7 +48,7 @@
 	                             </div>
 	                                <div class="row">
 		                                <div class="col-lg-12">
-		                                   <div id='chartContainer' style="height:400px">
+		                                   <div id='chartContainer' style="height:300px">
 		                                </div>
 	                                </div>
                                 </div>
@@ -75,7 +72,7 @@
 			                            </div>
 			                            <div class="ibox-content ibox-heading">
 			                                <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-			                               <a href="showOrderChats.php"> <small><i class="fa fa-tim"></i> You have <label id="totalMessageLabel" >0</label> new messages</small></a>
+			                               <a href="showOrderChats.php" class="text-success"> <small><i class="fa fa-tim"></i> You have <label id="totalMessageLabel" >0</label> new messages</small></a>
 			                            </div>
 			                            <div class="ibox-content">
 				                             <div class="feed-activity-list" id="messagesDiv">
@@ -134,13 +131,12 @@
 	<script type="text/javascript">
         $(document).ready(function(){
         	populateUnreadMessages();
-        	populateOrdersNew();
+        	//populateOrdersNew();
         	populateUsers();
         	populateRecentOrders();
         	populateExpectedPayments();
         });
         function populateExpectedPayments(){
-           
                $("#expectedPaymentDiv").html("");
                var str = "";
 	           $.getJSON("Actions/OrderPaymentDetailAction.php?call=getRecentExpectedPayments",function( payments ){
@@ -188,6 +184,7 @@
 				                    .attr("value",value.seq)
 				                    .text(value.fullname)); 
 				});	
+            	populateOrdersNew();
         })
         }
 

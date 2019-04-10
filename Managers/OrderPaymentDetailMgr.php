@@ -168,10 +168,15 @@ inner join orders on orders.seq = orderpaymentdetails.orderseq inner join custom
 		return $expectedPayments;
 	}
 	
-	public function getRecentExpectedPayments(){
+	public function getRecentExpectedPayments($userSeq){
 		$query = "select orderpaymentdetails.*,customers.title from orderpaymentdetails 
 inner join orders on orderpaymentdetails.orderseq = orders.seq inner join customers on orders.customerseq = customers.seq
 where ispaid = 0 and expectedon is not NULL order by expectedon desc limit 0,9";
+		if(!empty($userSeq)){
+			$query = "select orderpaymentdetails.*,customers.title from orderpaymentdetails 
+inner join orders on orderpaymentdetails.orderseq = orders.seq inner join customers on orders.customerseq = customers.seq
+where ispaid = 0 and expectedon is not NULL and orders.userseq = $userSeq  order by expectedon desc limit 0,9";
+		}
 		$expectedPayments = self::$dataStore->executeQuery($query);
 		$mainArr = array();
 		foreach ($expectedPayments as $payment){

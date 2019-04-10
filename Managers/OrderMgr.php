@@ -156,10 +156,12 @@ inner join users on orders.userseq = users.seq";
 		$fromDate->modify("-".$days . "days");
 		$toDateStr = $toDate->format("Y-m-d H:i:s");
 		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
-		$query = "select sum(totalamount) as amount, CAST(createdon AS DATE) as createddate  from orders where createdon >= '$fromDateStr' and createdon <= '$toDateStr' GROUP BY createddate";
+		$query = "select sum(totalamount) as amount, CAST(createdon AS DATE) as createddate  from orders where createdon >= '$fromDateStr' 
+		and createdon <= '$toDateStr'";
 		if(!empty($userSeq)){
 			$query .= " and userseq = $userSeq";
 		}
+		$query .= " GROUP BY createddate";
 		$orders =self::$dataStore->executeQuery($query,false,true);
 		$dateSlices = DateUtil::getDatesSlicesTillNowWithFormat($fromDateStr,"Y-m-d");
 		$orderArr = $this->group_by($orders,"createddate");

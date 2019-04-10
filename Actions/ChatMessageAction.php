@@ -3,6 +3,9 @@ require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/ChatMessage.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ChatMessageMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
+$sessionUtil = SessionUtil::getInstance();
+$userType = $sessionUtil->getUserLoggedInUserType();
+
 $call = "";
 if(isset($_GET["call"])){
 	$call = $_GET["call"];

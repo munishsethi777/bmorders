@@ -5,6 +5,8 @@ require_once($ConstantsArray['dbServerUrl'] ."Managers/ConfigurationMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
+$sessionUtil = SessionUtil::getInstance();
+$userType = $sessionUtil->getUserLoggedInUserType();
 $success = 1;
 $message = "";
 $call = "";
@@ -14,7 +16,6 @@ if(isset($_GET["call"])){
 	$call = $_GET["call"];
 }else{
 	$call = $_POST["call"];
-	
 }
 if($call == "saveUser"){
 	$user = new User();
@@ -55,7 +56,16 @@ if($call == "getUserTypes"){
 	return;
 }
 if($call == "getAllUsersForDD"){
-	$users = $userMgr->findAllArr();
+	$users = array();
+	if($userType == UserType::getName(UserType::representative)){
+		$user = $userMgr->findBySeq($sessionUtil->getUserLoggedInSeq());
+		$users[0] = $userMgr->toArray($user);
+	}else{
+		$alluser = array("seq" => 0, "fullname" => "All Users");
+		$users = $userMgr->findAllArr();
+		array_push($users, $alluser);
+		$users = array_reverse($users);
+	}
 	echo json_encode($users);
 	return;
 }

@@ -98,6 +98,7 @@ class UserMgr{
 		$adminArr["seq"] = $user->getSeq();
 		$adminArr["username"] = $user->getEmailid();
 		$adminArr["name"] = $user->getFullName();
+		$adminArr["fullname"] = $user->getFullName();
 		return $adminArr;
 	}
 	

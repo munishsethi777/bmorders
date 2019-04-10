@@ -3,7 +3,9 @@ require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderPaymentDetail.php");
-
+$sessionUtil = SessionUtil::getInstance();
+$userType = $sessionUtil->getUserLoggedInUserType();
+$userSeq = $sessionUtil->getUserLoggedInSeq();
 $success = 1;
 $message = "";
 $call = "";
@@ -36,7 +38,13 @@ if($call == "getOrderPaymentDetails"){
 	return;
 }
 if($call == "getRecentExpectedPayments"){
-	$payments = $oderPaymentDetailMgr->getRecentExpectedPayments();
+	$payments = array();
+	if($userType == UserType::getName(UserType::representative)){
+		$payments = $oderPaymentDetailMgr->getRecentExpectedPayments($userSeq);
+	}else{
+		$payments = $oderPaymentDetailMgr->getRecentExpectedPayments(null);
+	}
+	
 	echo json_encode($payments);
 	return;
 }
