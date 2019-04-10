@@ -44,9 +44,9 @@ if($call == "getOrderAndPaymentForDashboard"){
 	$days = $_GET["days"];
 	$userSeq = $_GET["userSeq"];
 	$orders = $oderMgr->getOrdersByForDashBoard($days, $userSeq);
-	$payments = $paymentMgr->getPaymentsForDashBoard($days, $userSeq);
+	//$payments = $paymentMgr->getPaymentsForDashBoard($days, $userSeq);
 	$response["orders"] = $orders;
-	$response["payments"] = $payments;
+	//response["payments"] = $payments;
 	echo json_encode($response);
 	return;
 }

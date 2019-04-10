@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /*!
  * Globalize
  *
@@ -9,6 +11,9 @@
  */
 
 (function( window, undefined ) {
+if (document.Globalize) {
+    return;
+}
 
 var Globalize,
 	// private variables
@@ -484,16 +489,31 @@ formatDate = function( value, format, culture ) {
 		tokenRegExp = getTokenRegExp(),
 		converted;
 
-	function padZeros( num, c ) {
-		var r, s = num + "";
-		if ( c > 1 && s.length < c ) {
-			r = ( zeros[c - 2] + s);
-			return r.substr( r.length - c, c );
-		}
-		else {
-			r = s;
-		}
-		return r;
+	//function padZeros( num, c ) {
+	//	var r, s = num + "";
+	//	if ( c > 1 && s.length < c ) {
+	//		r = ( zeros[c - 2] + s);
+	//		return r.substr( r.length - c, c );
+	//	}
+	//	else {
+	//		r = s;
+	//	}
+	//	return r;
+	//}
+
+	function padZeros(num, c) {
+	    if (num < 0) {
+	        return "-" + padZeros(-num, c);
+	    }
+	    var r, s = num + "";
+	    if (c > 1 && s.length < c) {
+	        r = (zeros[c - 2] + s);
+	        return r.substr(r.length - c, c);
+	    }
+	    else {
+	        r = s;
+	    }
+	    return r;
 	}
 
 	function hasDay() {
@@ -1583,4 +1603,5 @@ Globalize.culture = function( cultureSelector ) {
 	return this.findClosestCulture( cultureSelector ) || this.cultures[ "default" ];
 };
 
-}( this ));
+document.Globalize = Globalize;
+}(this));

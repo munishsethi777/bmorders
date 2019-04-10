@@ -736,8 +736,7 @@ left join learningplanprofiles m_lpp on m_lpm.learningplanseq = m_lpp.learningpl
 				$objList = $sth->fetchAll(PDO::FETCH_ASSOC);
 			}else{
 				$objList = $sth->fetchAll();
-			}
-			return $objList;
+			}			return $objList;
 		} catch ( Exception $e ) {
 			$this->logger->error ( "Error occured :" . $e );
 			throw $e ;

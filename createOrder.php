@@ -256,7 +256,9 @@ function submitcreateOrderForm(action){
 	    	 $('#createOrderForm').ajaxSubmit(function( data ){
 	    		 var obj = $.parseJSON(data);
 	    		 showResponseToastr(data,null,"createOrderForm","mainDiv");
-	    		 $(".produtSelect2").select2("val", "");
+	    		 if(obj.success == 1){
+	    			 $(".produtSelect2").select2("val", "");	 
+	    		 }
 	    		 if(obj.success == 1 && action == "save"){
 	 		    	location.href = "showOrders.php";
 	 		     }  	 

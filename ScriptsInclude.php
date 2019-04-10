@@ -159,6 +159,7 @@
 <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
 <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+
 <!-- Select2 -->
 <script type="text/javascript" src="scripts/select2.min.js"></script>
 <link href="styles/select2.min.css" rel="stylesheet">

@@ -129,6 +129,28 @@ class DateUtil {
 		return $dateArr;
 	}
 	
+	public static function getDatesSlicesTillNowWithFormat($date,$format) {
+		$date = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s",$date);
+		$currentDate = new DateTime ();
+		$diff = $date->diff ( $currentDate );
+		$years = $diff->y;
+		$months = $diff->m;
+		$days = $diff->d;
+		$hours = $diff->h;
+		$minuts = $diff->i;
+		$time = date_format ( $date, "H:i A" );
+		$dateArr = array();
+		//if (! empty ( $days )) {
+		while ( $date <= $currentDate ) {
+			$strDate = $date->format($format);
+			array_push($dateArr, $strDate);
+			$date->modify('+1 day');
+		}
+		//}
+	
+		return $dateArr;
+	}
+	
 	public static function getDateDiffTillFutureDate($date) {
 		$currentDate = new DateTime();
 		$diff = $currentDate->diff ( $date );
