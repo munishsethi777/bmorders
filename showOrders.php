@@ -94,7 +94,6 @@ if($isRep){
     </div>
    </body>
 </html>
-
 	<script type="text/javascript">
 	 isSelectAll = false;
 	 var isRep = <?php echo $rep?>;
@@ -337,7 +336,7 @@ if($isRep){
                     reloadButton.click(function (event) {
                     	$("#orderGrid").jqxGrid({ source: dataAdapter });
                     });
-                    exportButton.click(function (event) {
+                    exportButton.click(function (event){
 						filterQstr = getFilterString("orderGrid");
 						exportOrders(filterQstr);
                     });
@@ -353,14 +352,8 @@ if($isRep){
         	$("#form2").attr("action", "orderChat.php");        
        		$("#orderid").val(orderid); 
             if(isRep > 0){
-	        	$.getJSON("Actions/ChatMessageAction.php?call=isChatExists&orderid="+orderid,function( response ){
-		           	 if(response.isExists){
-		                 $("#form2").submit();  		    	 	 		 
-		           	 }else{
-		           		$('#startChatModelForm').modal('show');
-		           	 }
-		       	 });    
-            }else{
+	       		$('#startChatModelForm').modal('show');
+		    }else{
                 if(orderUser == loggedInUser){
                    alert("You can't start chat with your self!"); 
                 }else{

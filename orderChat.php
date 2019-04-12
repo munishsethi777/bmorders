@@ -1,6 +1,8 @@
 <?
 require_once('IConstants.inc');
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderMgr.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Managers/OrderPaymentDetailMgr.php");
+require_once ($ConstantsArray ['dbServerUrl'] . "Utils/DateUtil.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/ChatMessageMgr.php");
 require_once ($ConstantsArray ['dbServerUrl'] . "Managers/UserMgr.php");
 include ("sessioncheck.php");
@@ -8,21 +10,29 @@ $messagesArr = array ();
 $orderSeq = 0;
 $chatLoadedTillSeq = 0;
 $order = new Order();
-$user = new User();
 $isChatExists = 0;
 $toUserSeq = 0;
+$orderDate = "";
+$totalPayment = 0;
+$pendingPayment = 0;
 if(isset($_POST["orderid"])){
 	$orderSeq = $_POST["orderid"];
 	$orderMgr = OrderMgr::getInstance();
-	$order  = $orderMgr->findBySeq($orderSeq);
-	$userMgr = UserMgr::getInstance();
-	$user = $userMgr->findBySeq($order->getUserSeq());
+	$order  = $orderMgr->getOrderAndDetailBySeq($orderSeq);
+	$orderPaymentDetailMgr  = OrderPaymentDetailMgr::getInstance();
+	$totalPayment = $order["totalamount"];
+	$amountPaid = $orderPaymentDetailMgr->getOrderPayments($orderSeq,1);
+	$pendingPayment = $totalPayment - $amountPaid;
+	$totalPayment = number_format($totalPayment,2,'.','');
+	$pendingPayment = number_format($pendingPayment,2,'.','');
+	$orderDate = DateUtil::StringToDateByGivenFormat("Y-m-d H:i:s", $order["createdon"]);
+	$orderDate = $orderDate->format("d M Y");
 	$chatMessageMgr = ChatMessageMgr::getInstance();
 }
 $fromUserSeq = SessionUtil::getInstance()->getUserLoggedInSeq();
 $fromName = SessionUtil::getInstance()->getUserLoggedInName();
-$toUserName = $user->getFullName();
-$toUserSeq = $order->getUserSeq();
+$toUserName = $order["username"];
+$toUserSeq = $order["userseq"];
 if(isset($_POST["touser"]) && !empty($_POST["touser"])){
 	$toUserSeq = $_POST["touser"];
 }
@@ -55,14 +65,14 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
 				</div>
 				<div class="col-lg-12 m-b-xs">
 					<div class="col-lg-6">
-						<b>Order:</b> 243 <br>
-						<b>Customer:</b> Flex Body Liners, Ludhiana <br>
-						<b>Order Date:</b> 12 Jan 2019<br>
+						<b>Order:</b> <?php echo $orderSeq?> <br>
+						<b>Customer:</b> <?php echo $order["customer"] ?> <br>
+						<b>Order Date:</b> <?php echo $orderDate?><br>
 					</div>
 					<div class="col-lg-6 text-right">
-						<b>Processed By:</b> Rakesh Kumar <br>
-						<span class="text-danger"><b>Pending Payment:</b> Rs. 60,000/-</span><br>
-						<span class="text-success"><b>Total Payment:</b> Rs. 80,500/-</span><br>
+						<b>Processed By:</b> <?php echo $order["username"] ?> <br>
+						<span class="text-danger"><b>Pending Payment:</b> Rs. <?php echo $pendingPayment?>/-</span><br>
+						<span class="text-success"><b>Total Payment:</b> Rs. <?php echo $totalPayment?>/-</span><br>
 					</div>
 				
 				</div>

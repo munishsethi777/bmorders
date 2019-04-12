@@ -194,4 +194,17 @@ inner join users on orders.userseq = users.seq";
 	}
 	
 	
+	public function getOrderAndDetailBySeq($orderSeq){
+		$query = "select users.fullname as username ,customers.title as customer,products.title as product ,orders.*,orderproductdetails.productseq,orderproductdetails.price,orderproductdetails.quantity from orders 
+inner join orderproductdetails on orders.seq = orderproductdetails.orderseq
+inner join products on orderproductdetails.productseq = products.seq
+inner join customers on orders.customerseq = customers.seq
+inner join users on orders.userseq = users.seq WHERE orders.seq = $orderSeq";
+	  $orderDetail= self::$dataStore->executeQuery($query,false,true);
+	  if(!empty($orderDetail)){
+	  	return $orderDetail[0];
+	  }
+	  return null;
+	}
+	
 }

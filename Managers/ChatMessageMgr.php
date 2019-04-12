@@ -23,6 +23,10 @@ class ChatMessageMgr{
 	public function getChatConversation($chattingUserSeq,$orderid,$afterSeq = 0){
 		$sessionUtil = SessionUtil::getInstance();
 		$userSeq = $sessionUtil->getUserLoggedInSeq();
+		$isRep = $sessionUtil->isRepresentative();
+		if($isRep){
+			$userSeq = $chattingUserSeq;
+		}
 		$sql = "SELECT chatmessages.*,users.fullname as fromusername FROM chatmessages inner join users on chatmessages.fromuser = users.seq where (chatmessages.fromuser = $userSeq or chatmessages.touser = $userSeq) and (chatmessages.seq > $afterSeq) and chatmessages.orderid = $orderid order by chatmessages.createdon ASC";
 		$chatMessages = self::$dataStore->executeQuery($sql,false,true);
 		return $chatMessages;

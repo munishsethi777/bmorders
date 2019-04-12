@@ -213,10 +213,11 @@ where ispaid = 0 and expectedon is not NULL and orders.userseq = $userSeq  order
 		$fromDate->modify("-".$days . "days");
 		$fromDateStr = $fromDate->format("Y-m-d H:i:s");
 		$toDateStr = $toDate->format("Y-m-d H:i:s");
-		$query = "select sum(orderpaymentdetails.amount) as amount, CAST(orderpaymentdetails.createdon AS DATE) as createddate from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq where ispaid = 1 and orderpaymentdetails.createdon >= '$fromDateStr' and orderpaymentdetails.createdon <= '$toDateStr' GROUP BY createddate";
+		$query = "select sum(orderpaymentdetails.amount) as amount, CAST(orderpaymentdetails.createdon AS DATE) as createddate from orderpaymentdetails inner join orders on orders.seq = orderpaymentdetails.orderseq where ispaid = 1 and orderpaymentdetails.createdon >= '$fromDateStr' and orderpaymentdetails.createdon <= '$toDateStr' ";
 		if(!empty($userSeq)){
 			$query .= " and orders.userseq = $userSeq";
 		}
+		$query .= " GROUP BY createddate";
 		$payments =self::$dataStore->executeQuery($query,false,true);
 		$paymentArr = array();
 		if(!empty($payments)){
