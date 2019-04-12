@@ -92,7 +92,7 @@
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Title', datafield: 'title', width:"40%"}, 			
-				{ text: 'Description', datafield: 'description',width:"30%"},
+				{ text: 'Description', datafield: 'description',width:"35%"},
 				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"15%"},
 				{ text: 'Enabled', datafield: 'isenabled',columntype: 'checkbox',width:"10%",cellsalign: 'center'}
             ]

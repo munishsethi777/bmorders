@@ -96,7 +96,7 @@
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Title', datafield: 'title', width:"40%"}, 			
-				{ text: 'Contact', datafield: 'contactperson',width:"15%",filterable:false},
+				{ text: 'Contact', datafield: 'contactperson',width:"18%",filterable:false},
 				{ text: 'Mobile', datafield: 'mobile',width:"12%",filterable:false},
 				{ text: 'City', datafield: 'city',width:"15%"},
 				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"15%",filterable:false}

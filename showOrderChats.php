@@ -75,8 +75,8 @@
 				{ text: 'id', datafield: 'seq',hidden:true },
 				{ text: 'Order No.', datafield: 'orderid',width:"15%",cellsrenderer:chaticons},
 				{ text: 'User', datafield: 'fullname',width:"25%"},
-				{ text: 'Company', datafield: 'customers.title', width:"35%",filtertype: 'checkedlist',filteritems:customers}, 			
-				{ text: 'Last Message Date', datafield: 'chatmessages.createdon',width:"20%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
+				{ text: 'Company', datafield: 'customers.title', width:"38%",filtertype: 'checkedlist',filteritems:customers}, 			
+				{ text: 'Last Message Date', datafield: 'chatmessages.createdon',width:"22%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =

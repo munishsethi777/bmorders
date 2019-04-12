@@ -93,8 +93,8 @@
          	var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Email', datafield: 'emailid', width:"25%"}, 	
-				{ text: 'FullName', datafield: 'fullname',width:"15%"},
-				{ text: 'Mobile', datafield: 'mobile',width:"10%"},
+				{ text: 'FullName', datafield: 'fullname',width:"18%"},
+				{ text: 'Mobile', datafield: 'mobile',width:"11%"},
 				{ text: 'Type', datafield: 'usertype',width:"12%",filtertype: 'checkedlist',filteritems:userTypes},
 				{ text: 'Created On', datafield: 'createdon',width:"17%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'Last Modified', datafield: 'lastmodifiedon',width:"17%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}

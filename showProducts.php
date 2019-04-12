@@ -102,7 +102,7 @@
 			var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Title', datafield: 'p.title', width:"30%"}, 			
-				{ text: 'Brand', datafield: 'pb.title',width:"11%",filtertype: 'checkedlist',filteritems:brands},
+				{ text: 'Brand', datafield: 'pb.title',width:"14%",filtertype: 'checkedlist',filteritems:brands},
 				{ text: 'Category', datafield: 'pc.title',width:"13%",filtertype: 'checkedlist',filteritems:categories},
 				{ text: 'Flavour', datafield: 'pf.title',width:"14%",filtertype: 'checkedlist',filteritems:flavours},
 				{ text: 'Stock', datafield: 'stock',width:"5%"},
