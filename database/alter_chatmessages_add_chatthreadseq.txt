@@ -1,0 +1,1 @@
+ALTER TABLE `chatmessages` ADD `chatthreadseq` BIGINT NOT NULL AFTER `readon`;
