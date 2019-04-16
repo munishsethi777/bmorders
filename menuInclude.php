@@ -175,7 +175,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 			    	lastCount = $(".chatcount").text();
 			    	if(response.unreadCount > 0){
 				    	if(lastCount != response.unreadCount){
-			    			playAudio();
+			    			//playAudio();
 				    	}
 			    		$(".chatcount").text(response.unreadCount);
 		        	}else{
@@ -186,7 +186,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 		    		lastGroupCount = $(".groupchatcount").text();
 			    	if(response.unreadGroupCount > 0){
 			    		if(lastGroupCount != response.unreadGroupCount){
-			    			playAudio();
+			    			//playAudio();
 				    	}
 			    		$(".groupchatcount").text(response.unreadGroupCount);
 			    	}else{

@@ -67,6 +67,8 @@ if($call == "getUnReadCount"){
 		$response["unreadCount"] = $count;
 		$groupChatCount = $chatMessageMgr->getUnReadGroupChatCount($userSeq);
 		$response["unreadGroupCount"] = $groupChatCount;
+		$_SESSION["unreadCount"] = $count;
+		$_SESSION["unreadGroupCount"] = $groupChatCount;
 		$json = json_encode($response);
 		echo $json;
 	}catch(Exception $e){
