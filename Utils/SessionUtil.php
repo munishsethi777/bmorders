@@ -85,6 +85,17 @@ class SessionUtil{
 		return false;
 	}
 	
+	public function isSuperAdmin(){
+		if(	$_SESSION[self::$USER_LOGGED_IN] != null){
+			$arr = $_SESSION[self::$USER_LOGGED_IN];
+			$userType =  $arr[3];
+			if($userType == UserType::getName(UserType::superadmin)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public function sessionCheck(){
 		$bool = self::isSessionUser();
 		if($bool == false){

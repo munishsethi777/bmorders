@@ -78,7 +78,7 @@ class ChatMessageMgr{
 	}
 	
 	public function getUnReadChatCount($fromUserSeq){
-		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq and orderid > 0";
+		$query = "select count(*) from chatmessages where readon is NULL and fromuser != $fromUserSeq and touser = $fromUserSeq and orderid > 0";
 		$count = self::$dataStore->executeCountQueryWithSql($query);
 		return $count;
 	}
@@ -100,11 +100,16 @@ class ChatMessageMgr{
 	
 	public function getAllChatsForGrid(){
 		$sessionUtil = SessionUtil::getInstance();
+		$isSuperAdmin = $sessionUtil->isSuperAdmin();
 		$userSeq = $sessionUtil->getUserLoggedInSeq();
 		$userMgr = UserMgr::getInstance();
 		$query = "select chatthreads.seq as chatthreadseq, MAX(chatmessages.createdon) as lastmessagedate , users.fullname ,customers.title as customer ,orders.seq as orderid, chatmessages.* from chatmessages 
 inner join chatthreads on chatmessages.chatthreadseq = chatthreads.seq
-inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on chatthreads.fromuser = users.seq group by chatthreads.seq";
+inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on chatthreads.fromuser = users.seq";
+		if(!$isSuperAdmin){
+			$query .= " where (chatthreads.fromuser = $userSeq or chatthreads.touser = $userSeq) ";
+		}
+		$query .= " group by chatthreads.seq";
 		$orderChats = self::$dataStore->executeQuery($query,true);
 		$mainArr = array();
 		$chatMgr = ChatMessageMgr::getInstance();
@@ -135,8 +140,15 @@ inner join orders on chatmessages.orderid = orders.seq inner join customers on o
 	}
 	
 	public function getCount(){
+		$sessionUtil = SessionUtil::getInstance();
+		$isSuperAdmin = $sessionUtil->isSuperAdmin();
+		$userSeq = $sessionUtil->getUserLoggedInSeq();
 		$query = "select count(*) from (select count(*) from chatmessages inner join chatthreads on chatmessages.chatthreadseq = chatthreads.seq
-inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on orders.userseq = users.seq group by chatthreads.seq) table1";
+inner join orders on chatmessages.orderid = orders.seq inner join customers on orders.customerseq = customers.seq INNER join users on orders.userseq = users.seq ";
+		if(!$isSuperAdmin){
+			$query .= " where (chatthreads.fromuser = $userSeq or chatthreads.touser = $userSeq)";
+		}
+		$query .= " group by chatthreads.seq ) table1";
 		$count = self::$dataStore->executeCountQueryWithSql($query,true);
 		return $count;
 	}
