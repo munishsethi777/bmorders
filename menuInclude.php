@@ -154,7 +154,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	    </div>
     </nav>
     <script type="text/javascript">
-	    var x = document.getElementById("myAudio");
+	    var audioElement = document.getElementById("myAudio");
 		var file = "<?php echo $file?>";
     	var isSafari = false;
     	var ua = navigator.userAgent.toLowerCase(); 
@@ -197,7 +197,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	    }
 	    function playAudio() {
 	    	if(!isSafari){
-	    		x.play();
+	    		audioElement.play();
 	    	}
 	    }
 	 </script>   

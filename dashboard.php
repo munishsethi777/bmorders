@@ -124,6 +124,7 @@
      	<input type="hidden" id="seq" name="seq"/>
      	<input type="hidden" id="isView" name="isView" value="0"/>
    	</form>
+   	</div>
    </body>
    
 </html>
