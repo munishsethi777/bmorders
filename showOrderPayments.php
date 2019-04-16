@@ -99,7 +99,7 @@ include("SessionCheck.php");
          	var columns = [
 				{ text: 'id', datafield: 'seq' , hidden:true},
 				{ text: 'Order No.', datafield: 'orders.seq', width:"8%"}, 	
-				{ text: 'Customer', datafield: 'customers.title',width:"17%"},
+				{ text: 'Customer', datafield: 'customers.title',width:"20%"},
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'Amount', datafield: 'amount',width:"8%"},
 				{ text: 'Payment Mode', datafield: 'paymentmode',width:"10%"},

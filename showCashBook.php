@@ -96,7 +96,7 @@
          	    { text: 'id', datafield: 'seq' , hidden:true},
          	    { text: 'Date', datafield: 'cashbook.createdon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
          	    { text: 'Amount', datafield: 'amount',width:"12%"},
-				{ text: 'Title', datafield: 'title', width:"25%"}, 	
+				{ text: 'Title', datafield: 'title', width:"28%"}, 	
 				{ text: 'Category', datafield: 'category', width:"15%",filtertype: 'checkedlist',filteritems:categories}, 
 				{ text: 'Transaction Type', datafield: 'transactiontype', width:"15%",filtertype: 'checkedlist',filteritems:transactionTypes}, 
 				{ text: 'Processed By', datafield: 'fullname', width:"15%",filtertype: 'checkedlist',filteritems:users},
