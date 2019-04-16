@@ -57,7 +57,7 @@ class ChatMessageMgr{
 	}
 	
 	public function hadUnReadChatForOrder($orderId,$fromUserSeq){
-		$query = "select count(*) from chatmessages where orderid = $orderId and readon is NULL and fromuser != $fromUserSeq";
+		$query = "select count(*) from chatmessages where orderid = $orderId and readon is NULL and fromuser != $fromUserSeq and touser = $fromUserSeq";
 		$count = self::$dataStore->executeCountQueryWithSql($query);
 		return $count > 0;
 	}
