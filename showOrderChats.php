@@ -75,7 +75,6 @@
             }
            var columns = [
 				{ text: 'id', datafield: 'seq',hidden:true },
-				{ text: 'chatthreadseq', datafield: 'chatthreadseq' },
 				{ text: 'Order No.', datafield: 'orderid',width:"15%",cellsrenderer:chaticons},
 				{ text: 'From', datafield: 'fullname',width:"17%"},
 				{ text: 'To', datafield: 'touser',width:"17%",sortable:false,$filterable:false},
