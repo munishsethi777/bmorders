@@ -1,7 +1,7 @@
 <?php
 class ChatMessage{
 	
-	private $seq,$fromuser,$touser,$message,$orderid,$isgroupchat,$createdon,$readon;
+	private $seq,$fromuser,$touser,$message,$orderid,$isgroupchat,$createdon,$readon,$chatthreadseq;
 
 	public static $className = "ChatMessage";
 	public static $tableName = "chatmessages";
@@ -62,12 +62,21 @@ class ChatMessage{
 		return $this->readon;
 	}
 	
+	public function setChatThreadSeq($threadSeq_){
+		$this->chatthreadseq = $threadSeq_;
+	}
+	public function getChatThreadSeq(){
+		return $this->chatthreadseq;
+	}
+	
 	public function createFromRequest($request){
 		if (is_array($request)){
 			$this->from_array($request);
 		}
 		return $this;
 	}
+	
+	
 	
 	public function from_array($array){
 		foreach(get_object_vars($this) as $attrName => $attrValue){

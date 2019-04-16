@@ -15,6 +15,8 @@ $toUserSeq = 0;
 $orderDate = "";
 $totalPayment = 0;
 $pendingPayment = 0;
+$threadSeq = 0;
+$isreadonly = 0;
 if(isset($_POST["orderid"])){
 	$orderSeq = $_POST["orderid"];
 	$orderMgr = OrderMgr::getInstance();
@@ -36,6 +38,13 @@ $toUserSeq = $order["userseq"];
 if(isset($_POST["touser"]) && !empty($_POST["touser"])){
 	$toUserSeq = $_POST["touser"];
 }
+if(isset($_POST["chatthreadseq"]) && !empty($_POST["chatthreadseq"])){
+	$threadSeq = $_POST["chatthreadseq"];
+}
+if(isset($_POST["isreadonly"]) && !empty($_POST["isreadonly"])){
+	$isreadonly = $_POST["isreadonly"];
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -110,18 +119,22 @@ if(isset($_POST["touser"]) && !empty($_POST["touser"])){
                                     <div class="form-group" style="height:50px">
                                     	<form method="get" action="Actions/ChatMessageAction.php" class="sendMessageForm">
                                     		<input type="hidden" name="chatLoadedTillSeq" class="chatLoadedTillSeq"/>
+                                    		<input type="hidden" name="chatThreadSeq" class="chatThreadSeq" value="<?php echo $threadSeq?>"/>
                                     		<input type="hidden" name="fromuser" id="fromuserseq" value="<?php echo $fromUserSeq?>"/>
                                     		<input type="hidden" name="orderid" id="orderid" value="<?php echo $orderSeq?> "/>
                                     		<input type="hidden" name="isgroupchat" id="isgroupchat" value="0"/>
+                                    		<input type="hidden" name="isreadonly" id="isreadonly" value="<?php echo $isreadonly?>"/>
                                     		<input type="hidden" name="readon" id="readon"/>
                                     		<input type="hidden" name="touser" id="touserseq" value="<?php echo $toUserSeq?>"/>
                                     		<input type="hidden" name="call" value="sendMessageChat"/>
-                                    		<div class="col-md-11" style="padding-left:0px">
-                                    			<textarea class="form-control msg-input" name="message" placeholder="Enter message text"></textarea>
-	                                        </div>
-	                                        <div class="col-md-1" style="padding:0px">
-                                    			<input style="height:100%" type="button" value="Send" class="btn btn-primary sendMessage"/>
-                                    		</div>
+                                    		<?php if(empty($isreadonly)){?>
+	                                    		<div class="col-md-11" style="padding-left:0px">
+	                                    			<textarea class="form-control msg-input" name="message" placeholder="Enter message text"></textarea>
+		                                        </div>
+		                                        <div class="col-md-1" style="padding:0px">
+	                                    			<input style="height:100%" type="button" value="Send" class="btn btn-primary sendMessage"/>
+	                                    		</div>
+                                    		<?php }?>
                                         </form>
                                     </div>
                                 </div>
@@ -180,8 +193,10 @@ function autoLoadMessages(){
 		chatLoadedTill = $(".chatLoadedTillSeq").val();
 		toUserSeq = $("#touserseq").val();
 		orderId = $("#orderid").val();
-		$url = "Actions/ChatMessageAction.php?call=getMessagesChat&chatLoadedTillSeq="+chatLoadedTill+"&toUserSeq="+toUserSeq+"&orderid="+orderId;
-		$.getJSON($url, function(data){
+		isreadOnly = $("#isreadonly").val();
+		chatthreadseq = $(".chatThreadSeq").val();
+		var url = "Actions/ChatMessageAction.php?call=getMessagesChat&chatLoadedTillSeq="+chatLoadedTill+"&toUserSeq="+toUserSeq+"&orderid="+orderId+"&chatthreadseq="+chatthreadseq+"&isreadonly="+isreadOnly;
+		$.getJSON(url, function(data){
 			if(data.success == 1){
 				loadMessages(data.messages);
 				markAsRead();
@@ -206,6 +221,7 @@ function sendMessageCall(){
     	 if(obj.success == 1){
     		$(".msg-input").val("");
     		setLastMessageSeq(obj.lastMessageSeq);
+    		$(".chatThreadSeq").val(obj.chatThreadSeq);
 			messasgeQueue--;
 	     }
      });
@@ -290,6 +306,7 @@ function loadMessages(messages){
 		str += '</div>';
 		$(".chat-discussion").append(str);
 		$(".chatLoadedTillSeq").val(message.seq);
+		$(".chatThreadSeq").val(message.chatthreadseq);
 		$(".orderid").val(message.orderid);
 		var $t = $('.chat-discussion');
 	    $t.animate({"scrollTop": $('.chat-discussion')[0].scrollHeight}, "slow");

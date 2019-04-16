@@ -48,6 +48,8 @@
    	<form id="form2" name="form2" method="post" action="createOrderPayment.php">
      	<input type="hidden" id="orderSeq" name="orderSeq"/>
      	<input type="hidden" id="orderid" name="orderid"/>
+     	<input type="hidden" id="isreadonly" name="isreadonly"/>
+     	<input type="hidden" id="chatthreadseq" name="chatthreadseq"/>
      	<input type="hidden" id="touser" name="touser"/>
    	</form>
    	<form id="exportForm" name="exportForm" method="GET" action="Actions/OrderAction.php">
@@ -67,15 +69,17 @@
         	var chaticons = function (row, columnfield, value, defaulthtml, columnproperties) {
                 data = $('#orderGrid').jqxGrid('getrowdata', row);
                 if(data["haschat"] == "1"){
-					return "<div class='datacell'>" + data['orderid'] + " <a href='javascript:startChat("+data['orderid']+",\""+ data['fullname']+"\")'><i class='fa fa-whatsapp'></i></a>" +"</div>";
+					return "<div class='datacell'>" + data['orderid'] + " <a href='javascript:startChat("+data['orderid']+",\""+ data['chatthreadseq']+"\")'><i class='fa fa-whatsapp'></i></a>" +"</div>";
                 }
                 return defaulthtml;                   
             }
            var columns = [
 				{ text: 'id', datafield: 'seq',hidden:true },
+				{ text: 'chatthreadseq', datafield: 'chatthreadseq' },
 				{ text: 'Order No.', datafield: 'orderid',width:"15%",cellsrenderer:chaticons},
-				{ text: 'User', datafield: 'fullname',width:"25%"},
-				{ text: 'Company', datafield: 'customers.title', width:"35%",filtertype: 'checkedlist',filteritems:customers}, 			
+				{ text: 'From', datafield: 'fullname',width:"17%"},
+				{ text: 'To', datafield: 'touser',width:"17%",sortable:false,$filterable:false},
+				{ text: 'Company', datafield: 'customers.title', width:"30%",filtertype: 'checkedlist',filteritems:customers}, 			
 				{ text: 'Last Message Date', datafield: 'chatmessages.createdon',width:"20%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
@@ -88,10 +92,13 @@
                 sortdirection: 'desc',
                 datafields: [{ name: 'seq', type: 'integer' },
                             { name: 'orderid', type: 'integer' },
+                            { name: 'chatthreadseq', type: 'integer' },
                             { name: 'fullname', type: 'string' },
+                            { name: 'touser', type: 'string' },
                             { name: 'customers.title', type: 'string' },
                             { name: 'chatmessages.createdon', type: 'date' },
-                            { name: 'haschat', type: 'integer' }
+                            { name: 'haschat', type: 'integer' },
+                            { name: 'isreadonly', type: 'integer' }
                             ],                          
                 url: 'Actions/ChatMessageAction.php?call=getAllChats',
                 root: 'Rows',
@@ -168,7 +175,7 @@
                             return;    
                         }
                         var row = $('#orderGrid').jqxGrid('getrowdata', indexes);
-                        startChat(row.orderid,row.fullname);
+                        startChat(row.orderid,row.chatthreadseq,row.isreadonly);
                     });
                     // update row.
                     reloadButton.click(function (event) {
@@ -181,9 +188,11 @@
                 }
             });
         }
-        function startChat(orderid,orderUser){
+        function startChat(orderid,chatthreadseq,isreadonly){
         	$("#form2").attr("action", "orderChat.php");        
-       		$("#orderid").val(orderid); 
+       		$("#orderid").val(orderid);
+       		$("#isreadonly").val(isreadonly);
+       		$("#chatthreadseq").val(chatthreadseq) 
             $("#form2").submit();
         }  
 </script>

@@ -23,8 +23,19 @@ if($call == "sendMessageChat"){
 	try{
 		$chatMessage = new ChatMessage();
 		$chatMessage->createFromRequest($_REQUEST);
+		$chatThreadSeq = $_REQUEST["chatThreadSeq"];
 		$chatMessage->setCreatedOn(new DateTime());
 		$chatMessage->setReadOn(null);
+		if(empty($chatThreadSeq)){
+			$chatThreadMgr = ChatThreadMgr::getInstance();
+			$chatThread = new ChatThread();
+			$chatThread->setCreatedOn(new DateTime());
+			$chatThread->setFromUser($chatMessage->getFromUser());
+			$chatThread->setToUser($chatMessage->getToUser());
+			$chatThread->setOrderSeq($chatMessage->getOrderId());
+			$chatThreadSeq = $chatThreadMgr->saveChatThread($chatThread);
+		}
+		$chatMessage->setChatThreadSeq($chatThreadSeq);
 		$id = $chatMessageMgr->saveChatMessage($chatMessage);
 		$success = 1;
 	}catch(Exception $e){
@@ -35,6 +46,7 @@ if($call == "sendMessageChat"){
 	$response["success"]  = $success;
 	$response["message"]  = $message;
 	$response["lastMessageSeq"] = $id;
+	$response["chatThreadSeq"] = $chatThreadSeq;
 	echo json_encode($response);
 }
 
@@ -92,7 +104,9 @@ if($call == "getMessagesChat"){
 		$toUserSeq = $_GET['toUserSeq'];
 		$orderSeq = $_GET['orderid'];
 		$chatLoadedTillSeq = $_GET['chatLoadedTillSeq'];
-		$messages = $chatMessageMgr->getChatConversation($toUserSeq,$orderSeq,$chatLoadedTillSeq);
+		$chatThreadSeq = $_GET['chatthreadseq'];
+		$isReadOnly = $_GET['isreadonly'];
+		$messages = $chatMessageMgr->getChatConversation($toUserSeq,$orderSeq,$chatThreadSeq,$isReadOnly,$chatLoadedTillSeq);
 		$response["messages"] = $messages;
 		$success = 1;
 	}catch(Exception $e){
@@ -121,6 +135,7 @@ if($call == "getGroupMessagesChat"){
 	$response["message"]  = $message;
 	echo json_encode($response);
 }
+
 if($call == "deleteMessageChat"){
 	try{
 		$chatMessageMgr->deleteChatConversation($_POST['userseq'],$_POST['usertype']);
