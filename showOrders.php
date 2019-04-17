@@ -177,7 +177,7 @@ if($isRep){
            var columns = [
 				{ text: 'id', datafield: 'seq',hidden:true },
 				{ text: 'Order No.', datafield: 'orders.seq',width:"8%",cellsrenderer:chaticons},
-				{ text: 'Order Date', datafield: 'orders.createdon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+				{ text: 'Order Date', datafield: 'orders.createdon',width:"15%",filtertype: 'range' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'User', datafield: 'fullname',width:"15%"},
 				{ text: 'Company', datafield: 'customers.title', width:"32%",filtertype: 'checkedlist',filteritems:customers}, 			
 				//{ text: 'Comments', datafield: 'comments',width:"25%"},

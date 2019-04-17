@@ -103,10 +103,10 @@ include("SessionCheck.php");
 				{ text: 'Order Date', datafield: 'orders.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'Amount', datafield: 'amount',width:"8%"},
 				{ text: 'Payment Mode', datafield: 'paymentmode',width:"10%"},
-				{ text: 'Payment Date', datafield: 'orderpaymentdetails.createdon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'},
+				{ text: 'Payment Date', datafield: 'orderpaymentdetails.createdon',width:"14%",filtertype: 'range' ,cellsformat: 'd-M-yyyy hh:mm tt'},
 				{ text: 'Paid', datafield: 'ispaid',width:"5%",columntype:'checkbox',filtertype: 'bool'},
 				{ text: 'Confirmed', datafield: 'isconfirmed',width:"7%",columntype:'checkbox',filtertype: 'bool'},
-				{ text: 'Expected Date', datafield: 'expectedon',width:"14%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
+				{ text: 'Expected Date', datafield: 'expectedon',width:"14%",filtertype: 'range' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =

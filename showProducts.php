@@ -108,7 +108,7 @@
 				{ text: 'Stock', datafield: 'stock',width:"5%"},
 				{ text: 'Qty', datafield: 'quantity',width:"4%"},
 				{ text: 'MsrType', datafield: 'measuringunit',width:"5%",filtertype: 'checkedlist',filteritems:measureUnits},
-				{ text: 'Last Modified', datafield: 'p.lastmodifiedon',width:"15%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
+				{ text: 'Last Modified', datafield: 'p.lastmodifiedon',width:"15%",filtertype: 'range' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =
