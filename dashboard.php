@@ -30,7 +30,7 @@
                         <div class="ibox float-e-margins">
                             
                             <div class="ibox-content">
-	                             <div class="row pull-right">
+	                             <div class="row">
 	                            	<div class="col-lg-12 text-muted p-xs">
 	                            		<label>Users</label>
 	                            		<select class="usersDD" id="usersDD">

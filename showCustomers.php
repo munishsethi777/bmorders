@@ -1,4 +1,7 @@
 <?include("SessionCheck.php");
+$sessionUtil = SessionUtil::getInstance();
+$isSuperUser = $sessionUtil->isSuperAdmin();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,6 +47,7 @@
 
 	<script type="text/javascript">
 	 isSelectAll = false;
+	 var isSuperUser = "<?php echo $isSuperUser?>";
         $(document).ready(function(){
            loadGrid()
            $('.i-checks').iCheck({
@@ -172,7 +176,9 @@
 
                     container.append(addButton);
                     container.append(editButton);
-                    container.append(deleteButton);
+                    if(isSuperUser){
+                    	container.append(deleteButton);
+                    }
                     container.append(exportButton);
                     container.append(reloadButton);
                     

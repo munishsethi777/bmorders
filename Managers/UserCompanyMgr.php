@@ -15,8 +15,10 @@ class UserCompanyMgr{
 		return self::$userCompanyMgr;
 	}
 	
-	public function saveFromUser($userSeq,$customers){
-		$this->deleteByUser($userSeq);
+	public function saveFromUser($userSeq,$customers,$isDelete = true){
+		if($isDelete){
+			$this->deleteByUser($userSeq);
+		}
 		foreach ($customers as $customer){
 			$userCompany = new UserCompany();
 			$userCompany->setCustomerSeq($customer);
