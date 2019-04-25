@@ -79,7 +79,7 @@
 				{ text: 'From', datafield: 'fullname',width:"17%"},
 				{ text: 'To', datafield: 'touser',width:"17%",sortable:false,$filterable:false},
 				{ text: 'Company', datafield: 'customers.title', width:"30%",filtertype: 'checkedlist',filteritems:customers}, 			
-				{ text: 'Last Message Date', datafield: 'chatmessages.createdon',width:"20%",filtertype: 'date' ,cellsformat: 'd-M-yyyy hh:mm tt'}
+				{ text: 'Last Message Date', datafield: 'chatmessages.createdon',width:"20%",filtertype: 'range' ,cellsformat: 'd-M-yyyy hh:mm tt'}
             ]
            
             var source =

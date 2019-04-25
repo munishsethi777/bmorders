@@ -5,6 +5,7 @@
     require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
     require_once($ConstantsArray['dbServerUrl'] ."Utils/ExportUtil.php");
     require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
+    require_once($ConstantsArray['dbServerUrl'] ."Managers/UserCompanyMgr.php");
     class CustomerMgr{
         private static $customerMgr;
         private static $dataStore;
@@ -28,7 +29,7 @@
             $isRep = $sessionUtil->isRepresentative();
             if($isRep){
                 $userSeq = $sessionUtil->getUserLoggedInSeq();
-                $query = "select * from customers inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
+                $query = "select customers.* from customers inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
                 $customers = self::$dataStore->executeObjectQuery($query,$isApplyFilter);
                 return $customers;
             }
@@ -38,6 +39,14 @@
         
         public function saveCustomer($customer){
             $id = self::$dataStore->save($customer);
+            if(!empty($id) && empty($customer->getSeq())){
+	            $sessionUtil = SessionUtil::getInstance();
+	            $isRep = $sessionUtil->isRepresentative();
+	            if($isRep){
+	            	$userCompanyMgr = UserCompanyMgr::getInstance();
+	            	$userCompanyMgr->saveFromUser($customer->getUserSeq(), array(0=>$id),false);
+	           	}
+            }
             return $id;
         }
         

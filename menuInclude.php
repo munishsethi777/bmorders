@@ -148,31 +148,56 @@ $userType = $sessionUtil->getUserLoggedInUserType();
             <ul class="dropdown-menu animated fadeInRight m-t-xs">
 				
 			</ul>
-
-        </div>
+			<audio id="myAudio">
+				<source src="audio/to-the-point.mp3" type="audio/mpeg">
+			</audio>
+	    </div>
     </nav>
     <script type="text/javascript">
-    	var file = "<?php echo $file?>";
+	    var audioElement = document.getElementById("myAudio");
+		var file = "<?php echo $file?>";
+    	var isSafari = false;
+    	var ua = navigator.userAgent.toLowerCase(); 
+    	if (ua.indexOf('safari') != -1) { 
+    	  if (ua.indexOf('chrome') > -1) {
+    		  isSafari = false // Chrome
+    	  } else {
+    		  isSafari = true // Safari
+    	  }
+    	}
 	    $(document).ready(function(){
-		    getUnreadMessageCount();
+	        getUnreadMessageCount();
 	    	setInterval(function(){ getUnreadMessageCount();}, 3000); 
 	    });
 	    function getUnreadMessageCount(){
 		     $.getJSON("Actions/ChatMessageAction.php?call=getUnReadCount",function( response ){
 		    	 if(file != "orderChat.php"){
+			    	lastCount = $(".chatcount").text();
 			    	if(response.unreadCount > 0){
-		         		$(".chatcount").text(response.unreadCount);
+				    	if(lastCount != response.unreadCount){
+			    			//playAudio();
+				    	}
+			    		$(".chatcount").text(response.unreadCount);
 		        	}else{
 			    		$(".chatcount").text("");
 			    	}
 		    	 }
-		    	 if(file != "groupChat.php"){ 
+		    	 if(file != "groupChat.php"){
+		    		lastGroupCount = $(".groupchatcount").text();
 			    	if(response.unreadGroupCount > 0){
-		         		$(".groupchatcount").text(response.unreadGroupCount);
+			    		if(lastGroupCount != response.unreadGroupCount){
+			    			//playAudio();
+				    	}
+			    		$(".groupchatcount").text(response.unreadGroupCount);
 			    	}else{
 			    		$(".groupchatcount").text("");
 			    	}
 		    	 }
 	         })
+	    }
+	    function playAudio() {
+	    	if(!isSafari){
+	    		audioElement.play();
+	    	}
 	    }
 	 </script>   
