@@ -84,7 +84,22 @@ class SessionUtil{
 		}
 		return false;
 	}
-	
+	public function actionSessionCheck(){
+		$call = "";
+		if(isset($_GET["call"])){
+			$call = $_GET["call"];
+		}else{
+			$call = $_POST["call"];
+		}
+		if($call == "loginUser"){
+			return true;
+		}
+		$bool = self::isSessionUser();
+		if($bool == false){
+			echo ("Invalid Execution");
+			die;
+		}
+	}
 	public function sessionCheck(){
 		$bool = self::isSessionUser();
 		if($bool == false){

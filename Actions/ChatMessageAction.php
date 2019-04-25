@@ -4,6 +4,8 @@ require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/ChatMessage.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ChatMessageMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 $sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
+
 $userType = $sessionUtil->getUserLoggedInUserType();
 
 $call = "";

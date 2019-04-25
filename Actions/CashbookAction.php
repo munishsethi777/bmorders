@@ -6,6 +6,9 @@ require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Cashbook.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/ExpenseType.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/TransactionType.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/UserMgr.php");
+$sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
+
 $success = 1;
 $message = "";
 $call = "";
@@ -19,7 +22,7 @@ if(isset($_GET["call"])){
 }
 if($call == "saveCashbook"){
 	$cashbook = new Cashbook();
-	$userSeq = SessionUtil::getInstance()->getUserLoggedInSeq();
+	$userSeq = $sessionUtil->getUserLoggedInSeq();
 	try{
 		$cashbook->createFromRequest($_REQUEST);
 		$cashbook->setUserSeq($userSeq);

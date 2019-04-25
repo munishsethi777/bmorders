@@ -11,6 +11,7 @@ if(isset($_GET["call"])){
 	$call = $_POST["call"];
 }
 $sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $userSeq = $sessionUtil->getUserLoggedInSeq();
 $productFlavourMgr = ProductFlavourMgr::getInstance();
 $success = 1;

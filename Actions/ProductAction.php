@@ -16,6 +16,7 @@ if(isset($_GET["call"])){
 }
 $productMgr = ProductMgr::getInstance();
 $sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $userSeq = $sessionUtil->getUserLoggedInSeq();
 
 $success = 1;

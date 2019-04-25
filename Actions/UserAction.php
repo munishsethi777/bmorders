@@ -6,6 +6,8 @@ require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/User.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 $sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
+
 $userType = $sessionUtil->getUserLoggedInUserType();
 $success = 1;
 $message = "";
@@ -93,7 +95,6 @@ if($call == "deleteUsers"){
 	}catch(Exception $e){
 		$success = 0;
 		$message = $e->getMessage();
-		//$message = ErrorUtil::checkReferenceError(LearningPlan::$className,$e);
 	}
 }
 

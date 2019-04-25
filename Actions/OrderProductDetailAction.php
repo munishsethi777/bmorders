@@ -3,6 +3,9 @@ require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderProductDetail.php");
+
+$sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $success = 1;
 $message = "";
 $call = "";

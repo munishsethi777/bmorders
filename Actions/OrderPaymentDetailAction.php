@@ -4,6 +4,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderPaymentDetailMgr.php
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/OrderPaymentDetail.php");
 $sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $userType = $sessionUtil->getUserLoggedInUserType();
 $userSeq = $sessionUtil->getUserLoggedInSeq();
 $success = 1;

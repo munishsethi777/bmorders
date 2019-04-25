@@ -3,6 +3,8 @@ require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/ExpenseLogMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/ExpenseLog.php");
+$sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $success = 1;
 $message = "";
 $call = "";

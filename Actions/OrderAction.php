@@ -3,12 +3,14 @@ require_once('../IConstants.inc');
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Order.php");
+
+$sessionUtil = SessionUtil::getInstance();
+$sessionUtil->actionSessionCheck();
 $success = 1;
 $message = "";
 $call = "";
 $response = new ArrayObject();
 $oderMgr = OrderMgr::getInstance();
-$sessionUtil = SessionUtil::getInstance();
 if(isset($_GET["call"])){
 	$call = $_GET["call"];
 }else{
