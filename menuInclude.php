@@ -14,6 +14,7 @@ $isOrderChat = "";
 $isCashBook = "";
 $isUsers = "";
 $isShowOrderPayment = "";
+$isSuppliers = "";
 $parts = Explode('/', $_SERVER["PHP_SELF"]);
 $file =  $parts[count($parts) - 1];
 
@@ -23,6 +24,8 @@ if($file == "dashboard.php"){
 	$isDashBoard = "active";
 }elseif($file == "showCustomers.php" || $file == "createCustomer.php"){
 	$isCustomers = "active";
+}elseif($file == "showSuppliers.php" || $file == "createSupplier.php"){
+	$isSuppliers = "active";
 }elseif($file == "showProducts.php" || $file == "createProduct.php"){
 	$isProducts = "active";
 }elseif($file == "showProductBrands.php" || $file == "createProductBrand.php"){
@@ -92,6 +95,16 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                <li class="<?php echo $isProducts;?>">
 	                    <a href="showProducts.php"><i class="fa fa-clock-o"></i> 
 	                    	<span class="nav-label">Products</span>  
+	                    </a>
+	                </li>
+	                <li class="<?php echo $isPurchase;?>">
+	                    <a href="createPurchase.php"><i class="fa fa-institution"></i> 
+	                    	<span class="nav-label">Purchase</span>  
+	                    </a>
+	                </li>
+	                <li class="<?php echo $isSuppliers;?>">
+	                    <a href="showSuppliers.php"><i class="fa fa-institution"></i> 
+	                    	<span class="nav-label">Suppliers</span>  
 	                    </a>
 	                </li>
                 <?php }?>

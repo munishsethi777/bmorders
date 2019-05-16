@@ -140,6 +140,11 @@ $(document).ready(function(){
 		checkboxClass: 'icheckbox_square-green',
 	   	radioClass: 'iradio_square-green',
 	});
+    $('#customers').on('change', function() {
+        $.getJSON("Actions/CustomerAction.php?call=getCustomerBySeq&customerSeq="+ this.value,function( response ){
+	   		 $("#discount").val(response.discount);
+        })
+    });
     loadCustomers();
     addDefaultRows();
     

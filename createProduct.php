@@ -67,8 +67,13 @@ if(!empty($product->getImageFormat())){
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $product->getSeq()?>"/>
                         		<div class="form-group row">
                        				<label class="col-lg-1 col-form-label">Title</label>
-                                    <div class="col-lg-11">
+                                    <div class="col-lg-7">
                                     	<input type="text" value="<?php echo $product->getTitle()?>"  id="title" name="title" required placeholder="product name" class="form-control">
+                                    </div>
+                                    
+                                    <label class="col-lg-1 col-form-label">Barcode</label>
+                                    <div class="col-lg-3">
+                                    	<input type="text" value="<?php echo $product->getBarcode()?>"  id="barcode" name="barcode" placeholder="product barcode" class="form-control">
                                     </div>
                                </div>
                                <div class="form-group row">

@@ -1,7 +1,7 @@
 <?php
 class Product{
 	
-	private $seq,$title,$description,$stock,$measuringunit,$price,$quantity,$categoryseq,$flavourseq,$brandseq,$userseq,$imageformat,$createdon,$lastmodifiedon,$isenabled;
+	private $seq,$title,$description,$stock,$measuringunit,$price,$quantity,$categoryseq,$flavourseq,$brandseq,$userseq,$imageformat,$barcode,$createdon,$lastmodifiedon,$isenabled;
 	public static $className = "Product";
 	public static $tableName = "products";
 	
@@ -95,6 +95,14 @@ class Product{
 	public function getMeasuringUnit(){
 		return $this->measuringunit;
 	}
+	
+	public function setBarcode($val){
+		$this->barcode = $val;
+	}
+	public function getBarcode(){
+		return $this->barcode;
+	}
+	
 	public function createFromRequest($request){
 		if (is_array($request)){
 			$this->from_array($request);

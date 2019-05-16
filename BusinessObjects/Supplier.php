@@ -1,10 +1,10 @@
 <?php
-class Customer{
+class Supplier{
 	
 	private $seq,$title,$description,$contactperson,$email,$mobile,$phone,$address1,$address2,$city,$state,$zip,$discount,$gst,$userseq,$isregistered,$createdon,
 	$lastmodifiedon,$isenabled;
-	public static $className = "Customer";
-	public static $tableName = "customers";
+	public static $className = "Supplier";
+	public static $tableName = "suppliers";
 	
 	public function setSeq($seq_){
 		$this->seq = $seq_;

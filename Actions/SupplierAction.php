@@ -1,7 +1,7 @@
 <?php
 require_once('../IConstants.inc');
-require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Customer.php");
-require_once($ConstantsArray['dbServerUrl'] ."Managers/CustomerMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."BusinessObjects/Supplier.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/SupplierMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/SessionUtil.php");
 
 $call = "";
@@ -14,10 +14,10 @@ $sessionUtil = SessionUtil::getInstance();
 $sessionUtil->actionSessionCheck();
 
 $userSeq = $sessionUtil->getUserLoggedInSeq();
-$customerMgr = CustomerMgr::getInstance();
+$supplierMgr = SupplierMgr::getInstance();
 $success = 1;
 $message = "";
-if($call == "saveCustomer"){
+if($call == "saveSupplier"){
 	try{
 		$isEnabled = 0;
 		if (isset ($_POST ['isenabled'] )) {
@@ -27,15 +27,15 @@ if($call == "saveCustomer"){
 		if (isset ($_POST ['isregistered'] )) {
 			$isRegistered = 1;
 		}
-		$customer = new Customer();
-		$customer = $customer->createFromRequest($_REQUEST);
-		$customer->setUserSeq($userSeq);
-		$customer->setCreatedOn(new DateTime());
-		$customer->setLastModifiedOn(new DateTime());
-		$customer->setIsEnabled($isEnabled);
-		$customer->setIsRegistered($isRegistered);
-		$customerMgr->saveCustomer($customer);
-		$message = "Customer Saved Successfully!";
+		$supplier = new Supplier();
+		$supplier = $supplier->createFromRequest($_REQUEST);
+		$supplier->setUserSeq($userSeq);
+		$supplier->setCreatedOn(new DateTime());
+		$supplier->setLastModifiedOn(new DateTime());
+		$supplier->setIsEnabled($isEnabled);
+		$supplier->setIsRegistered($isRegistered);
+		$supplierMgr->saveSupplier($supplier);
+		$message = "Supplier Saved Successfully!";
 	}catch (Exception $e){
 		$success = 0;
 		$message  = $e->getMessage();
@@ -46,15 +46,15 @@ if($call == "saveCustomer"){
 	echo json_encode($response);
 	return;
 }
-if($call == "getAllCustomers"){
-	$customers = $customerMgr->getAllCustomersForGrid();
-	echo json_encode($customers);
+if($call == "getAllSuppliers"){
+	$suppliers = $supplierMgr->getAllSuppliersForGrid();
+	echo json_encode($suppliers);
 }
-if($call == "deleteCustomers"){
+if($call == "deleteSuppliers"){
 	    $ids = $_GET["ids"];
 	    try{
-	    	$customerMgr->deleteBySeqs($ids);
-	    	$message = "Customer(s) Deleted successfully";
+	    	$supplierMgr->deleteBySeqs($ids);
+	    	$message = "Supplier(s) Deleted successfully";
 	    }catch(Exception $e){
 	        $success = 0;
 	        $message = $e->getMessage();
@@ -65,33 +65,33 @@ if($call == "deleteCustomers"){
 	    $response["success"] =  $success;
 	    echo json_encode($response);
 }
-if($call == "searchCustomer"){
+if($call == "searchSupplier"){
 	$searchString = $_GET["q"];
-	$customers  = $customerMgr->searchCustomers($searchString);
+	$suppliers  = $supplierMgr->searchSuppliers($searchString);
 	$response['results'] = array();
-	foreach($customers as $customer){
-		$text = $customer['title'];
+	foreach($suppliers as $supplier){
+		$text = $supplier['title'];
 		$json = array();
 		$json['text'] = $text;
-		$json['id'] = $customer['seq'];
+		$json['id'] = $supplier['seq'];
 		array_push($response['results'],$json);
 	}
 	echo json_encode($response);
 }
-if($call == "getCustomerBySeq"){
-	$customerSeq = $_GET["customerSeq"];
-	$customers  = $customerMgr->findArrBySeq($customerSeq);
-	echo json_encode($customers);
+if($call == "getSupplierBySeq"){
+	$supplierSeq = $_GET["supplierSeq"];
+	$suppliers  = $supplierMgr->findArrBySeq($supplierSeq);
+	echo json_encode($suppliers);
 }
-if($call == "getCustomerTitlesForFilter"){
-	$customersTitles = $customerMgr->getAllCustomerTitles();
-	$response["customers"] = $customersTitles;
+if($call == "getSupplierTitlesForFilter"){
+	$suppliersTitles = $supplierMgr->getAllSuppliersTitles();
+	$response["suppliers"] = $suppliersTitles;
 	echo json_encode($response);
 }
-if($call == "exportCustomers"){
+if($call == "exportSuppliers"){
 	try{
 		$queryString = $_GET["queryString"];
-		$customerMgr->exportCustomers($queryString);
+		$supplierMgr->exportCustomers($queryString);
 		return;
 	}catch(Exception $e){
 		$success = 0;

@@ -31,7 +31,7 @@ if(isset($_POST["seq"])){
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Customer</title>
+    <title>Create New Purchase</title>
     <?include "ScriptsInclude.php"?>
 </head>
 <body>
@@ -47,7 +47,7 @@ if(isset($_POST["seq"])){
 	                    	 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 									href="#"><i class="fa fa-bars"></i> </a>
-									<h4 class="p-h-sm font-normal"> Create Customer</h4>
+									<h4 class="p-h-sm font-normal"> Create Purchase</h4>
 							</nav>
 	                        
 	                    </div>
@@ -57,11 +57,11 @@ if(isset($_POST["seq"])){
                         		<input type="hidden" id ="call" name="call"  value="saveCustomer"/>
                         		<input type="hidden" id ="seq" name="seq"  value="<?php echo $customer->getSeq()?>"/>
                         		<div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Title</label>
+                       				<label class="col-lg-1 col-form-label">Supplier</label>
                                     <div class="col-lg-5">
                                     	<input type="text" value="<?php echo $customer->getTitle()?>"  id="title" name="title" required placeholder="company" class="form-control">
                                     </div>
-                                    <label class="col-lg-1 col-form-label">Contact</label>
+                                    <label class="col-lg-1 col-form-label">Invoice#</label>
                                     <div class="col-lg-5">
                                     	<input type="text" value="<?php echo $customer->getContactPerson()?>"  id="contactperson" name="contactperson" required placeholder="contact person" class="form-control">
                                     </div>
@@ -69,82 +69,20 @@ if(isset($_POST["seq"])){
                                
                                
                                <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Description</label>
+                       				<label class="col-lg-1 col-form-label">Inv Date</label>
                                     <div class="col-lg-5">
                                     	<input type="text" value="<?php echo $customer->getDescription()?>" id="description" name="description"  placeholder="description" class="form-control">
                                     </div>
                                     
-                                    <label class="col-lg-1 col-form-label">GST</label>
+                                    <label class="col-lg-1 col-form-label">Net Amt</label>
                                     <div class="col-lg-5">
                                     	<input type="text" value="<?php echo $customer->getGST()?>" id="gst" name="gst"  placeholder="gst" class="form-control">
                                     </div>
                                </div>
                               
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Email Id</label>
-                                    <div class="col-lg-5">
-                                    	<input type="email" value="<?php echo $customer->getEmail()?>"  id="email" name="email" placeholder="email id" class="form-control">
-                                    </div>
-                                    <label class="col-lg-1 col-form-label">Mobile</label>
-                                    <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $customer->getMobile()?>"  id="mobile" name="mobile" required placeholder="mobile" class="form-control">
-                                    </div>
-                               </div>
                                
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Phone</label>
-                                    <div class="col-lg-11">
-                                    	<input type="text" value="<?php echo $customer->getPhone()?>"  id="phone" name="phone"  placeholder="phone" class="form-control">
-                                    </div>
-                               </div>
                                
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Address1</label>
-                                    <div class="col-lg-11">
-                                    	<input type="text" value="<?php echo $customer->getAddress1()?>"  id="address1" name="address1" required placeholder="address1" class="form-control">
-                                    </div>
-                               </div>
                                
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Address2</label>
-                                    <div class="col-lg-11">
-                                    	<input type="text" value="<?php echo $customer->getAddress2()?>"  id="address2" name="address2"  placeholder="address2" class="form-control">
-                                    </div>
-                               </div>
-                               
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">City</label>
-                                    <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $customer->getCity()?>"  id="city" name="city" required placeholder="city" class="form-control">
-                                    </div>
-                                    
-                                    <label class="col-lg-1 col-form-label">State</label>
-                                    <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $customer->getState()?>"  id="state" name="state" required placeholder="state" class="form-control">
-                                    </div>
-                               </div>
-                               <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Zip</label>
-                                    <div class="col-lg-5">
-                                    	<input type="number" value="<?php echo $customer->getZip()?>"  id="zip" name="zip" placeholder="zipcode" class="form-control">
-                                    </div>
-                                    
-                                    <label class="col-lg-1 col-form-label">Discount</label>
-                                    <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $customer->getDiscount()?>"  id="discount" name="discount" placeholder="discount offered" class="form-control">
-                                    </div>
-                               </div>
-                                <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Enabled</label>
-                                    <div class="col-lg-5">
-	                                    <input class="i-checks" type="checkbox" <?php echo $isDisabled?> <?php echo $isEnableChecked?>  id="isenabled" name="isenabled">
-	                                 </div>
-	                                 
-	                                 <label class="col-lg-1 col-form-label">Registered</label>
-                                    <div class="col-lg-4">
-	                                    <input class="i-checks" type="checkbox" <?php echo $isRegistered?>  id="isregistered" name="isregistered">
-	                                 </div>
-                               </div>
                                
                                
                                <div class="form-group row">
