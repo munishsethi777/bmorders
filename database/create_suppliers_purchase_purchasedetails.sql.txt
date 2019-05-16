@@ -1,0 +1,109 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: May 16, 2019 at 05:49 AM
+-- Server version: 5.7.25
+-- PHP Version: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `bmorders`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `puchasedetails`
+--
+
+CREATE TABLE `puchasedetails` (
+  `seq` bigint(20) NOT NULL,
+  `purchaseseq` bigint(20) NOT NULL,
+  `productseq` bigint(20) NOT NULL,
+  `lotnumber` varchar(20) NOT NULL,
+  `expirydate` datetime NOT NULL,
+  `netrate` decimal(10,0) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `seq` bigint(20) NOT NULL,
+  `supplierseq` bigint(20) NOT NULL,
+  `invoicenumber` varchar(25) NOT NULL,
+  `invoicedate` datetime NOT NULL,
+  `netamount` decimal(10,0) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `userseq` bigint(20) NOT NULL,
+  `createdon` datetime NOT NULL,
+  `lastmodifiedon` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers`
+--
+
+CREATE TABLE `suppliers` (
+  `seq` bigint(20) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `contactperson` varchar(50) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `mobile` varchar(20) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `address1` varchar(100) NOT NULL,
+  `address2` varchar(100) NOT NULL,
+  `city` varchar(25) NOT NULL,
+  `state` varchar(25) NOT NULL,
+  `zip` varchar(10) NOT NULL,
+  `discount` decimal(10,0) NOT NULL,
+  `gst` varchar(20) DEFAULT NULL,
+  `userseq` bigint(20) NOT NULL,
+  `isregistered` tinyint(4) DEFAULT NULL,
+  `createdon` datetime NOT NULL,
+  `lastmodifiedon` datetime NOT NULL,
+  `isenabled` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`seq`, `title`, `description`, `contactperson`, `email`, `mobile`, `phone`, `address1`, `address2`, `city`, `state`, `zip`, `discount`, `gst`, `userseq`, `isregistered`, `createdon`, `lastmodifiedon`, `isenabled`) VALUES
+(1, 'Superior 14', 'no description', 'Amandeep Dubey', 'amandeepdubey@gmail.com', '9128191211', '011928192182', 'Azad Appartments, Near new Flyover', 'Sector 56', 'Gurugram', 'Haryana', '1208392', '10', NULL, 1, NULL, '2019-03-07 10:15:27', '2019-03-14 10:15:45', 1),
+(3, 'MVP Biotech', 'no description', 'Amandeep Dubey', 'amandeepdubey@gmail.com', '9128191211', '011928192182', 'Azad Appartments, Near new Flyover', 'Sector 56', 'Gurugram', 'Haryana', '1208392', '5', '123123123', 1, NULL, '2019-03-07 10:15:27', '2019-03-19 15:49:35', 1),
+(4, 'Muscle Technology, UK11', '', 'Rakesh Kumar', '22@e.com', '12121', '12112', '121212', '1212121', '121212', '121212', '12122', '0', '', 1, 1, '2019-04-09 05:03:22', '2019-05-15 09:53:36', 1),
+(14, 'Big Muscles', 'Muscle Fitness Company', 'Mr Test', 'munishsethi777@gmail.com', '9814600356', '78458789', 'UK New London', '', 'London', 'UK', '', '0', '', 1, 1, '2019-05-15 10:05:31', '2019-05-15 10:05:47', 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  ADD PRIMARY KEY (`seq`),
+  ADD KEY `AddedByUser` (`userseq`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  MODIFY `seq` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
