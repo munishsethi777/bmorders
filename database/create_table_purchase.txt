@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: May 17, 2019 at 09:45 AM
+-- Generation Time: May 17, 2019 at 11:17 AM
 -- Server version: 5.7.25
 -- PHP Version: 5.6.40
 
@@ -17,26 +17,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Table structure for table `purchases`
 --
 
-CREATE TABLE `products` (
+CREATE TABLE `purchases` (
   `seq` bigint(20) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `description` varchar(250) NOT NULL,
-  `measuringunit` varchar(20) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `price` double NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `categoryseq` bigint(20) NOT NULL,
-  `flavourseq` bigint(20) NOT NULL,
-  `brandseq` bigint(20) NOT NULL,
+  `supplierseq` bigint(20) NOT NULL,
+  `invoicenumber` varchar(25) NOT NULL,
+  `invoicedate` datetime NOT NULL,
+  `netamount` decimal(10,0) NOT NULL,
+  `discount` int(11) NOT NULL,
   `userseq` bigint(20) NOT NULL,
-  `imageformat` varchar(10) DEFAULT NULL,
   `createdon` datetime NOT NULL,
-  `lastmodifiedon` datetime NOT NULL,
-  `isenabled` tinyint(4) NOT NULL,
-  `barcode` varchar(25) DEFAULT NULL
+  `lastmodifiedon` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -44,34 +37,17 @@ CREATE TABLE `products` (
 --
 
 --
--- Indexes for table `products`
+-- Indexes for table `purchases`
 --
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`seq`),
-  ADD KEY `ProductBrand` (`brandseq`),
-  ADD KEY `ProductCategory` (`categoryseq`),
-  ADD KEY `ProductFlavour` (`flavourseq`),
-  ADD KEY `ProductUser` (`userseq`);
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`seq`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT for table `purchases`
 --
-ALTER TABLE `products`
+ALTER TABLE `purchases`
   MODIFY `seq` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `ProductBrand` FOREIGN KEY (`brandseq`) REFERENCES `productbrands` (`seq`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ProductCategory` FOREIGN KEY (`categoryseq`) REFERENCES `productcategories` (`seq`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ProductFlavour` FOREIGN KEY (`flavourseq`) REFERENCES `productflavours` (`seq`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ProductUser` FOREIGN KEY (`userseq`) REFERENCES `users` (`seq`) ON UPDATE CASCADE;
