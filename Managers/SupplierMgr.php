@@ -85,14 +85,14 @@
             $sessionUtil = SessionUtil::getInstance();
             $userType  = $sessionUtil->getUserLoggedInUserType();
             $userSeq = $sessionUtil->getUserLoggedInSeq();
-            $sql = "select customers.* from customers";
-            if($searchString != null){
-                if($userType == UserType::getName(UserType::representative)){
-                    $sql .= " inner join usercompanies on customers.seq = usercompanies.customerseq where (customers.title like '". $searchString ."%') and usercompanies.userseq = $userSeq";
-                }else{
-                    $sql .= " where (customers.title like '%". $searchString ."%')";
-                }
-            }
+            $sql = "select suppliers.* from suppliers";
+//             if($searchString != null){
+//                 if($userType == UserType::getName(UserType::representative)){
+//                     $sql .= " inner join usercompanies on customers.seq = usercompanies.customerseq where (customers.title like '". $searchString ."%') and usercompanies.userseq = $userSeq";
+//                 }else{
+                    $sql .= " where (suppliers.title like '%". $searchString ."%')";
+//                 }
+//             }
             
             $users =  self::$dataStore->executeQuery($sql);
             return $users;
@@ -100,12 +100,12 @@
         
         public function getAllSuppliersTitles(){
             $query = "select title,seq from suppliers";
-            $sessionUtil = SessionUtil::getInstance();
-            $isRep = $sessionUtil->isRepresentative();
-            if($isRep){
-                $userSeq = $sessionUtil->getUserLoggedInSeq();
-                $query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
-            }
+//             $sessionUtil = SessionUtil::getInstance();
+//             $isRep = $sessionUtil->isRepresentative();
+//             if($isRep){
+//                 $userSeq = $sessionUtil->getUserLoggedInSeq();
+//                 $query .= " inner join usercompanies on customers.seq = usercompanies.customerseq where usercompanies.userseq = $userSeq";
+//             }
             $objs = self::$dataStore->executeQuery($query,false,true);
             $customers = array_map(create_function('$o', 'return $o["title"];'), $objs);
             return $customers;

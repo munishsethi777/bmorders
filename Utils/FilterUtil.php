@@ -187,10 +187,15 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
                     	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
                     	$expectedOnPos = strpos(strtolower ($filterdatafield),'expectedon');
-                    	if($lastModifiedPos !== false || $createdOnPos !== false || $expectedOnPos !== false){
+                    	$invoiceDatePos = strpos(strtolower ($filterdatafield),'invoicedate');
+                    	if($lastModifiedPos !== false || $createdOnPos !== false || $expectedOnPos !== false || $invoiceDatePos !== false){
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		if(!$bookedOn){
                     			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
+                    		}
+                    		if($invoiceDatePos !== false){
+                    			$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y",$filtervalue);
+                    			$bookedOn->setTime(0,0);
                     		}
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}
@@ -200,10 +205,15 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
                     	$lastModifiedPos = strpos(strtolower ($filterdatafield),'lastmodifiedon');
                     	$createdOnPos = strpos(strtolower ($filterdatafield),'createdon');
                     	$expectedOnPos = strpos(strtolower ($filterdatafield),'expectedon');
-                    	if($lastModifiedPos !== false ||  $createdOnPos !== false ||  $expectedOnPos !== false){
+                    	$invoiceDatePos = strpos(strtolower ($filterdatafield),'invoicedate');
+                    	if($lastModifiedPos !== false ||  $createdOnPos !== false ||  $expectedOnPos !== false || $invoiceDatePos !== false) {
                     		$bookedOn = DateUtil::StringToDateByGivenFormat("j-n-Y g:i A",$filtervalue);
                     		if(!$bookedOn){
                     			$bookedOn = DateUtil::StringToDateByGivenFormat("D M d Y H:i:s e+",$filtervalue);
+                    		}
+                    		if($invoiceDatePos !== false){
+                    			$bookedOn = DateUtil::StringToDateByGivenFormat("d-m-Y",$filtervalue);
+                    			$bookedOn->setTime(0,0);
                     		}
                     		$filtervalue = $bookedOn->format("Y-m-d H:i:s");
                     	}

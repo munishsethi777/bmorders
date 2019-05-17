@@ -3,6 +3,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Enums/UserType.php");
 $isDashBoard="";
 $isCustomers="";
 $isProducts="";
+$isPurchase="";
 $isProductBrands="";
 $isProductFlavours="";
 $isProductCategories="";
@@ -50,6 +51,8 @@ if($file == "dashboard.php"){
 	$isGroupChat = "active";
 }elseif($file == "showOrderChats.php" || $file == "orderChat.php"){
 	$isOrderChat = "active";
+}elseif($file == "showPurchases.php" || $file == "createPurchase.php"){
+	$isPurchase = "active";
 }
 $sessionUtil = SessionUtil::getInstance();
 $userType = $sessionUtil->getUserLoggedInUserType();
@@ -98,7 +101,7 @@ $userType = $sessionUtil->getUserLoggedInUserType();
 	                    </a>
 	                </li>
 	                <li class="<?php echo $isPurchase;?>">
-	                    <a href="createPurchase.php"><i class="fa fa-institution"></i> 
+	                    <a href="showPurchases.php"><i class="fa fa-institution"></i> 
 	                    	<span class="nav-label">Purchase</span>  
 	                    </a>
 	                </li>
