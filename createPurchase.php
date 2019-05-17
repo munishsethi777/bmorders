@@ -34,6 +34,15 @@ if(isset($_POST["seq"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Purchase</title>
     <?include "ScriptsInclude.php"?>
+    <style>
+    .productRow .form-group{
+    	margin-bottom:5px !important;
+    }
+   
+    hr{
+    	margin:10px 0px 10px 0px !important;
+    }
+    </style>
 </head>
 <body>
     <div id="wrapper">
@@ -89,7 +98,7 @@ if(isset($_POST["seq"])){
                                     </div>
                                </div>
                                <div class="form-group row">
-			                		<label class="col-lg-1 col-form-label">Products</label>
+			                		<label class="col-lg-1 col-form-label"><i class="fa fa-chevron-circle-right"></i></label>
 		                			<div class="col-lg-6" id="productDiv">
 				                    	<select class="form-control produtSelect2"  required name="products[]">
 				                    	</select> <label class="jqx-validator-error-label" id="lpError"></label>
@@ -120,7 +129,9 @@ if(isset($_POST["seq"])){
 			                 <div id="productDiv1" >
 			                	 	
 			                 </div>
+			                 
                                <div class="form-group row">
+                               	<hr>
                                		<label class="col-lg-1 col-form-label"></label>
                                		<div class="col-lg-6">
 	                               		<button class="btn btn-primary" type="button" onclick="javascript:submitCustomerForm('save')" 
@@ -213,7 +224,7 @@ if(isset($_POST["seq"])){
     		 requred  = "required";
     	}
      	var html = '<div class="productRow" id="productRow"> <div class="form-group row">';
-     		html += '<label class="col-lg-1 col-form-label"></label>';
+     		html += '<hr><label class="col-lg-1 col-form-label"><i class="fa fa-chevron-circle-right"></i></label>';
         	html += '<div class="col-lg-6" id="productDiv">';
     		html += '<select class="form-control produtSelect2" name="products[]">';
     		html += selectedProduct;
