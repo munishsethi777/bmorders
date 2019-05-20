@@ -5,6 +5,7 @@ require_once($ConstantsArray['dbServerUrl'] ."StringConstants.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/ExportUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/PurchaseDetailMgr.php");
 
 
 class ProductMgr{
@@ -27,6 +28,32 @@ class ProductMgr{
 	
 	public function findArrBySeq($seq){
 		$product = self::$dataStore->findArrayBySeq($seq);
+		return $product;
+	}
+	
+	public function findProductAndLotsByProductSeq($productSeq){
+		$product = $this->findArrBySeq($productSeq);
+		$purchaseDetailMgr = PurchaseDetailMgr::getInstance();
+		$purchaseDetails = $purchaseDetailMgr->findByProductSeq($productSeq);
+		$lots = array();
+		$lotNumbers = array();
+		foreach ($purchaseDetails as $purchaseDetail){
+			$lotNumber = $purchaseDetail["lotnumber"];
+			$qty = $purchaseDetail["quantity"];
+			$soldQty = $purchaseDetail["soldqty"];
+			$availableQty = $qty;
+			if(!empty($soldQty)){
+				$availableQty = $qty - $soldQty; 
+			}
+			$expiryDate = $purchaseDetail["expirydate"];
+			$expiryDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expiryDate);
+			$expiryDate = $expiryDate->format("d/m/Y");
+			//$title = $lotNumber . " - " . $expiryDate . " - " . $availableQty . "pcs.";
+			$lotDetail["quantity"] = $availableQty;
+			$lotDetail["expiryDate"] = $expiryDate;
+			$lots[$lotNumber] = $lotDetail;
+		}
+		$product["lots"]  = $lots;
 		return $product;
 	}
 	

@@ -1,0 +1,1 @@
+ALTER TABLE `orderproductdetails`  ADD `lotnumber` INT NOT NULL  AFTER `price`;

@@ -84,7 +84,9 @@ if(isset($_POST["seq"])){
 				                    	</select> <label class="jqx-validator-error-label" id="lpError"></label>
 				                    </div>
 				                    <div class="col-lg-3" id="lotsDiv">
-				                    	<input type="text" class="form-control" value="11231BRJ - 10/07/2021 - 34pcs"/>
+				                    	<select class="form-control" onchange="setStock(this)"  required id="lotnumber" name="lotnumber[]">
+				                    		<option value=''>Available Lots</option>
+				                    	</select>
 				                    </div>
 <!-- 				                    <div class="col-lg-1 col-form-label"> -->
 <!-- 				                  	 	<div id="stockSpan"></div> -->
@@ -145,6 +147,7 @@ if(isset($_POST["seq"])){
 	</div>
 </body>
 <script type="text/javascript">
+var seq = <?php echo $seq?>;
 $(document).ready(function(){
     $('.i-checks').iCheck({
 		checkboxClass: 'icheckbox_square-green',
@@ -159,6 +162,10 @@ $(document).ready(function(){
     addDefaultRows();
     
 });
+function setStock(select){
+	var stock = $(select).children(":selected").attr("id")
+	$(productDD).closest("div.form-group").find("input[name='stock[]']").val(stock); 
+}
 function addDefaultRows(){
 	var seq = <?php echo $seq?>;
 	if(seq > 0){
@@ -227,6 +234,7 @@ function addRow(isLoadProducts,value){
 	var price = "";
 	var stock ="";
 	var stockStr = ""
+		
 	if(value != null){
 		 productSeq = value.productseq	
 		 productTitle = value.title
@@ -238,15 +246,17 @@ function addRow(isLoadProducts,value){
 	}
  	var html = '<div id="productRow" class="form-group row">';
  		html += '<label class="col-lg-1 col-form-label"></label>';
-    	html += '<div class="col-lg-6" id="productDiv">';
+    	html += '<div class="col-lg-5" id="productDiv">';
 		html += '<select class="form-control produtSelect2" name="products[]">';
 		html += selectedProduct;
 		html += '</select> <label class="jqx-validator-error-label" id="lpError"></label>';
 		html += '</div>';
-		html += '<div class="col-lg-1 col-form-label">';
-      	html += '<div id="stockSpan">'+stockStr+'</div>';
+		html += '<div class="col-lg-3" id="lotsDiv">';
+		html += '<select class="form-control" onchange="setStock(this)"  required id="lotnumber" name="lotnumber[]">';
+    	html += '<option value="">Available Lots</option>';	
+        html += '</select>';
         html += '</div>';
- 		html += '<div class="col-lg-1">';
+		html += '<div class="col-lg-1">';
 	 	html += '<input type="text" value="'+price+'" onchange="calculateAmount()"  id="price" name="price[]" placeholder="Rs."  class="form-control">';
 		html += '</div>'
 		html += '<div class="col-lg-1">';
@@ -309,12 +319,31 @@ function cancel(){
 }
 function selectProduct(productDD){
 	 var productSeq = productDD.value;
-	 $.getJSON("Actions/ProductAction.php?call=getProductBySeq&seq="+productSeq,function( response ){
+	 $.get("Actions/ProductAction.php?call=getProductBySeq&seq="+productSeq,function( response ){
+		 var response = $.parseJSON(response);
 		 var price = response.price;
-		 var stock = response.stock + " <small> Available</small>";
+		 var productLots = response.lots
 		 $(productDD).closest("div.form-group").find("input[name='price[]']").val(price);
-		 $(productDD).closest("div.form-group").find("#stockSpan").html(stock);
-		 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(response.stock);
+		 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html("<option selected value=''>No Avaiable Lots</option>");
+		 var i = 0;
+		 var lot = "";
+		 $.each( productLots, function( key, value ) {
+			var qty = value.quantity;
+			if(seq > 0){
+				var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
+				qty += parseInt(orderQty); 
+			}
+			if(i == 0){
+				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty);
+				i++;	
+			} 
+			var title = key + " - " + value.expiryDate + " - " + qty + " pcs.";
+		 	lot += "<option id='"+value.quantity+"' value='"+key+"'>"+title+"</option>";
+		 });
+		 if(productLots == ""){
+			lot = "<option selected value=''>No Avaiable Lots</option>"; 
+		 }
+		 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html(lot);
 		 calculateAmount();
      }) 
 }
@@ -323,6 +352,7 @@ function unSelectProduct(productDD){
 	 $(productDD).closest("div.form-group").find("#stockSpan").html("");
 	 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(""); 
 	 $(productDD).closest("div.form-group").find("input[name='quantity[]']").val("");
+	 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html("<option selected value=''>Avaiable Lots</option>");
 	 calculateAmount();
 }
 
@@ -336,6 +366,9 @@ function calculateAmount(){
 		var price = priceArr[i];
 		var quantity = quantityArr[i];
 		var stock = stockArr[i];
+		if(stock == ""){
+			stock = 0;
+		}
 		if(price != null && price != "" && quantity != null && quantity != ""){
 			price = parseInt(price);
 			quantity = parseInt(quantity);
@@ -367,11 +400,11 @@ function getOrderDetail(seq){
  	$.getJSON("Actions/OrderProductDetailAction.php?call=getDetailByProductSeq&orderSeq="+seq,function( response ){
  	 	$.each( response, function( key, value ) {
  	 	 	 if(key == 0){
- 	 	 		productSeq = value.productseq	
- 	 			productTitle = value.title
+ 	 	 		productSeq = value.productseq;
+ 	 			productTitle = value.title;
  	 			var selectedProduct = "<option selected value='"+productSeq+"'>"+productTitle+"</option>";
- 	 			$(".produtSelect2").append(selectedProduct)
- 	 	 	 	$("#price").val(value.price);
+ 	 			$(".produtSelect2").append(selectedProduct);
+ 	 			$("#price").val(value.price);
  	 	 		$("#quantity").val(value.quantity);
  	 	 		var stock = parseInt(value.stock) + parseInt(value.quantity);
  	 	 		var stockStr = stock + "<small> Available</small>";
@@ -382,6 +415,9 @@ function getOrderDetail(seq){
  	 	 	 }
  		});		
  	 	loadProducts();
+ 	 	$('.produtSelect2').trigger({
+		    type: 'select2:select'
+		});
  	 	calculateAmount();
     }) 
 }

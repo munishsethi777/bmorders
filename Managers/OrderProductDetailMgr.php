@@ -23,12 +23,14 @@ class OrderProductDetailMgr{
 		$priceArr = $orderDetail["price"];
 		$quantityArr = $orderDetail["quantity"];
 		$stocks = $orderDetail["stock"];
+		$lotNumberArr = $orderDetail["lotnumber"];
 		$productMgr = ProductMgr::getInstance();
 		$productQtyArr = array();
 		foreach ($products as $key=>$product){
 			$price = $priceArr[$key];
 			$qty = $quantityArr[$key];
 			$stock = $stocks[$key];
+			$lot = $lotNumberArr[$key];
 			$existingQty = 0;
 			if(!empty($price) && !empty($qty)){
 				$orderProductDetail = new OrderProductDetail();
@@ -36,6 +38,7 @@ class OrderProductDetailMgr{
 				$orderProductDetail->setPrice($price);
 				$orderProductDetail->setProductSeq($product);
 				$orderProductDetail->setQuantity($qty);
+				$orderProductDetail->setLotNumber($lot);
 				$id = self::$dataStore->save($orderProductDetail);
 				if($id > 0){
 					if(isset($existingProductDetails[$product])){
@@ -108,5 +111,11 @@ where orderseq = $orderSeq";
 			array_push($mainArr, $orderProductDetail);
 		}
 		return $mainArr;
+	}
+	
+	public function getTotalSoldQtyByProductAndLotNumber($productSeq,$lotNumber){
+		$query = "select sum(*) from orderproductdetails where productseq = $productSeq";
+		$totalSoldQty = self::$dataStore->executeCountQueryWithSql($query);
+		return $totalSoldQty;
 	}
 }

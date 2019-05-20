@@ -1,6 +1,6 @@
 <?php
 class OrderProductDetail{
-	private $seq,$orderseq,$price,$productseq,$quantity;
+	private $seq,$orderseq,$price,$productseq,$quantity,$lotnumber;
 	public static $className = "OrderProductDetail";
 	public static $tableName = "orderproductdetails";
 	
@@ -37,5 +37,12 @@ class OrderProductDetail{
 	}
 	public function getQuantity(){
 		return $this->quantity;
+	}
+	
+	public function getLotNumber(){
+		return $this->lotnumber;
+	}
+	public function setLotNumber($lotNumber_){
+		$this->lotnumber = $lotNumber_;
 	}
 }

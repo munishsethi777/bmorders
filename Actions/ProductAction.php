@@ -123,7 +123,7 @@ if($call == "searchProduct"){
 
 if($call == "getProductBySeq"){
 	$seq = $_GET["seq"];
-	$product  = $productMgr->findArrBySeq($seq);
+	$product  = $productMgr->findProductAndLotsByProductSeq($seq);
 	echo json_encode($product);
 }
 if($call == "exportProducts"){

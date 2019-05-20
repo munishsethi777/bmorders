@@ -85,5 +85,13 @@ class PurchaseDetailMgr{
 		}
 		return $mainArr;
 	}
+	
+	public function findByProductSeq($productSeq){
+		$query = "select purchasedetails.*,sum(orderproductdetails.quantity) as soldqty from purchasedetails 
+left join orderproductdetails on purchasedetails.lotnumber = orderproductdetails.lotnumber where purchasedetails.productseq = $productSeq 
+group by lotnumber order by expirydate";
+		$purchaseDetail = self::$dataStore->executeQuery($query);
+		return $purchaseDetail;
+	}
 
 }
