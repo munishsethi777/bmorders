@@ -1,7 +1,7 @@
 <?php
 
 class Purchase{
-	private $seq, $supplierseq, $invoicenumber, $invoicedate, $netamount, $discount, $userseq, $createdon, $lastmodifiedon;
+	private $seq, $supplierseq, $invoicenumber, $invoicedate, $netamount, $discount, $userseq, $createdon, $lastmodifiedon,$comments;
 	public static $className = "Purchase";
 	public static $tableName = "purchases";
 
@@ -62,7 +62,12 @@ class Purchase{
 	public function getLastModifiedOn(){
 		return  $this->lastmodifiedon;
 	}
-	
+	public function setComments($comments_){
+		$this->comments = $comments_;
+	}
+	public function getComments(){
+		return $this->comments;
+	}
 	public function createFromRequest($request){
 		if (is_array($request)){
 			$this->from_array($request);

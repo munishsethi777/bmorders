@@ -59,4 +59,22 @@ class PurchaseMgr{
 		}
 		return $flag;
 	}
+	function _group_by($array, $key) {
+		$return = array();
+		foreach($array as $val) {
+			$return[$val[$key]][] = $val;
+		}
+		return $return;
+	}
+	
+	public function exportPurchases($queryString){
+		$query = "select suppliers.title,products.title as producttitle,purchases.*,purchasedetails.lotnumber,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.discount as detaildiscount,purchasedetails.quantity from purchases 
+inner join suppliers on purchases.supplierseq = suppliers.seq inner join purchasedetails on purchases.seq = purchasedetails.purchaseseq inner join products on products.seq = purchasedetails.productseq";
+		$output = array();
+		parse_str($queryString, $output);
+		$_GET = array_merge($_GET,$output);
+		$purchases = self::$dataStore->executeQuery($query);
+		$purchases = $this->_group_by($purchases, "seq");
+		ExportUtil::exportPurchases($purchases);
+	}
 }

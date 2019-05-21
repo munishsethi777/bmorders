@@ -6,6 +6,7 @@ require_once($ConstantsArray['dbServerUrl'] ."Utils/DateUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Utils/ExportUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/PurchaseDetailMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
 
 
 class ProductMgr{
@@ -69,14 +70,23 @@ class ProductMgr{
 	
 	public function getAllProductsForGrid(){
 		$products = $this->findAllWithAttributeTitles(true);
+		$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 		$mainArr = array();
+		$qtySolds = $orderProductDetailMgr->getTotalSoldQtyForAll();
 		foreach ($products as $product){
 			$arr = $product;
+			$totalQty = $product["totalquantity"];
+			$soldQty = 0;
+			if(array_key_exists($product["seq"], $qtySolds)){
+				$soldQty = $qtySolds[$product["seq"]][0]["soldqty"];
+			}
+			$stock = $totalQty - $soldQty;
 			$arr["measuringunit"] = MeasuringUnitType::getValue($product["measuringunit"]);
 			$arr["p.title"] = $product["title"];
 			$arr["pb.title"] = $product["brand"];
 			$arr["pc.title"] = $product["category"];
 			$arr["pf.title"] = $product["flavour"];
+			$arr["totalquantity"] = $stock;
 			$arr["p.lastmodifiedon"] = $product["lastmodifiedon"];
 			array_push($mainArr, $arr);
  		}
@@ -97,13 +107,30 @@ class ProductMgr{
 		$flag = self::$dataStore->deleteInList ( $ids );
 		return $flag;
 	}
-	public function findAllWithAttributeTitles($isApplyFilter){
-		$query = "SELECT p.*,pf.title flavour, pb.title brand, pc.title category from products p
-		left join productflavours pf on pf.seq = p.flavourseq left join productcategories pc on pc.seq = p.categoryseq 
-		left join productbrands pb on pb.seq = p.brandseq";
+	public function findAllWithAttributeTitles($isApplyFilter,$isExport=false){
+		$query = "SELECT p.* ,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.quantity stock,purchasedetails.lotnumber, sum(purchasedetails.quantity)as totalquantity, pf.title flavour, pb.title brand, pc.title category from products p
+		left join productflavours pf on pf.seq = p.flavourseq 
+        left join productcategories pc on pc.seq = p.categoryseq 
+		left join productbrands pb on pb.seq = p.brandseq
+        left join purchasedetails on p.seq = purchasedetails.productseq
+        group by p.seq";
+		if($isExport){
+			$query .= " ,lotnumber";
+		}
 		$products = self::$dataStore->executeQuery($query,$isApplyFilter);
+		if($isExport){
+			$products = $this->_group_by($products, "seq");
+		}
 		return $products;
 	}
+	
+// 	public function findAllWithAttributeTitles($isApplyFilter){
+// 		$query = "SELECT p.*,pf.title flavour, pb.title brand, pc.title category from products p
+// 		left join productflavours pf on pf.seq = p.flavourseq left join productcategories pc on pc.seq = p.categoryseq
+// 		left join productbrands pb on pb.seq = p.brandseq";
+// 		$products = self::$dataStore->executeQuery($query,$isApplyFilter);
+// 		return $products;
+// 	}
 	function _group_by($array, $key) {
 		$return = array();
 		foreach($array as $val) {
@@ -125,7 +152,7 @@ class ProductMgr{
 		$output = array();
 		parse_str($queryString, $output);
 		$_GET = array_merge($_GET,$output);
-		$products = $this->findAllWithAttributeTitles(true);
+		$products = $this->findAllWithAttributeTitles(true,true);
 		ExportUtil::exportProducts($products);
 	}
 	

@@ -38,7 +38,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
      	<input type="hidden" id="seq" name="seq"/>
    	</form>
    	 <form id="exportForm" name="exportForm" method="GET" action="Actions/PurchaseAction.php">
-     	<input type="hidden" id="call" name="call" value="exportPurchase"/>
+     	<input type="hidden" id="call" name="call" value="exportPurchases"/>
      	<input type="hidden" id="queryString" name="queryString"/>
    	</form>
    </body>
@@ -167,7 +167,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     var addButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-plus-square'></i><span style='margin-left: 4px; position: relative;'>    Add</span></div>");
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
-                  //  var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
+                   var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
                     var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Reload</span></div>");
                     
 
@@ -177,7 +177,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     if(isSuperUser){
                     	container.append(deleteButton);
                     }
-                  //  container.append(exportButton);
+                    container.append(exportButton);
                     container.append(reloadButton);
                     
 
@@ -185,7 +185,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     addButton.jqxButton({  width: 65, height: 18 });
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
-                    //exportButton.jqxButton({  width: 65, height: 18 });
+                    exportButton.jqxButton({  width: 65, height: 18 });
                     reloadButton.jqxButton({  width: 65, height: 18 });
                     // create new row.
                     addButton.click(function (event) {
@@ -214,7 +214,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     });
                     exportButton.click(function (event) {
 						filterQstr = getFilterString("purchaseGrid");
-						exportCustomers(filterQstr);
+						exportPurchases(filterQstr);
                     });
                     reloadButton.click(function (event) {
                     	$("#purchaseGrid").jqxGrid({ source: dataAdapter });
@@ -222,11 +222,8 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                 }
             });
         }
-
-        function exportCustomers(filterString){
+        function exportPurchases(filterString){
             $("#queryString").val(filterString);
         	$('#exportForm').submit();
         }
-		
-        
 </script>

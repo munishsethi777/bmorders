@@ -97,6 +97,12 @@ if(isset($_POST["seq"])){
                                     	<input type="text" value="<?php echo $purchase->getNetAmount()?>" id="netamount" name="netamount"  placeholder="Net Amount" class="form-control">
                                     </div>
                                </div>
+                                <div class="form-group row">
+		                			<label class="col-lg-1 col-form-label">Comments</label>
+				                	<div class="col-lg-10">
+				                		<textarea class="form-control" id="comments" name="comments"  rows="3" cols="80"><?php echo $purchase->getComments()?></textarea>
+				                    </div>
+				                </div>
                                <div class="form-group row">
 			                		<label class="col-lg-1 col-form-label"><i class="fa fa-chevron-circle-right"></i></label>
 		                			<div class="col-lg-6" id="productDiv">

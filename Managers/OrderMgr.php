@@ -122,7 +122,7 @@ class OrderMgr{
 		$output = array();
 		parse_str($queryString, $output);
 		$_GET = array_merge($_GET,$output);
-		$query = "select customers.title as customer,products.title as product ,orders.*,orderproductdetails.productseq,orderproductdetails.price,orderproductdetails.quantity from orders 
+		$query = "select customers.title as customer,products.title as product ,orders.*,orderproductdetails.lotnumber,orderproductdetails.productseq,orderproductdetails.price,orderproductdetails.quantity from orders 
 inner join orderproductdetails on orders.seq = orderproductdetails.orderseq
 inner join products on orderproductdetails.productseq = products.seq
 inner join customers on orders.customerseq = customers.seq
