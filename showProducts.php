@@ -147,7 +147,75 @@
                     $("#productGrid").jqxGrid('updatebounddata', 'sort');
                 }
             };
-            
+			var parentHolder = {};
+			var initrowdetails = function (index, parentElement, gridElement, record) {
+		        var id = record.uid.toString();
+		        if (!parentElement) {
+		            parentElement = parentHolder[index];
+		        }
+		        else {
+		            parentHolder[index] = parentElement;
+		        }
+		        var grid = $($(parentElement).children()[0]);
+		        var productSeq =  record.seq;
+		        var detailSource =
+		        {
+		            datatype: "json",
+		            id: 'id',
+		            pagesize: 20,
+		            sortcolumn: 'orderdate',
+		            sortdirection: 'asc',
+		            datafields: [{ name: 'seq', type: 'integer' }, 
+		                        { name: 'lotnumber', type: 'string' }, 
+		                        { name: 'expirydate', type: 'date' }, 
+		                        { name: 'quantity', type: 'integer' }, 
+		                        { name: 'netrate', type: 'integer' }
+		                       ],                          
+		            url: 'Actions/ProductAction.php?call=getProductDetailByProduct&productSeq='+productSeq,
+		            root: 'Rows',
+		            cache: false,
+		            beforeprocessing: function(detailData)
+		            {        
+		            	detailSource.totalrecords = detailData.TotalRows;
+		            },
+		            filter: function()
+		            {
+		                // update the grid and send a request to the server.
+		                grid.jqxGrid('updatebounddata', 'filter');
+		            },
+		            sort: function()
+		            {
+		                // update the grid and send a request to the server.
+		                grid.jqxGrid('updatebounddata', 'sort');
+		            },
+		            addrow: function (rowid, rowdata, position, commit) {
+		                commit(true);
+		            },
+		            deleterow: function (rowid, commit) {
+		                commit(true);
+		            },
+		            updaterow: function (rowid, newdata, commit) {
+		                commit(true);
+		            }
+		        };
+		        var nestedGridAdapter = new $.jqx.dataAdapter(detailSource);
+		        if (grid != null) {
+		            grid.jqxGrid({
+		                source: nestedGridAdapter, width: '62%', height: 170,pageable: true,virtualmode: true,
+		                columns: [
+		                  { text: 'id', datafield: 'seq' , hidden:true},
+		                  { text: 'Lot Number', datafield: 'lotnumber', width: 155 },
+		                  { text: 'Qty', datafield: 'quantity', width: 100 },
+		                  { text: 'Rate', datafield: 'netrate', width: 200 },
+		                  { text: 'Expiry Date', datafield: 'expirydate', width: 158,cellsformat: 'd-M-yyyy hh:mm tt' }
+		                
+		               ],
+		               rendergridrows: function (toolbar) {
+		                   return nestedGridAdapter.records;     
+		            		 },
+		            });
+		        }
+		    }
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
             $("#productGrid").jqxGrid(
@@ -167,7 +235,10 @@
     			columnsreorder: true,
     			showstatusbar: true,
     			virtualmode: true,
-    			selectionmode: 'singlerow',
+    			rowdetails: true,
+    			initrowdetails: initrowdetails,
+    	        rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+    	        selectionmode: 'singlerow',
     			rendergridrows: function (toolbar) {
                   return dataAdapter.records;     
            		 },

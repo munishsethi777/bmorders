@@ -113,8 +113,8 @@ where orderseq = $orderSeq";
 		return $mainArr;
 	}
 	
-	public function getTotalSoldQtyByProductSeq($productSeq){
-		$query = "select sum(quantity) from orderproductdetails where productseq = $productSeq";
+	public function getTotalSoldQtyByProductSeqAndLotNumber($productSeq,$lotNumber){
+		$query = "select sum(quantity) from orderproductdetails where productseq = $productSeq and lotnumber = $lotNumber";
 		$totalSoldQty = self::$dataStore->executeCountQueryWithSql($query);
 		return $totalSoldQty;
 	}

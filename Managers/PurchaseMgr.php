@@ -27,6 +27,15 @@ class PurchaseMgr{
 		return $purchase;
 	}
 	
+	public function findArrBySeq($seq){
+		$query = "select purchases.*,suppliers.title from purchases inner join suppliers on purchases.supplierseq = suppliers.seq where purchases.seq = $seq";
+		$purchases = self::$dataStore->executeQuery($query);
+		if(!empty($purchases)){
+			return $purchases[0];
+		}
+		return null;
+	}
+	
 	public function savePurchase($purchase,$purchaseDetail){
 		$id = self::$dataStore->save($purchase);
 		if($id > 0){

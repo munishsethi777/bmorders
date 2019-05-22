@@ -137,13 +137,86 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     $("#purchaseGrid").jqxGrid('updatebounddata', 'sort');
                 }
             };
-            
+			var parentHolder = {};
+			var initrowdetails = function (index, parentElement, gridElement, record) {
+		        var id = record.uid.toString();
+		        if (!parentElement) {
+		            parentElement = parentHolder[index];
+		        }
+		        else {
+		            parentHolder[index] = parentElement;
+		        }
+		        var grid = $($(parentElement).children()[0]);
+		        var purchaseSeq =  record.seq;
+		        var detailSource =
+		        {
+		            datatype: "json",
+		            id: 'id',
+		            pagesize: 20,
+		            sortcolumn: 'orderdate',
+		            sortdirection: 'asc',
+		            datafields: [{ name: 'seq', type: 'integer' }, 
+		                        { name: 'title', type: 'string' }, 
+		                        { name: 'lotnumber', type: 'string' }, 
+		                        { name: 'totalquantity', type: 'integer' }, 
+		                        { name: 'netrate', type: 'integer' },
+		                        { name: 'discount', type: 'integer' },
+		                        { name: 'expirydate', type: 'date' }
+		                        
+		                       ],                          
+		            url: 'Actions/PurchaseDetailAction.php?call=getPurchaseDetailByPurchaseSeq&purchaseSeq='+purchaseSeq,
+		            root: 'Rows',
+		            cache: false,
+		            beforeprocessing: function(detailData)
+		            {        
+		            	detailSource.totalrecords = detailData.TotalRows;
+		            },
+		            filter: function()
+		            {
+		                // update the grid and send a request to the server.
+		                grid.jqxGrid('updatebounddata', 'filter');
+		            },
+		            sort: function()
+		            {
+		                // update the grid and send a request to the server.
+		                grid.jqxGrid('updatebounddata', 'sort');
+		            },
+		            addrow: function (rowid, rowdata, position, commit) {
+		                commit(true);
+		            },
+		            deleterow: function (rowid, commit) {
+		                commit(true);
+		            },
+		            updaterow: function (rowid, newdata, commit) {
+		                commit(true);
+		            }
+		        };
+		        var nestedGridAdapter = new $.jqx.dataAdapter(detailSource);
+		        if (grid != null) {
+		            grid.jqxGrid({
+		                source: nestedGridAdapter, width: '95%', height: 170,pageable: true,virtualmode: true,
+		                columns: [
+		                  { text: 'id', datafield: 'seq' , hidden:true},
+		                  { text: 'Title', datafield: 'title', width: 325 },
+		                  { text: 'Lot Number', datafield: 'lotnumber', width: 155 },
+		                  { text: 'Qty', datafield: 'totalquantity', width: 50 },
+		                  { text: 'Rate', datafield: 'netrate', width: 100 },
+		                  { text: 'Discount', datafield: 'discount', width: 150 },
+		                  { text: 'Expiry Date', datafield: 'expirydate', width: 158,cellsformat: 'd-M-yyyy hh:mm tt' }
+		                
+		               ],
+		               rendergridrows: function (toolbar) {
+		                   return nestedGridAdapter.records;     
+		            		 },
+		            });
+		        }
+		    }
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
             $("#purchaseGrid").jqxGrid(
             {
             	width: '100%',
-    			height: '75%',
+    			height: '90%',
     			source: dataAdapter,
     			filterable: true,
     			sortable: true,
@@ -157,6 +230,9 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
     			columnsreorder: true,
     			showstatusbar: true,
     			virtualmode: true,
+    			rowdetails: true,
+    			initrowdetails: initrowdetails,
+    	        rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
     			selectionmode: 'singlerow',
     			rendergridrows: function (toolbar) {
                   return dataAdapter.records;     
@@ -167,7 +243,8 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     var addButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-plus-square'></i><span style='margin-left: 4px; position: relative;'>    Add</span></div>");
                     var deleteButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-times-circle'></i><span style='margin-left: 4px; position: relative;'>Delete</span></div>");
                     var editButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-edit'></i><span style='margin-left: 4px; position: relative;'>Edit</span></div>");
-                   var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
+                    var exportButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-file-excel-o'></i><span style='margin-left: 4px; position: relative;'>Export</span></div>");
+                    var returnButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-undo'></i><span style='margin-left: 4px; position: relative;'>Return</span></div>");
                     var reloadButton = $("<div style='float: left; margin-left: 5px;'><i class='fa fa-refresh'></i><span style='margin-left: 4px; position: relative;'>Reload</span></div>");
                     
 
@@ -178,6 +255,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     	container.append(deleteButton);
                     }
                     container.append(exportButton);
+                    container.append(returnButton);
                     container.append(reloadButton);
                     
 
@@ -186,6 +264,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                     deleteButton.jqxButton({  width: 70, height: 18 });
                     editButton.jqxButton({  width: 65, height: 18 });
                     exportButton.jqxButton({  width: 65, height: 18 });
+                    returnButton.jqxButton({  width: 65, height: 18 });
                     reloadButton.jqxButton({  width: 65, height: 18 });
                     // create new row.
                     addButton.click(function (event) {
@@ -203,7 +282,23 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
                             return;    
                         }
                         var row = $('#purchaseGrid').jqxGrid('getrowdata', indexes);
+                        $("#form1").attr('action', 'createPurchase.php');  
                         $("#seq").val(row.seq);                        
+                        $("#form1").submit();    
+                    });
+                    returnButton.click(function (event){
+                    	var selectedrowindex = $("#purchaseGrid").jqxGrid('selectedrowindexes');
+                        var value = -1;
+                        indexes = selectedrowindex.filter(function(item) { 
+                            return item !== value
+                        })
+                        if(indexes.length != 1){
+                            bootbox.alert("Please Select single row for return.", function() {});
+                            return;    
+                        }
+                        var row = $('#purchaseGrid').jqxGrid('getrowdata', indexes);
+                        $("#seq").val(row.seq);      
+                        $("#form1").attr('action', 'returnPurchase.php');                  
                         $("#form1").submit();    
                     });
                     // delete row.

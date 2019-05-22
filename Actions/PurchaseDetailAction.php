@@ -21,3 +21,9 @@ if($call == "getDetailByPurchaseSeq"){
 	$purchaseDetails = $purchaseDetailMgr->findByPurchaseSeq($purchaseSeq);
 	echo json_encode($purchaseDetails);
 }
+
+if($call == "getPurchaseDetailByPurchaseSeq"){
+	$purchaseSeq = $_GET["purchaseSeq"];
+	$products = $purchaseDetailMgr->getPurchaseDetailByPurchaseSeqForNestedGrid($purchaseSeq);
+	echo json_encode($products);
+}

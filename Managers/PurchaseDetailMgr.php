@@ -93,5 +93,11 @@ group by lotnumber order by expirydate";
 		$purchaseDetail = self::$dataStore->executeQuery($query);
 		return $purchaseDetail;
 	}
+	
+	public function getPurchaseDetailByPurchaseSeqForNestedGrid($purchaseSeq){
+		$query = "select products.title, sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from purchasedetails inner join products on purchasedetails.productseq = products.seq where purchaseseq = $purchaseSeq group by productseq ,lotnumber";
+		$purchaseDetails = self::$dataStore->executeQuery($query,true);
+		return $purchaseDetails;
+	}
 
 }

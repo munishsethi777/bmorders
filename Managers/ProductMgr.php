@@ -94,7 +94,25 @@ class ProductMgr{
  		$jsonArr["TotalRows"] = $this->getCount();
  		return $jsonArr;
 	}
-
+	
+	
+	public function getProductDetailByProductSeqForNestedGrid($productSeq){
+		$query = "select sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from purchasedetails inner join products on purchasedetails.productseq = products.seq where productseq = $productSeq group by lotnumber";
+		$productDetails = self::$dataStore->executeQuery($query,true);
+		$orderProductDetailMgr= OrderProductDetailMgr::getInstance();
+		$arr = array();
+		foreach ($productDetails as $productDetail){
+			$productSeq = $productDetail["productseq"];
+			$lotNumber = $productDetail["lotnumber"];
+			$totalQty = $productDetail["totalquantity"];
+			$qtySold =  $orderProductDetailMgr->getTotalSoldQtyByProductSeqAndLotNumber($productSeq, $lotNumber);
+			$qtyAvailable = $totalQty - $qtySold;
+			$productDetail["quantity"] = $qtyAvailable;
+			array_push($arr, $productDetail);
+		}
+		return $arr;
+	}
+	
 	public function getCount(){
 		$query = "SELECT count(*) from products p
 		left join productflavours pf on pf.seq = p.flavourseq left join productcategories pc on pc.seq = p.categoryseq 
