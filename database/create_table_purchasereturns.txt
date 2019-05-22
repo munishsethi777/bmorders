@@ -1,0 +1,50 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: May 22, 2019 at 12:58 PM
+-- Server version: 5.7.25
+-- PHP Version: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `bmorders`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchasereturns`
+--
+
+CREATE TABLE `purchasereturns` (
+  `seq` bigint(11) NOT NULL,
+  `purchaseseq` bigint(11) NOT NULL,
+  `purchasedetailseq` bigint(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `comments` varchar(250) NOT NULL,
+  `createdon` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `purchasereturns`
+--
+ALTER TABLE `purchasereturns`
+  ADD PRIMARY KEY (`seq`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `purchasereturns`
+--
+ALTER TABLE `purchasereturns`
+  MODIFY `seq` bigint(11) NOT NULL AUTO_INCREMENT;
