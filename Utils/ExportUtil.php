@@ -343,7 +343,6 @@ class ExportUtil{
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $invoicedateStr);
 					$index++;
 				}
-				
 				$colName = $alphas[$i++]. $count;
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($colName, $productSrNo);
 				

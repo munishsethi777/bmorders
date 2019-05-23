@@ -164,7 +164,7 @@ $(document).ready(function(){
 });
 function setStock(select){
 	var stock = $(select).children(":selected").attr("id")
-	$(productDD).closest("div.form-group").find("input[name='stock[]']").val(stock); 
+	$(select).closest("div.form-group").find("input[name='stock[]']").val(stock); 
 }
 function addDefaultRows(){
 	var seq = <?php echo $seq?>;
@@ -334,7 +334,7 @@ function selectProduct(productDD){
 				qty += parseInt(orderQty); 
 			}
 			if(i == 0){
-				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty);
+				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty); 
 				i++;	
 			} 
 			var title = key + " - " + value.expiryDate + " - " + qty + " pcs.";

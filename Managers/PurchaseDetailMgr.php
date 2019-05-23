@@ -88,17 +88,31 @@ class PurchaseDetailMgr{
 	}
 	
 	public function findByProductSeq($productSeq){
-		$query = "select purchasedetails.*,sum(orderproductdetails.quantity) as soldqty from purchasedetails 
-left join orderproductdetails on purchasedetails.lotnumber = orderproductdetails.lotnumber where purchasedetails.productseq = $productSeq 
-group by lotnumber order by expirydate";
+		$query = "select sum(purchasereturns.quantity) as returnqty, purchasedetails.*,sum(orderproductdetails.quantity) as soldqty from purchasedetails 
+left join orderproductdetails on purchasedetails.lotnumber = orderproductdetails.lotnumber 
+left join purchasereturns on purchasedetails.seq = purchasereturns.purchasedetailseq
+where purchasedetails.productseq = $productSeq group by lotnumber order by expirydate";
 		$purchaseDetail = self::$dataStore->executeQuery($query);
 		return $purchaseDetail;
 	}
 	
 	public function getPurchaseDetailByPurchaseSeqForNestedGrid($purchaseSeq){
-		$query = "select products.title, sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from purchasedetails inner join products on purchasedetails.productseq = products.seq where purchaseseq = $purchaseSeq group by productseq ,lotnumber";
+		$query = "select purchasereturns.quantity as returnqty ,products.title, sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from 
+ purchasedetails inner join products on purchasedetails.productseq = products.seq 
+ left join purchasereturns on purchasedetails.seq = purchasereturns.purchasedetailseq where purchasedetails.purchaseseq =  $purchaseSeq group by productseq ,lotnumber";
 		$purchaseDetails = self::$dataStore->executeQuery($query,true);
-		return $purchaseDetails;
+		$mainArr = array();
+		foreach ($purchaseDetails as $purchaseDetail){
+			$returnQty = $purchaseDetail["returnqty"];
+			$quantity = $purchaseDetail["totalquantity"];
+			if(!empty($returnQty)){
+				$quantity = $quantity - $returnQty;
+			}
+			$purchaseDetail["totalquantity"] = $quantity;
+			array_push($mainArr, $purchaseDetail);
+		}
+		
+		return $mainArr;
 	}
 
 }

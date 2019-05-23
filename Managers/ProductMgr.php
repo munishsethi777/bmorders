@@ -7,6 +7,8 @@ require_once($ConstantsArray['dbServerUrl'] ."Utils/ExportUtil.php");
 require_once($ConstantsArray['dbServerUrl'] ."Enums/MeasuringUnitType.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/PurchaseDetailMgr.php");
 require_once($ConstantsArray['dbServerUrl'] ."Managers/OrderProductDetailMgr.php");
+require_once($ConstantsArray['dbServerUrl'] ."Managers/PurchaseReturnMgr.php");
+
 
 
 class ProductMgr{
@@ -42,7 +44,11 @@ class ProductMgr{
 			$lotNumber = $purchaseDetail["lotnumber"];
 			$qty = $purchaseDetail["quantity"];
 			$soldQty = $purchaseDetail["soldqty"];
-			$availableQty = $qty;
+			$returnQty = $purchaseDetail["returnqty"];
+			$availableQty = $qty ;
+			if(!empty($returnQty)){
+				$availableQty = $availableQty - $returnQty;
+			}
 			if(!empty($soldQty)){
 				$availableQty = $qty - $soldQty; 
 			}
@@ -72,14 +78,20 @@ class ProductMgr{
 		$products = $this->findAllWithAttributeTitles(true);
 		$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
 		$purchaseReturnMgr = PurchaseReturnMgr::getInstance();
-		$returnQtys = $purchaseReturnMgr->getReturnQtyForAllProducts();
+		$returnQtys = $purchaseReturnMgr->getReturnQtyForAllProduct();
 		$mainArr = array();
 		$qtySolds = $orderProductDetailMgr->getTotalSoldQtyForAll();
 		foreach ($products as $product){
 			$arr = $product;
 			$totalQty = $product["totalquantity"];
+			$soldQty = 0;
+			$returnQty = 0;
 			if(array_key_exists($product["seq"], $qtySolds)){
 				$soldQty = $qtySolds[$product["seq"]][0]["soldqty"];
+			}
+			if(array_key_exists($product["seq"], $returnQtys)){
+				$returnQty = $returnQtys[$product["seq"]][0]["returnqty"];
+				$totalQty = $totalQty - $returnQty;
 			}
 			$stock = $totalQty - $soldQty;
 			$arr["measuringunit"] = MeasuringUnitType::getValue($product["measuringunit"]);
@@ -98,7 +110,10 @@ class ProductMgr{
 	
 	
 	public function getProductDetailByProductSeqForNestedGrid($productSeq){
-		$query = "select sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from purchasedetails inner join products on purchasedetails.productseq = products.seq where productseq = $productSeq group by lotnumber";
+		$query = "select purchasereturns.quantity as returnqty ,sum(purchasedetails.quantity)as totalquantity ,purchasedetails.* from purchasedetails 
+inner join  products on purchasedetails.productseq = products.seq 
+left join purchasereturns on purchasedetails.seq = purchasereturns.purchasedetailseq
+where purchasedetails.productseq = $productSeq group by lotnumber";
 		$productDetails = self::$dataStore->executeQuery($query,true);
 		$orderProductDetailMgr= OrderProductDetailMgr::getInstance();
 		$arr = array();
@@ -107,6 +122,8 @@ class ProductMgr{
 			$lotNumber = $productDetail["lotnumber"];
 			$totalQty = $productDetail["totalquantity"];
 			$qtySold =  $orderProductDetailMgr->getTotalSoldQtyByProductSeqAndLotNumber($productSeq, $lotNumber);
+			$returnQty = $productDetail["returnqty"];
+			$totalQty = $totalQty - $returnQty;
 			$qtyAvailable = $totalQty - $qtySold;
 			$productDetail["quantity"] = $qtyAvailable;
 			array_push($arr, $productDetail);
@@ -127,19 +144,17 @@ class ProductMgr{
 		return $flag;
 	}
 	public function findAllWithAttributeTitles($isApplyFilter,$isExport=false){
-		$query = "SELECT p.* ,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.quantity stock,purchasedetails.lotnumber, sum(purchasedetails.quantity)as totalquantity, pf.title flavour, pb.title brand, pc.title category from products p
+		$query = "SELECT p.* ,sum(purchasereturns.quantity)as returnQty,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.quantity stock,purchasedetails.lotnumber, sum(purchasedetails.quantity)as totalquantity, pf.title flavour, pb.title brand, pc.title category from products p
 		left join productflavours pf on pf.seq = p.flavourseq 
         left join productcategories pc on pc.seq = p.categoryseq 
 		left join productbrands pb on pb.seq = p.brandseq
         left join purchasedetails on p.seq = purchasedetails.productseq
+        left join purchasereturns on purchasedetails.seq = purchasereturns.purchasedetailseq
         group by p.seq";
 		if($isExport){
 			$query .= " ,lotnumber";
 		}
 		$products = self::$dataStore->executeQuery($query,$isApplyFilter);
-		if($isExport){
-			$products = $this->_group_by($products, "seq");
-		}
 		return $products;
 	}
 	
@@ -172,6 +187,23 @@ class ProductMgr{
 		parse_str($queryString, $output);
 		$_GET = array_merge($_GET,$output);
 		$products = $this->findAllWithAttributeTitles(true,true);
+		$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
+		$arr = array();
+		foreach ($products as $productDetail){
+			$productSeq = $productDetail["seq"];
+			$lotNumber = $productDetail["lotnumber"];
+			$totalQty = $productDetail["totalquantity"];
+			if(!empty($lotNumber)){
+				$qtySold =  $orderProductDetailMgr->getTotalSoldQtyByProductSeqAndLotNumber($productSeq, $lotNumber);
+				$returnQty = $productDetail["returnQty"];
+				$totalQty = $totalQty - $returnQty;
+				$qtyAvailable = $totalQty - $qtySold;
+				$productDetail["totalquantity"] = $qtyAvailable;
+				$productDetail["stock"] = $qtyAvailable;
+			}
+			array_push($arr, $productDetail);
+		}
+		$products = $this->_group_by($arr, "seq");
 		ExportUtil::exportProducts($products);
 	}
 	

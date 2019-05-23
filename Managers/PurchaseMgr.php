@@ -77,13 +77,24 @@ class PurchaseMgr{
 	}
 	
 	public function exportPurchases($queryString){
-		$query = "select suppliers.title,products.title as producttitle,purchases.*,purchasedetails.lotnumber,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.discount as detaildiscount,purchasedetails.quantity from purchases 
-inner join suppliers on purchases.supplierseq = suppliers.seq inner join purchasedetails on purchases.seq = purchasedetails.purchaseseq inner join products on products.seq = purchasedetails.productseq";
+		$query = "select purchasereturns.quantity as returnQty, suppliers.title,products.title as producttitle,purchases.*,purchasedetails.lotnumber,purchasedetails.expirydate,purchasedetails.netrate,purchasedetails.discount as detaildiscount,purchasedetails.quantity from purchases 
+inner join suppliers on purchases.supplierseq = suppliers.seq 
+inner join purchasedetails on purchases.seq = purchasedetails.purchaseseq 
+inner join products on products.seq = purchasedetails.productseq
+left join purchasereturns on purchasedetails.seq = purchasereturns.purchasedetailseq";
 		$output = array();
 		parse_str($queryString, $output);
 		$_GET = array_merge($_GET,$output);
 		$purchases = self::$dataStore->executeQuery($query);
-		$purchases = $this->_group_by($purchases, "seq");
+		$mainArr = array();
+		foreach ($purchases as $purchase){
+			$returnQty = $purchase["returnQty"];
+			$qty = $purchase["quantity"];
+			$qty = $qty - $returnQty;
+			$purchase["quantity"] = $qty;
+			array_push($mainArr, $purchase);
+		}
+		$purchases = $this->_group_by($mainArr, "seq");
 		ExportUtil::exportPurchases($purchases);
 	}
 }
