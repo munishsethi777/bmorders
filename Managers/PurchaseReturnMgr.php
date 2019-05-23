@@ -64,5 +64,12 @@ class PurchaseReturnMgr{
 		return $return;
 	}
 	
+	public function getReturnQtyForAll(){
+		$query = "select purchasedetails.productseq,purchasereturns.quantity from purchasereturns inner join purchasedetails on purchasereturns.purchasedetailseq = purchasedetails.seq";
+		$totalSoldQty = self::$dataStore->executeQuery($query);
+		$totalSoldQty = $this->_group_by($totalSoldQty, 'productseq');
+		return $totalSoldQty;
+	}
+	
 	
 }

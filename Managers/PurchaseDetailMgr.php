@@ -65,11 +65,12 @@ class PurchaseDetailMgr{
 	}
 	
 	public function findByPurchaseSeq($purchaseSeq){
-		$query = "SELECT purchasedetails.*,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM purchasedetails
+		$query = "SELECT orderproductdetails.quantity as soldqty,purchasedetails.*,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM purchasedetails
 		inner join products on purchasedetails.productseq = products.seq
 		inner join productflavours on products.flavourseq = productflavours.seq
 		inner join productbrands on products.brandseq = productbrands.seq
-		where purchaseseq = $purchaseSeq";
+        left join orderproductdetails on purchasedetails.productseq = orderproductdetails.productseq and purchasedetails.lotnumber = orderproductdetails.lotnumber
+		where purchaseseq = $purchaseSeq group by purchasedetails.productseq , lotnumber";
 		$purchaseDetails = self::$dataStore->executeQuery($query,false,true);
 		$mainArr = array();
 		foreach ($purchaseDetails as $purchaseDetail){

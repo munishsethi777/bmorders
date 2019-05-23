@@ -67,6 +67,7 @@ if($call == "getAllProducts"){
 	$products = $productMgr->getAllProductsForGrid();
 	echo json_encode($products);
 }
+
 if($call == "getProductDetailByProduct"){
 	$productSeq = $_GET["productSeq"];
 	$products = $productMgr->getProductDetailByProductSeqForNestedGrid($productSeq);

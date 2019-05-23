@@ -71,12 +71,13 @@ class ProductMgr{
 	public function getAllProductsForGrid(){
 		$products = $this->findAllWithAttributeTitles(true);
 		$orderProductDetailMgr = OrderProductDetailMgr::getInstance();
+		$purchaseReturnMgr = PurchaseReturnMgr::getInstance();
+		$returnQtys = $purchaseReturnMgr->getReturnQtyForAllProducts();
 		$mainArr = array();
 		$qtySolds = $orderProductDetailMgr->getTotalSoldQtyForAll();
 		foreach ($products as $product){
 			$arr = $product;
 			$totalQty = $product["totalquantity"];
-			$soldQty = 0;
 			if(array_key_exists($product["seq"], $qtySolds)){
 				$soldQty = $qtySolds[$product["seq"]][0]["soldqty"];
 			}

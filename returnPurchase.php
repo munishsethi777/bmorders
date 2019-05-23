@@ -100,7 +100,12 @@ if(isset($_POST["seq"])){
 				               		$comments = "";
 				               		$readonly = "readonly";
 				               		$checked = "";
+				               		$quantitySold = 0;
 				               		$detailSeq = $purchaseDetail["seq"];
+				               		$quantitySold = $purchaseDetail["soldqty"];
+				               		if(empty($quantitySold)){
+				               			$quantitySold = 0;
+				               		}
 				               		if(isset($purchaseReturns[$detailSeq])){
 				               			$purchaseReturn = $purchaseReturns[$detailSeq];
 				               			$quantity = $purchaseReturn[0]["quantity"];
@@ -122,7 +127,7 @@ if(isset($_POST["seq"])){
 						                  	 	<input type="text" <?php echo $isDisabled?> value="<?php echo $purchaseDetail["netrate"]?>"  class="form-control">
 							                </div>
 						                     <div class="col-lg-2">
-						                  	 	<input type="text" <?php echo $isDisabled?> value="<?php echo $purchaseDetail["quantity"]?>"  class="form-control">
+						                  	 	<input type="text" <?php echo $isDisabled?> name="totalquantity[]"value="<?php echo $purchaseDetail["quantity"]?>"  class="form-control">
 							                </div>
 							               
 							          </div>
@@ -137,9 +142,13 @@ if(isset($_POST["seq"])){
 							                 <div class="col-lg-2">
 						                  	 	<input type="text" value="<?php echo $purchaseDetail["expirydate"]?>" <?php echo $isDisabled?> class="form-control dateControl">
 							                </div>
-							                <div class="col-lg-2" id="returnqty">
-						                  	 	<input type="text" value="<?php echo $quantity?>" <?php echo $readonly?>  id="quantity" onkeyup="calculateAmount()" name="quantity[]" required placeholder="Return Qty."  class="form-control">
+							                 <div class="col-lg-2">
+						                  	 	<input type="text" <?php echo $isDisabled?> value="<?php echo $quantitySold?>" <?php echo $readonly?>  id="soldqty" name="soldqty[]"  required placeholder="Sold Qty."  class="form-control">
 							                </div>
+							                 <div class="col-lg-2" id="returnqty">
+						                  	 	<input type="text" value="<?php echo $quantity?>" onChange="javascript:qtyValidationOnChange(this)" <?php echo $readonly?>  id="quantity" name="quantity[]" required placeholder="Return Qty."  class="form-control">
+							                </div>
+							               
 							         </div>	  
 		                             <div class="form-group row">
 		                             	<label class="col-lg-1 col-form-label"></label>
@@ -208,14 +217,19 @@ if(isset($_POST["seq"])){
     	            checkbox_this.attr('value','0');
     	        }
     	    })
-        	 $('#returnPurchaseForm').ajaxSubmit(function( data ){
-	    		 var obj = $.parseJSON(data);
-	    		 if(obj.success == 1){
-		    		 	location.href = "showPurchases.php";
-		   		 }else{
-	        		 alert("Error" + obj.message);
-	    		 }	 
-	    	 });
+    	     var isValidate = isValidateQty();
+			 if(isValidate == true){
+	        	 $('#returnPurchaseForm').ajaxSubmit(function( data ){
+		    		 var obj = $.parseJSON(data);
+		    		 if(obj.success == 1){
+			    		 	location.href = "showPurchases.php";
+			   		 }else{
+		        		 alert("Error" + obj.message);
+		    		 }	 
+		    	 });
+	    	 }else{
+	    		 alert("Return Quantity should be less then quantity in hand!");
+	    	 }
     	}else{
     		$("#returnPurchaseForm")[0].reportValidity();
     	}
@@ -231,23 +245,49 @@ if(isset($_POST["seq"])){
             minDate:new Date()
        });
     }
-   
+    
+   	function qtyValidationOnChange(returnQtyInput){
+   		var totalQuantity = $(returnQtyInput).closest("div.returnDiv").find("input[name='totalquantity[]']").val();
+   		var sold = $(returnQtyInput).closest("div.returnDiv").find("input[name='soldqty[]']").val();
+   		var returnQty = $(returnQtyInput).val();
+   		if( sold != null && sold != ""){
+   	    }else{
+   	    	sold = 0; 
+   	    }
+   		totalQuantity = parseInt(totalQuantity);
+		sold = parseInt(sold);
+		returnQty = parseInt(returnQty);
+		qtyInHand = totalQuantity - sold;
+		if(returnQty > qtyInHand){
+			alert("Rturn Quantity should be less then quantity in hand!");
+		}
+   	}
+   	
     function isValidateQty(){
+    	var isReturnArr = $("input[name='isreturn[]']").map(function(){return $(this).val();}).get();
     	var quantityArr = $("input[name='quantity[]']").map(function(){return $(this).val();}).get();
-    	var stockArr = $("input[name='stock[]']").map(function(){return $(this).val();}).get();
+    	var soldQtyArr = $("input[name='soldqty[]']").map(function(){return $(this).val();}).get();
+    	var totalQtyArr = $("input[name='totalquantity[]']").map(function(){return $(this).val();}).get();
     	check = true;
-    	$.each( quantityArr, function(key , value ) {
-    		var quantity = value;
-    		var stock = stockArr[key];
-    		if( quantity != null && quantity != ""){
-    			quantity = parseInt(quantity);
-    			stock = parseInt(stock);
-    			if(quantity > stock){
+    	$.each( isReturnArr, function(key , value ) {
+        	if(value == 1){
+	           var totalQuantity = totalQtyArr[key];
+	    		var sold = soldQtyArr[key];
+	    		var returnQty = quantityArr[key]
+	    		if( sold != null && sold != ""){
+		    	}else{
+		    		sold = 0;
+		    	}
+    			totalQuantity = parseInt(totalQuantity);
+    			sold = parseInt(sold);
+    			returnQty = parseInt(returnQty);
+    			qtyInHand = totalQuantity - sold;
+    			if(returnQty > qtyInHand){
     				check = false;
     				return false;
     			}	
-    		}
-    	});
+	    	}
+      });
     	return check;
     }
  </script>	
