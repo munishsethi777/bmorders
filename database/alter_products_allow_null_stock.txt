@@ -1,0 +1,1 @@
+ALTER TABLE `products` CHANGE `stock` `stock` INT(11) NULL;
