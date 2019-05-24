@@ -147,10 +147,14 @@ if(!empty($product->getImageFormat())){
 	                                    </select>
                                     </div>
                                     
-                                    <label class="col-lg-1 col-form-label">Stock</label>
+                                    <!--  label class="col-lg-1 col-form-label">Stock</label>
                                     <div class="col-lg-5">
-                                    	<input type="number" value="<?php echo $product->getStock()?>"  id="stock" name="stock" required placeholder="stock" class="form-control">
-                                    </div>
+                                    	<input type="number" value=""  id="stock" name="stock" required placeholder="stock" class="form-control">
+                                    </div-->
+                                    <label class="col-lg-1 col-form-label">Enabled</label>
+                                    <div class="col-lg-4">
+	                                    <input class="i-checks" type="checkbox" <?php echo $isEnableChecked?>  id="isenabled" name="isenabled">
+	                                 </div>
                                </div>
                              	<div class="form-group row" style="display:none">
 									<label class="col-sm-1 control-label">Image</label>
@@ -162,14 +166,6 @@ if(!empty($product->getImageFormat())){
 											class="jqx-validator-error-label" id="imageError"></label>
 									</div>
 							   	</div>
-                                <div class="form-group row">
-                       				<label class="col-lg-1 col-form-label">Enabled</label>
-                                    <div class="col-lg-4">
-	                                    <input class="i-checks" type="checkbox" <?php echo $isEnableChecked?>  id="isenabled" name="isenabled">
-	                                 </div>
-                               </div>
-                               
-                               
                                <div class="form-group row">
                                		<label class="col-lg-1 col-form-label"></label>
                                		<div class="col-lg-6">

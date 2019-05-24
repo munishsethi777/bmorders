@@ -84,7 +84,7 @@ if(isset($_POST["seq"])){
 				                    	</select> <label class="jqx-validator-error-label" id="lpError"></label>
 				                    </div>
 				                    <div class="col-lg-3" id="lotsDiv">
-				                    	<select class="form-control" onchange="setStock(this)"  required id="lotnumber" name="lotnumber[]">
+				                    	<select class="form-control" onchange="setStock(this)"  id="lotnumber" name="lotnumber[]">
 				                    		<option value=''>Available Lots</option>
 				                    	</select>
 				                    </div>
@@ -252,7 +252,7 @@ function addRow(isLoadProducts,value){
 		html += '</select> <label class="jqx-validator-error-label" id="lpError"></label>';
 		html += '</div>';
 		html += '<div class="col-lg-3" id="lotsDiv">';
-		html += '<select class="form-control" onchange="setStock(this)"  required id="lotnumber" name="lotnumber[]">';
+		html += '<select class="form-control" onchange="setStock(this)"  id="lotnumber" name="lotnumber[]">';
     	html += '<option value="">Available Lots</option>';	
         html += '</select>';
         html += '</div>';
@@ -281,12 +281,13 @@ function submitcreateOrderForm(action){
 	    	 $('#createOrderForm').ajaxSubmit(function( data ){
 	    		 var obj = $.parseJSON(data);
 	    		 showResponseToastr(data,null,"createOrderForm","mainDiv");
-	    		 if(obj.success == 1){
-	    			 $(".produtSelect2").select2("val", "");	 
-	    		 }
 	    		 if(obj.success == 1 && action == "save"){
 	 		    	location.href = "showOrders.php";
-	 		     }  	 
+	 		    	return;
+	 		     }
+	    		 if(obj.success == 1){
+	    			 $(".produtSelect2").select2("val", "");	 
+	    		 }  	 
 	    	 });
 		}else{
 			alert("Quantity should be less then available stock!");
@@ -344,6 +345,8 @@ function selectProduct(productDD){
 			lot = "<option selected value=''>No Avaiable Lots</option>"; 
 		 }
 		 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html(lot);
+		 $(productDD).closest("div.form-group").find("input[name='price[]']").attr("required", true);
+		 $(productDD).closest("div.form-group").find("input[name='quantity[]']").attr("required", true);
 		 calculateAmount();
      }) 
 }
@@ -353,6 +356,8 @@ function unSelectProduct(productDD){
 	 $(productDD).closest("div.form-group").find("input[name='stock[]']").val(""); 
 	 $(productDD).closest("div.form-group").find("input[name='quantity[]']").val("");
 	 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html("<option selected value=''>Avaiable Lots</option>");
+	 $(productDD).closest("div.form-group").find("input[name='price[]']").removeAttr("required", true);
+	 $(productDD).closest("div.form-group").find("input[name='quantity[]']").removeAttr("required", true);
 	 calculateAmount();
 }
 
