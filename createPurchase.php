@@ -94,7 +94,7 @@ if(isset($_POST["seq"])){
                                     
                                     <label class="col-lg-1 col-form-label">Net Amt</label>
                                     <div class="col-lg-5">
-                                    	<input type="text" value="<?php echo $purchase->getNetAmount()?>" id="netamount" name="netamount"  placeholder="Net Amount" class="form-control">
+                                    	<input type="text" value="<?php echo $purchase->getNetAmount()?>" readonly id="netamount" name="netamount"  placeholder="Net Amount" class="form-control">
                                     </div>
                                </div>
                                 <div class="form-group row">
@@ -273,7 +273,6 @@ if(isset($_POST["seq"])){
     	$('.dateControl').datetimepicker({
             timepicker:false,
             format:'d-m-Y',
-            minDate:new Date()
        });
     }
     function loadProducts(){
