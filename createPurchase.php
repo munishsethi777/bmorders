@@ -186,7 +186,7 @@ if(isset($_POST["seq"])){
 		    			 clearForm($("#customerForm"));
 		    		 }
 	    		 }else{
-	        		 alert("Error" + obj.message);
+	        		 alert("Error :- " + obj.message);
 	    		 }	 
 	    	 });
     	}else{
@@ -309,9 +309,9 @@ if(isset($_POST["seq"])){
     	if(seq > 0){
     		getPurchaseDetail(seq);
     	}else{
-    		for(var i=0;i<4;i++){
-    			addRow(false,null);
-    		}	
+    		//for(var i=0;i<4;i++){
+    			//addRow(false,null);
+    		//}	
     		loadProducts();
     	}
     }
@@ -363,7 +363,7 @@ if(isset($_POST["seq"])){
 	   	$(productDD).closest("div.productRow").find("input[name='netrate[]']").removeAttr('required')
 	    $(productDD).closest("div.productRow").find("input[name='quantity[]']").removeAttr('required')
     	$(productDD).closest("div.productRow").find("input[name='lotnumber[]']").removeAttr('required')
-    	$(productDD).closest("div.productRow").find("input[name='expirydate[]']").removeAttr('required')
+    	//$(productDD).closest("div.productRow").find("input[name='expirydate[]']").removeAttr('required')
 	   	 calculateAmount();
     }
     
@@ -371,7 +371,7 @@ if(isset($_POST["seq"])){
     	$(productDD).closest("div.productRow").find("input[name='netrate[]']").attr("required", true);
     	$(productDD).closest("div.productRow").find("input[name='quantity[]']").attr("required", true);
     	$(productDD).closest("div.productRow").find("input[name='lotnumber[]']").attr("required", true);
-    	$(productDD).closest("div.productRow").find("input[name='expirydate[]']").attr("required", true);
+    	//$(productDD).closest("div.productRow").find("input[name='expirydate[]']").attr("required", true);
     }
     
     function calculateAmount(){

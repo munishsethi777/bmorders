@@ -197,7 +197,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
 		                source: nestedGridAdapter, width: '95%', height: 170,pageable: true,virtualmode: true,
 		                columns: [
 		                  { text: 'id', datafield: 'seq' , hidden:true},
-		                  { text: 'Title', datafield: 'title', width: 325 },
+		                  { text: 'Title', datafield: 'title', width: 311 },
 		                  { text: 'Lot Number', datafield: 'lotnumber', width: 155 },
 		                  { text: 'Qty', datafield: 'totalquantity', width: 50 },
 		                  { text: 'Rate', datafield: 'netrate', width: 100 },

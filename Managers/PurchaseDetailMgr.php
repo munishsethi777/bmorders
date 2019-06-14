@@ -80,8 +80,9 @@ class PurchaseDetailMgr{
 			$quantity = $purchaseDetail["quantity"];
 			$weight = $quantity . " " . $measureUnits . " - " . $purchaseDetail["flavour"] . " (".$purchaseDetail["brand"].")";
 			$purchaseDetail['title'] = $purchaseDetail['title'] . " " . $weight ;
-			$expDate = $purchaseDetail["expirydate"];
-			if(!empty($expDate)){
+			$expDate = "";
+			if(!empty($purchaseDetail["expirydate"])){
+				$expDate = $purchaseDetail["expirydate"];
 				$expDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expDate);
 				$expDate = $expDate->format("d-m-Y");
 			}

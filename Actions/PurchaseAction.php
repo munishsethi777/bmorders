@@ -38,7 +38,8 @@ if($call == "savePurchase"){
 		$message = "Order saved successfully!";
 	}catch(Exception $e){
 		$success = 0;
-		$message  = $e->getMessage();
+		$message  = checkDuplicateInvoice($e->getMessage());
+		
 	}
 }
 if($call == "getAllPurchases"){
@@ -70,3 +71,9 @@ $response["success"] = $success;
 $response["message"] = $message;
 echo json_encode($response);
 return;
+function checkDuplicateInvoice($message){
+	if(strpos($message,"Duplicate entry") !== false && strpos($message,"supplierseq") !== false ){
+		$message =  " Invoice for this supplier is already exists with this number!";	
+	}
+	return $message;
+}
