@@ -126,7 +126,7 @@ if(isset($_POST["seq"])){
 				              	 	<input type="text" value=""  id="discount" onkeyup="calculateAmount()" name="discount[]"  placeholder="Discount"  class="form-control">
 					             </div>
 					                 <div class="col-lg-2">
-				                  	 	<input type="text" value="" id="expirydate" name="expirydate[]" required placeholder="Expiry Date"  class="form-control dateControl">
+				                  	 	<input type="text" value="" id="expirydate" name="expirydate[]" placeholder="Expiry Date"  class="form-control dateControl">
 					                </div>
 					               <div class="col-lg-1"> 
                                     	<a onClick="addRow(true)" title="Add More Product" href="#"><i class="fa fa-plus"> more</i></a> 
@@ -252,7 +252,7 @@ if(isset($_POST["seq"])){
             html += '<input type="text" value="'+discount+'"  id="quantity" onkeyup="calculateAmount()" name="discount[]" placeholder="Discount"  class="form-control">';
 	        html += '</div>';
 	        html += '<div class="col-lg-2">'
-            html += '<input type="text" value="'+expDate+'" ' + requred +  ' id="expirydate" name="expirydate[]"  placeholder="Expiry Date"  class="form-control dateControl">';
+            html += '<input type="text" value="'+expDate+'" id="expirydate" name="expirydate[]"  placeholder="Expiry Date"  class="form-control dateControl">';
 	        html += '</div>';
 	        html += '<label class="col-lg-1 col-form-label">'; 
     		html += '<a onClick="removeRow(this)" href="#"><i class="fa fa-times"></i></a>';

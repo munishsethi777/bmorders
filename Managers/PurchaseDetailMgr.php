@@ -45,9 +45,11 @@ class PurchaseDetailMgr{
 			if(!empty($price) && !empty($qty)){
 				$purchaseDetailObj = new PurchaseDetail();
 				$purchaseDetailObj->setDiscount($discount);
-				$expiryDate = DateUtil::StringToDateByGivenFormat("d-m-Y", $expDate);
-				$expiryDate->setTime(0,0);
-				$purchaseDetailObj->setExpiryDate($expiryDate);
+				if(!empty($expDate)){
+					$expiryDate = DateUtil::StringToDateByGivenFormat("d-m-Y", $expDate);
+					$expiryDate->setTime(0,0);
+					$purchaseDetailObj->setExpiryDate($expiryDate);
+				}
 				$purchaseDetailObj->setLotNumber($lotNumber);
 				$purchaseDetailObj->setNetRate($price);
 				$purchaseDetailObj->setPurchaseSeq($purchaseSeq);
@@ -79,8 +81,10 @@ class PurchaseDetailMgr{
 			$weight = $quantity . " " . $measureUnits . " - " . $purchaseDetail["flavour"] . " (".$purchaseDetail["brand"].")";
 			$purchaseDetail['title'] = $purchaseDetail['title'] . " " . $weight ;
 			$expDate = $purchaseDetail["expirydate"];
-			$expDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expDate);
-			$expDate = $expDate->format("d-m-Y");
+			if(!empty($expDate)){
+				$expDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expDate);
+				$expDate = $expDate->format("d-m-Y");
+			}
 			$purchaseDetail["expirydate"] = $expDate;
 			array_push($mainArr, $purchaseDetail);
 		}
