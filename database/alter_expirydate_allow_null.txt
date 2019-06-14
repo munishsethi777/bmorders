@@ -1,0 +1,1 @@
+ALTER TABLE `purchasedetails` CHANGE `expirydate` `expirydate` DATETIME NULL;
