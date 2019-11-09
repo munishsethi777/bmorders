@@ -67,7 +67,7 @@ class PurchaseDetailMgr{
 	}
 	
 	public function findByPurchaseSeq($purchaseSeq){
-		$query = "SELECT orderproductdetails.quantity as soldqty,purchasedetails.*,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM purchasedetails
+		$query = "SELECT products.quantity as productquantity,orderproductdetails.quantity as soldqty,purchasedetails.*,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM purchasedetails
 		inner join products on purchasedetails.productseq = products.seq
 		inner join productflavours on products.flavourseq = productflavours.seq
 		inner join productbrands on products.brandseq = productbrands.seq
@@ -78,7 +78,8 @@ class PurchaseDetailMgr{
 		foreach ($purchaseDetails as $purchaseDetail){
 			$measureUnits = MeasuringUnitType::getValue($purchaseDetail["measuringunit"]);
 			$quantity = $purchaseDetail["quantity"];
-			$weight = $quantity . " " . $measureUnits . " - " . $purchaseDetail["flavour"] . " (".$purchaseDetail["brand"].")";
+			$productQuantity = $purchaseDetail["productquantity"];
+			$weight = $productQuantity . " " . $measureUnits . " - " . $purchaseDetail["flavour"] . " (".$purchaseDetail["brand"].")";
 			$purchaseDetail['title'] = $purchaseDetail['title'] . " " . $weight ;
 			$expDate = "";
 			if(!empty($purchaseDetail["expirydate"])){

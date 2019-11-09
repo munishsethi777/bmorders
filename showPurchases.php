@@ -26,7 +26,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
 									<h4 class="p-h-sm font-normal"> Purchase Informaiton</h4>
 							</nav>
 	                    </div>
-	                    <div class="ibox-content">
+	                    <div class="ibox-content" style="height:800px">
 	                        <div id="purchaseGrid" style="margin-top:8px"></div>
 	                    </div>
 	                </div>
@@ -194,7 +194,7 @@ $isSuperUser = $sessionUtil->isSuperAdmin();
 		        var nestedGridAdapter = new $.jqx.dataAdapter(detailSource);
 		        if (grid != null) {
 		            grid.jqxGrid({
-		                source: nestedGridAdapter, width: '95%', height: 170,pageable: true,virtualmode: true,
+		                source: nestedGridAdapter, width: '95%', height: 250,pageable: true,virtualmode: true,
 		                columns: [
 		                  { text: 'id', datafield: 'seq' , hidden:true},
 		                  { text: 'Title', datafield: 'title', width: 311 },
