@@ -329,7 +329,10 @@ function selectProduct(productDD){
 		 var i = 0;
 		 var lot = "";
 		 $.each( productLots, function( key, value ) {
-			var qty = value.quantity;
+			var qty = 0 
+			if(value.quantity != null && value.quantity != ""){
+				qty = parseInt(value.quantity);
+			}
 			if(seq > 0){
 				var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
 				qty += parseInt(orderQty); 

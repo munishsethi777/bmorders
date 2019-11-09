@@ -96,7 +96,7 @@ class OrderProductDetailMgr{
 	}
 	
 	public function findByOrderSeq($orderSeq){
-		$query = "SELECT orderproductdetails.*,products.stock,products.seq as productseq ,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
+		$query = "SELECT products.quantity as productquantity, orderproductdetails.*,products.stock,products.seq as productseq ,products.title, products.measuringunit, productflavours.title as flavour,productbrands.title as brand FROM orderproductdetails 
 inner join products on orderproductdetails.productseq = products.seq  
 inner join productflavours on products.flavourseq = productflavours.seq 
 inner join productbrands on products.brandseq = productbrands.seq
@@ -106,7 +106,8 @@ where orderseq = $orderSeq";
 		foreach ($orderProductDetails as $orderProductDetail){
 			$measureUnits = MeasuringUnitType::getValue($orderProductDetail["measuringunit"]);
 			$quantity = $orderProductDetail["quantity"];
-			$weight = $quantity . " " . $measureUnits . " - " . $orderProductDetail["flavour"] . " (".$orderProductDetail["brand"].")";
+			$productQuantity = $orderProductDetail["productquantity"];
+			$weight = $productQuantity . " " . $measureUnits . " - " . $orderProductDetail["flavour"] . " (".$orderProductDetail["brand"].")";
 			$orderProductDetail['title'] = $orderProductDetail['title'] . " " . $weight ;
 			array_push($mainArr, $orderProductDetail);
 		}
@@ -114,7 +115,7 @@ where orderseq = $orderSeq";
 	}
 	
 	public function getTotalSoldQtyByProductSeqAndLotNumber($productSeq,$lotNumber){
-		$query = "select sum(quantity) from orderproductdetails where productseq = $productSeq and lotnumber = $lotNumber";
+		$query = "select sum(quantity) from orderproductdetails where productseq = $productSeq and lotnumber = '$lotNumber'";
 		$totalSoldQty = self::$dataStore->executeCountQueryWithSql($query);
 		return $totalSoldQty;
 	}
