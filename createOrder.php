@@ -221,8 +221,12 @@ function loadProducts(selectedSeq){
 	      allowClear: true,
 	      minimumInputLength: 1
 	    });
-	   $('.produtSelect2').on('select2:select', function (e) {
-	  		 selectProduct(this);
+	   $('.produtSelect2').on('select2:select', function (e,data) {
+		     var isEdit = false;
+		     if(data == undefined){
+		    	 isEdit = true;
+		     }
+		     selectProduct(this,isEdit);
 	   });
 	   $(".produtSelect2").on("select2:unselect", function (e) {
 		   unSelectProduct(this);
@@ -318,13 +322,15 @@ function isValidateQty(){
 function cancel(){
 	location.href = "showOrders.php";
 }
-function selectProduct(productDD){
+function selectProduct(productDD,isEdit){
 	 var productSeq = productDD.value;
 	 $.get("Actions/ProductAction.php?call=getProductBySeq&seq="+productSeq,function( response ){
 		 var response = $.parseJSON(response);
 		 var price = response.price;
 		 var productLots = response.lots
-		 $(productDD).closest("div.form-group").find("input[name='price[]']").val(price);
+		 if(isEdit){
+		 	$(productDD).closest("div.form-group").find("input[name='price[]']").val(price);
+	 	 }
 		 $(productDD).closest("div.form-group").find("select[name='lotnumber[]']").html("<option selected value=''>No Avaiable Lots</option>");
 		 var i = 0;
 		 var lot = "";
@@ -424,8 +430,8 @@ function getOrderDetail(seq){
  		});		
  	 	loadProducts();
  	 	$('.produtSelect2').trigger({
-		    type: 'select2:select'
-		});
+			    type: 'select2:select'
+			},{flag: 'true'});
  	 	calculateAmount();
     }) 
 }
