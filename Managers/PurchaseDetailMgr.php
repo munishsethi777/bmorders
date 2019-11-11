@@ -72,7 +72,7 @@ class PurchaseDetailMgr{
 		inner join productflavours on products.flavourseq = productflavours.seq
 		inner join productbrands on products.brandseq = productbrands.seq
         left join orderproductdetails on purchasedetails.productseq = orderproductdetails.productseq and purchasedetails.lotnumber = orderproductdetails.lotnumber
-		where purchaseseq = $purchaseSeq group by purchasedetails.productseq , lotnumber";
+		where purchaseseq = $purchaseSeq group by purchasedetails.productseq , lotnumber order by purchasedetails.seq";
 		$purchaseDetails = self::$dataStore->executeQuery($query,false,true);
 		$mainArr = array();
 		foreach ($purchaseDetails as $purchaseDetail){
