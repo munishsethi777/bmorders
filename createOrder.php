@@ -341,7 +341,9 @@ function selectProduct(productDD,isEdit){
 			}
 			if(seq > 0){
 				var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
-				qty += parseInt(orderQty); 
+				if(orderQty != null && orderQty != ""){
+					qty += parseInt(orderQty); 
+				}
 			}
 			if(i == 0){
 				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty); 
