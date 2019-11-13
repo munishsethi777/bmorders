@@ -148,6 +148,7 @@ if(isset($_POST["seq"])){
 </body>
 <script type="text/javascript">
 var seq = <?php echo $seq?>;
+var selectedLots = [];
 $(document).ready(function(){
     $('.i-checks').iCheck({
 		checkboxClass: 'icheckbox_square-green',
@@ -247,6 +248,7 @@ function addRow(isLoadProducts,value){
 		 quantity = value.quantity;
 		 stock = parseInt(value.stock) + parseInt(value.quantity);
 		 stockStr = stock + "<small> Available</small>";
+		 selectedLots[productSeq] = value.lotnumber;
 	}
  	var html = '<div id="productRow" class="form-group row">';
  		html += '<label class="col-lg-1 col-form-label"></label>';
@@ -272,6 +274,7 @@ function addRow(isLoadProducts,value){
 		html += '<input type="hidden" value="'+stock+'" id ="stock" name="stock[]"/></div>';
  	$("#productDiv1").append(html);
  	if(isLoadProducts){
+ 	 	selectedLots = [];
  		loadProducts();
  	}
 }
@@ -328,6 +331,7 @@ function selectProduct(productDD,isEdit){
 		 var response = $.parseJSON(response);
 		 var price = response.price;
 		 var productLots = response.lots
+		 var selectedLot = selectedLots[productSeq];
 		 if(isEdit){
 		 	$(productDD).closest("div.form-group").find("input[name='price[]']").val(price);
 	 	 }
@@ -339,18 +343,32 @@ function selectProduct(productDD,isEdit){
 			if(value.quantity != null && value.quantity != ""){
 				qty = parseInt(value.quantity);
 			}
-			if(seq > 0){
-				var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
-				if(orderQty != null && orderQty != ""){
-					qty += parseInt(orderQty); 
+// 			if(seq > 0){
+// 				var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
+// 				if(orderQty != null && orderQty != ""){
+// 					qty += parseInt(orderQty); 
+// 				}
+// 			}
+			
+			var selected = "";
+			if(selectedLot !== undefined){
+				selected = selectedLots[productSeq];
+				if(selected == key){
+					selected = "selected";	
+					var orderQty = $(productDD).closest("div.form-group").find("input[name='quantity[]']").val();
+    				if(orderQty != null && orderQty != ""){
+    					qty += parseInt(orderQty); 
+    				}
+    				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty); 
 				}
+			}else{
+				if(i == 0){
+    				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty); 
+    				i++;	
+				} 
 			}
-			if(i == 0){
-				$(productDD).closest("div.form-group").find("input[name='stock[]']").val(qty); 
-				i++;	
-			} 
 			var title = key + " - " + value.expiryDate + " - " + qty + " pcs.";
-		 	lot += "<option id='"+value.quantity+"' value='"+key+"'>"+title+"</option>";
+		 	lot += "<option id='"+value.quantity+"' "+selected+" value='"+key+"'>"+title+"</option>";
 		 });
 		 if(productLots == ""){
 			lot = "<option selected value=''>No Avaiable Lots</option>"; 
@@ -426,6 +444,7 @@ function getOrderDetail(seq){
  	 	 		var stockStr = stock + "<small> Available</small>";
  	 	 		$("#stockSpan").html(stockStr);
  	 	 		$("#stock").val(stock);
+ 	 	 		selectedLots[productSeq] = value.lotnumber;
  	 	 	 }else{
  			 	addRow(false,value);
  	 	 	 }

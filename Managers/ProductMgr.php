@@ -53,12 +53,16 @@ class ProductMgr{
 				$availableQty = $qty - $soldQty; 
 			}
 			$expiryDate = $purchaseDetail["expirydate"];
-			$expiryDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expiryDate);
-			$expiryDate = $expiryDate->format("d/m/Y");
-			//$title = $lotNumber . " - " . $expiryDate . " - " . $availableQty . "pcs.";
-			$lotDetail["quantity"] = $availableQty;
-			$lotDetail["expiryDate"] = $expiryDate;
-			$lots[$lotNumber] = $lotDetail;
+			if(!empty($expiryDate)){
+    			$expiryDate = DateUtil::StringToDateByGivenFormat("Y-m-d h:i:s", $expiryDate);
+    			$expiryDate = $expiryDate->format("d/m/Y");
+    			//$title = $lotNumber . " - " . $expiryDate . " - " . $availableQty . "pcs.";
+			}else{
+			    $expiryDate = "n.a";
+			}
+    		$lotDetail["quantity"] = $availableQty;
+    		$lotDetail["expiryDate"] = $expiryDate;
+    		$lots[$lotNumber] = $lotDetail;
 		}
 		$product["lots"]  = $lots;
 		return $product;
